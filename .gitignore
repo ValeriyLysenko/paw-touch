@@ -13,5 +13,9 @@ generated/*
 logs/*
 
 # VSCode
+.vscode
 .editorconfig
 *.code-workspace
+
+#Some motherfucka
+.eslintcache
