@@ -1,10 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import './app.scss';
+import Timer from './Timer';
+import TimerMobX from './components/TimerMobX';
+import TimerMobXStore from './stores/TimerMobX';
+
+const timer = new TimerMobXStore();
+let loop = 0;
+const interval = setInterval(() => {
+    if (loop === 10) {
+        clearInterval(interval);
+        return false;
+    }
+    timer.increaseTimer();
+    loop++;
+}, 1000);
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
+                <TimerMobX timer={timer} />
+                <Timer iniTimer={0} />
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>
                     {/* eslint-disable-next-line */}

@@ -10,6 +10,10 @@
         "@types/node": "^12.19.14",
         "@types/react": "^16.14.2",
         "@types/react-dom": "^16.9.10",
+        "mobx": "^6.1.7",
+        "mobx-react": "^7.1.0",
+        "nanoid": "^3.1.20",
+        "node-sass": "^4.14.1",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-scripts": "4.0.1",
@@ -22,7 +26,7 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "eslint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-        "eslint:fix": "npm run eslint --fix --",
+        "eslint:fix": "npm run eslint -- --fix",
         "eslint:config": "eslint --print-config 'src/*.{js,jsx,ts,tsx}'"
     },
     "eslintConfig": {

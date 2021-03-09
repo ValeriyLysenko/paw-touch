@@ -65,9 +65,6 @@ module.exports = {
         // http://eslint.org/docs/rules/no-plusplus
         'no-plusplus': 'off',
 
-        // require padding inside curly braces
-        'object-curly-spacing': ['error', 'never'],
-
         // disallow mixes of different operators
         // http://eslint.org/docs/rules/no-mixed-operators
         'no-mixed-operators': [
@@ -115,7 +112,7 @@ module.exports = {
         // disallow declaration of variables that are not used in the code
         'no-unused-vars': [
             'warn',
-            {vars: 'all', args: 'none', ignoreRestSiblings: true},
+            { vars: 'all', args: 'none', ignoreRestSiblings: true },
         ],
 
         // !!!TEMP
@@ -130,7 +127,7 @@ module.exports = {
         // disallow use of variables before they are defined
         'no-use-before-define': [
             'error',
-            {functions: false, classes: true, variables: true},
+            { functions: false, classes: true, variables: true },
         ],
 
         // disallow use of assignment in return statement
@@ -271,7 +268,7 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
         'react/jsx-filename-extension': [
             'error',
-            {extensions: ['.jsx', '.tsx', '.js', '.ts']},
+            { extensions: ['.jsx', '.tsx', '.js', '.ts'] },
         ],
 
         // Enforce JSX indentation
@@ -294,7 +291,7 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md
         'react/prefer-stateless-function': [
             'warn',
-            {ignorePureComponents: true},
+            { ignorePureComponents: true },
         ],
 
         // !!!TEMP
@@ -308,7 +305,7 @@ module.exports = {
 
         // Prevent multiple component definition per file
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md
-        'react/no-multi-comp': ['warn', {ignoreStateless: true}],
+        'react/no-multi-comp': ['warn', { ignoreStateless: true }],
 
         // Prevent unused propType definitions
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-prop-types.md
@@ -339,7 +336,7 @@ module.exports = {
 
         // Prevent duplicate props in JSX
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-duplicate-props.md
-        'react/jsx-no-duplicate-props': ['error', {ignoreCase: false}],
+        'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],
 
         // Prevent missing props validation in a React component definition
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prop-types.md
