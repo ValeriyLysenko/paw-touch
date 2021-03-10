@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "useDefineForClassFields": true, // Needed for MobX proper working
+        "baseUrl": "src" /* Base directory to resolve non-absolute module names. */
+        // "paths": {
+        //     "components@alias/*": [
+        //         "components/*"
+        //     ]
+        // }
+    },
+    "include": [
+        "src"
+    ]
+}
