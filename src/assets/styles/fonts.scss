@@ -1,0 +1,100 @@
+@charset "utf-8";
+
+/*!
+ * Font Awesome Free 5.15.2 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+@import "~@fortawesome/fontawesome-free/css/brands";
+@import "~@fortawesome/fontawesome-free/css/regular";
+@import "~@fortawesome/fontawesome-free/css/solid";
+
+.fa,
+.fas,
+.far,
+.fal,
+.fad,
+.fab {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+.fa-lg {
+    font-size: 1.33333em;
+    line-height: 0.75em;
+    vertical-align: -0.0667em;
+}
+
+.fa-stack {
+    display: inline-block;
+    height: 2em;
+    line-height: 2em;
+    position: relative;
+    vertical-align: middle;
+    width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+    position: absolute;
+    left: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.fa-stack-1x {
+    line-height: inherit;
+}
+
+.fa-stack-2x {
+    font-size: 2em;
+}
+
+.fa-camera::before {
+    content: "\f030";
+}
+
+.fa-ban::before {
+    content: "\f05e";
+}
+
+.fa-github::before {
+    content: "\f09b";
+}
+
+.fa-user::before {
+    content: "\f007";
+}
+
+.fa-github-square::before {
+    content: "\f092";
+}
+
+/**
+ * !!!These styles must be at the very end.
+ */
+
+.sr-only {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}

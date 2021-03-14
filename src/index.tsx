@@ -2,9 +2,13 @@ import {
     StrictMode,
 } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+
+import App from 'components/App';
 import reportWebVitals from './reportWebVitals';
+
+import 'assets/bulma/index.scss';
+import 'assets/styles/fonts.scss';
+import 'assets/styles/main.scss';
 
 ReactDOM.render(
     <StrictMode>

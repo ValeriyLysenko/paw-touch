@@ -1,10 +1,9 @@
-import TimerMobX from 'components/TimerMobX';
-import logo from './logo.svg';
-import './App.css';
-import './app.scss';
-import Timer from './Timer';
+import TimerMobX from 'components/Timer';
+import Timer from 'components/Timer/Timer';
+import TimerMobXStore from 'stores/TimerMobX';
 
-import TimerMobXStore from './stores/TimerMobX';
+import logo from 'assets/images/logo.svg';
+import 'assets/styles/main.scss';
 
 const timer = new TimerMobXStore();
 let loop = 0;

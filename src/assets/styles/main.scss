@@ -1,3 +1,9 @@
+@charset "utf-8";
+
+body {
+    // display: block;
+}
+
 .App {
     text-align: center;
 }
@@ -34,5 +40,35 @@
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+.timer-block {
+    color: #282c34;
+    background-color: aquamarine;
+    padding: 10px;
+}
+
+.appLoaderWrapper {
+    position: fixed;
+    z-index: 999998;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 209, 178, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s;
+
+    .loader {
+        height: 60px;
+        width: 60px;
+        border-width: 4px;
+    }
+
+    &.is-active {
+        background-color: rgba(0, 209, 178, 0.35);
     }
 }
