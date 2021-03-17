@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+/**
+ * $colors - Bulma's global variable
+ */
+@mixin fixActiveTabsLinkInStyledHero {
+    $excluded: "white", "black", "light", "dark";
+    @each $name, $values in $colors {
+        @if index($excluded, $name) == null {
+            @if type-of($values) == "list" {
+                .hero.is-#{$name} {
+                    .tabs li.is-active {
+                        a {
+                            color: #{nth($values, 1)} !important;
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include fixActiveTabsLinkInStyledHero;
