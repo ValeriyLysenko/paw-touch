@@ -1,5 +1,7 @@
 @charset "utf-8";
 
+@import "~bulma/sass/utilities/derived-variables";
+
 .timer-block {
     color: #282c34;
     background-color: aquamarine;
@@ -30,8 +32,63 @@
     }
 }
 
-#main-canvas {
+#paw-touch {
+    .hero-head {
+        padding: 1.5rem 2.5em;
+    }
+
+    .hero-body {
+        padding: 0 3em;
+    }
+
+    .hero-foot {
+        padding: 1.5rem 3em;
+    }
+}
+
+#pt-main-canvas {
     width: 100%;
     align-self: stretch;
     background-color: #fff;
+    // outline: 1px solid #4c421a;
+    // outline: 1px solid #ef2e55;
+    // outline: 1px solid #260f33;
+    outline: 1px solid #260f33;
+    box-shadow: 0 0 2px 2px #fff;
 }
+
+.pt-main-navigation {
+    .navbar-start {
+        & > .navbar-item {
+            color: $white !important;
+            .navbar-link {
+                color: $white !important;
+            }
+            &:hover,
+            &:focus,
+            &.is-active {
+                color: $text-strong !important;
+                .navbar-link {
+                    color: $text-strong !important;
+                }
+            }
+        }
+    }
+}
+
+/*=============================================
+=               Helpers block                 =
+=============================================*/
+
+// .helper-uni-indent-1 {
+//     padding: 0 1.5rem;
+// }
+
+.pt-helper-no-bg {
+    background: none !important;
+    &:hover {
+        background: none !important;
+    }
+}
+
+/*=====      End of Helpers block      ======*/

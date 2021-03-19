@@ -1,7 +1,12 @@
 @charset "utf-8";
 
+@import "~bulma/sass/utilities/derived-variables";
+
 /*!
  * Redefined Bulma's globals
  */
 
 // $body-background-color: #1f2330;
+// $body-background-color: #de9ed0;
+// $body-background-color: #884ea0;
+$body-background-color: #4f38a1;

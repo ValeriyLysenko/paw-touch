@@ -1,3 +1,5 @@
+import LayoutControls from 'components/LayoutControls';
+import Navigation from 'components/Navigation';
 import TimerMobX from 'components/Timer';
 import Timer from 'components/Timer/Timer';
 import TimerMobXStore from 'stores/TimerMobX';
@@ -17,52 +19,20 @@ const interval = setInterval(() => {
 
 function App() {
     return (
-        <section className="hero is-success is-fullheight">
+        <section className="hero is-fullheight">
 
             <div className="hero-head">
-                <header className="navbar">
-                    <div className="container">
-                        <div className="navbar-brand">
-                            <a className="navbar-item">
-                                <img src="https://bulma.io/images/bulma-type-white.png" alt="Logo" />
-                            </a>
-                            <span className="navbar-burger" data-target="navbarMenuHeroC">
-                                <span />
-                                <span />
-                                <span />
-                            </span>
-                        </div>
-                        <div id="navbarMenuHeroC" className="navbar-menu">
-                            <div className="navbar-end">
-                                <a className="navbar-item is-active">
-                                    Home
-                                </a>
-                                <a className="navbar-item">
-                                    Examples
-                                </a>
-                                <a className="navbar-item">
-                                    Documentation
-                                </a>
-                                <span className="navbar-item">
-                                    <a className="button is-success is-inverted">
-                                        <span className="icon">
-                                            <i className="fab fa-github" />
-                                        </span>
-                                        <span>Download</span>
-                                    </a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </header>
+                <Navigation />
             </div>
 
             <div className="hero-body">
-                <canvas id="main-canvas" />
+                <canvas id="pt-main-canvas" />
             </div>
 
             <div className="hero-foot">
-                <nav className="tabs is-boxed is-fullwidth">
+                <LayoutControls />
+
+                {/* <nav className="tabs is-boxed is-fullwidth">
                     <div className="container">
                         <ul>
                             <li className="is-active"><a>Overview</a></li>
@@ -73,7 +43,7 @@ function App() {
                             <li><a>Layout</a></li>
                         </ul>
                     </div>
-                </nav>
+                </nav> */}
             </div>
 
         </section>

@@ -51,6 +51,9 @@ module.exports = {
         // disallow dangling underscores in identifiers
         'no-underscore-dangle': 'off',
 
+        // disallow undeclared variables
+        'no-undef': 'off',
+
         // disallow padding within blocks
         'padded-blocks': 'off',
 

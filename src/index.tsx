@@ -14,7 +14,7 @@ ReactDOM.render(
     <StrictMode>
         <App />
     </StrictMode>,
-    document.getElementById('root'),
+    document.getElementById('paw-touch'),
 );
 
 // If you want to start measuring performance in your app, pass a function
