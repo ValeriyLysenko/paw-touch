@@ -46,15 +46,24 @@
     }
 }
 
-#pt-main-canvas {
+#pt-canvas-container {
+    position: relative;
     width: 100%;
     align-self: stretch;
-    background-color: #fff;
-    // outline: 1px solid #4c421a;
-    // outline: 1px solid #ef2e55;
-    // outline: 1px solid #260f33;
-    outline: 1px solid #260f33;
-    box-shadow: 0 0 2px 2px #fff;
+
+    canvas {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        // outline: 1px solid #4c421a;
+        // outline: 1px solid #ef2e55;
+        outline: 1px solid #260f33;
+        box-shadow: 0 0 2px 2px #fff;
+    }
 }
 
 .pt-main-navigation {
@@ -80,8 +89,8 @@
 =               Helpers block                 =
 =============================================*/
 
-// .helper-uni-indent-1 {
-//     padding: 0 1.5rem;
+// .pt-helper-uni-indent-1 {
+//     padding: 1.5rem 0;
 // }
 
 .pt-helper-no-bg {

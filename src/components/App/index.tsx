@@ -26,24 +26,11 @@ function App() {
             </div>
 
             <div className="hero-body">
-                <canvas id="pt-main-canvas" />
+                <div id="pt-canvas-container"><canvas /></div>
             </div>
 
             <div className="hero-foot">
                 <LayoutControls />
-
-                {/* <nav className="tabs is-boxed is-fullwidth">
-                    <div className="container">
-                        <ul>
-                            <li className="is-active"><a>Overview</a></li>
-                            <li><a>Modifiers</a></li>
-                            <li><a>Grid</a></li>
-                            <li><a>Elements</a></li>
-                            <li><a>Components</a></li>
-                            <li><a>Layout</a></li>
-                        </ul>
-                    </div>
-                </nav> */}
             </div>
 
         </section>
