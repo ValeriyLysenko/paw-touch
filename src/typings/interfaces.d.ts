@@ -1,8 +1,13 @@
-// interface LayoutControlsHOCArgs {
-//     callback: MouseEventHandler<HTMLButtonElement>,
-//     text: string;
-//     role?: string;
-//     ariaLabel: string;
-//     cssClass?: string;
-//     type?: 'submit' | 'reset' | 'button';
-// }
+interface NavLinkObj {
+    id: string;
+    name: string;
+    title: string;
+    url: string;
+}
+
+interface NavRouterObj {
+    root: NavLinkObj;
+    children: {
+        [route:string]: NavLinkObj,
+    };
+}

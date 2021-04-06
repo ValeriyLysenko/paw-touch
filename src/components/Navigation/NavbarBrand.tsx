@@ -7,10 +7,30 @@ const Layout: FC<Props> = () => {
     return (
         <div className="navbar-brand">
             <a className="navbar-item pt-helper-no-bg" href="https://bulma.io">
-                {/* <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="" /> */}
-                <svg width="60" height="60">
-                    <circle cx="30" cy="30" r="28" stroke="#fff" strokeWidth="2" fill="#f5b041" />
-                </svg>
+                <span id="pt-logo" />
+                {/* <svg id="pt-logo">
+                    <circle id="pt-logo-dummy" cx="30" cy="30" r="28" stroke="#fff" strokeWidth="2" fill="#f5b041">
+                         <animate
+                            attributeType="CSS"
+                            attributeName="opacity"
+                            from="1"
+                            to="0"
+                            dur="5s"
+                            fill="freeze"
+                            repeatCount="indefinite"
+                        />
+                        <animate
+                            attributeType="CSS"
+                            attributeName="opacity"
+                            from="0"
+                            to="1"
+                            dur="5s"
+                            fill="freeze"
+                            repeatCount="indefinite"
+                            begin="5s"
+                        />
+                    </circle>
+                </svg> */}
             </a>
 
             <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
