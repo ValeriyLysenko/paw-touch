@@ -1,24 +1,26 @@
+import { nanoid } from 'nanoid';
+
 export default {
     root: {
+        id: nanoid(),
         name: 'Layout',
-        title: 'Layout',
         url: 'layout',
     },
     children: {
         fullscreen: {
+            id: nanoid(),
             name: 'Fullscreen',
-            title: 'Fullscreen',
             url: 'fullscreen',
         },
         hsplit: {
+            id: nanoid(),
             name: 'Horizontal-split',
-            title: 'Horizontal-split',
             url: 'horizontal-split',
         },
         vsplit: {
-            name: 'Vertial-split',
-            title: 'Vertial-split',
-            url: 'vertial-split',
+            id: nanoid(),
+            name: 'Vertical-split',
+            url: 'vertical-split',
         },
     },
 };

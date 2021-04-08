@@ -4,38 +4,32 @@ export default {
     root: {
         id: nanoid(),
         name: 'Canvas',
-        title: 'Canvas',
         url: 'canvas',
     },
     children: {
-        new: {
+        'new-canvas': {
             id: nanoid(),
             name: 'New canvas',
-            title: 'New canvas',
-            url: 'new',
+            url: 'new-canvas',
         },
         save: {
             id: nanoid(),
             name: 'Save',
-            title: 'Save',
             url: '',
         },
         'save-as': {
             id: nanoid(),
             name: 'Save as...',
-            title: 'Save as...',
             url: '',
         },
         clear: {
             id: nanoid(),
             name: 'Clear',
-            title: 'Clear',
             url: '',
         },
         exit: {
             id: nanoid(),
             name: 'Exit',
-            title: 'Exit',
             url: '',
         },
     },

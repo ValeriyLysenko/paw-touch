@@ -3,6 +3,7 @@ import Navigation from 'components/Navigation';
 import TimerMobX from 'components/Timer';
 import Timer from 'components/Timer/Timer';
 import TimerMobXStore from 'stores/TimerMobX';
+import Layout from 'components/Layout';
 
 import logo from 'assets/images/logo.svg';
 
@@ -26,7 +27,7 @@ function App() {
             </div>
 
             <div className="hero-body">
-                <div id="pt-canvas-container"><canvas /></div>
+                <Layout />
             </div>
 
             <div className="hero-foot">

@@ -6,7 +6,7 @@ const Layout: FC<Props> = () => {
     console.log('ccc');
     return (
         <div className="navbar-brand">
-            <a className="navbar-item pt-helper-no-bg" href="https://bulma.io">
+            <a className="navbar-item pt-helper-no-bg" href="/">
                 <span id="pt-logo" />
                 {/* <svg id="pt-logo">
                     <circle id="pt-logo-dummy" cx="30" cy="30" r="28" stroke="#fff" strokeWidth="2" fill="#f5b041">
@@ -33,7 +33,7 @@ const Layout: FC<Props> = () => {
                 </svg> */}
             </a>
 
-            <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="pt-navbar">
                 <span aria-hidden="true" />
                 <span aria-hidden="true" />
                 <span aria-hidden="true" />

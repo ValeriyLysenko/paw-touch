@@ -46,11 +46,13 @@
     }
 }
 
+#pt-container,
 #pt-canvas-container {
     position: relative;
     width: 100%;
     align-self: stretch;
 
+    & > div,
     canvas {
         display: block;
         position: absolute;
@@ -65,6 +67,12 @@
         box-shadow: 0 0 2px 2px #fff;
     }
 }
+
+// #pt-container {
+//     & > div {
+//         width: 50%;
+//     }
+// }
 
 #pt-logo {
     display: block;
@@ -99,6 +107,10 @@
     }
 }
 
+/*=============================================
+=           Bulma styles correction           =
+=============================================*/
+
 .pt-main-navigation {
     .navbar-start {
         & > .navbar-item {
@@ -117,6 +129,8 @@
         }
     }
 }
+
+/*=====  End of Section comment block  ======*/
 
 /*=============================================
 =               Helpers block                 =
