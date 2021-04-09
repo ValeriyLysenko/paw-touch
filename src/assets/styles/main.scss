@@ -1,0 +1,244 @@
+@charset "utf-8";
+
+@import "~bulma/sass/utilities/derived-variables";
+
+%decorated-outline {
+    outline: 1px solid #260f33;
+    box-shadow: 0 0 2px 2px #fff;
+    // outline: 1px solid #4c421a;
+    // outline: 1px solid #ef2e55;
+}
+
+.timer-block {
+    color: #282c34;
+    background-color: aquamarine;
+    padding: 10px;
+}
+
+.appLoaderWrapper {
+    position: fixed;
+    z-index: 999998;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 209, 178, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s;
+
+    .loader {
+        height: 60px;
+        width: 60px;
+        border-width: 4px;
+    }
+
+    &.is-active {
+        background-color: rgba(0, 209, 178, 0.35);
+    }
+}
+
+#pt-logo {
+    display: block;
+    width: 60px;
+    height: 60px;
+    background-color: #f5b041;
+    border: 2px solid #fff;
+
+    // transform-origin: 50% 100%;
+    // transition: transform 3s;
+    animation: opacity-from-1-to-0 3s infinite alternate;
+
+    &:hover {
+        // opacity: 0;
+        // transform: rotate(360deg);
+        // transform: translate(10px, 20px);
+        // transform: perspective(20px);
+        animation: opacity-from-1-to-0 3s infinite alternate;
+    }
+
+    circle {
+        // animation: opacity-from-1-to-0 3s infinite;
+        // transition: opacity 3s;
+        transform-origin: 50% 100%;
+        transition: transform 3s;
+    }
+
+    &:hover circle {
+        // opacity: 0;
+        transform: rotate(360deg);
+        // transform: perspective(20px);
+    }
+}
+
+#paw-touch {
+    .hero-head {
+        padding: 1.5rem 2.5em;
+    }
+
+    .hero-body {
+        padding: 0 3em;
+    }
+
+    .hero-foot {
+        padding: 1.5rem 3em;
+    }
+}
+
+.pt-canvas-container-split,
+.pt-canvas-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    align-self: stretch;
+
+    canvas {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        @extend %decorated-outline;
+    }
+}
+
+.pt-canvas-container-split {
+    display: flex;
+    justify-content: space-between;
+
+    & > div {
+        flex: 1 1 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+        // background-color: #2e0875; //!Good color / Don't delete
+
+        &:nth-child(2) {
+            flex: 0 0 10px;
+            background-color: #f5b041;
+            @extend %decorated-outline;
+        }
+    }
+}
+
+.pt-horizontal-split {
+    flex-direction: column;
+
+    & > div {
+        &:nth-child(2) {
+            margin: 4px 0;
+        }
+    }
+}
+
+.pt-vertical-split {
+    & > div {
+        height: 100%;
+
+        &:nth-child(2) {
+            margin: 0 4px;
+        }
+    }
+}
+
+.pt-on-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #4f38a1;
+    z-index: 100;
+}
+
+.pt-on-top-canvas {
+    padding: 100px 50px;
+
+    .pt-canvas-container {
+        height: 100%;
+    }
+
+    .pt-navbar {
+        position: absolute;
+        left: 50px;
+        width: calc(100% - 100px);
+        height: 40px;
+    }
+
+    .pt-navbar-top {
+        top: 30px;
+    }
+
+    .pt-navbar-bottom {
+        bottom: 30px;
+    }
+}
+
+/*=============================================
+=           Bulma styles correction           =
+=============================================*/
+
+.pt-main-navigation {
+    .navbar-start {
+        & > .navbar-item {
+            color: $white !important;
+            .navbar-link {
+                color: $white !important;
+            }
+            &:hover,
+            &:focus,
+            &.is-active {
+                color: $text-strong !important;
+                .navbar-link {
+                    color: $text-strong !important;
+                }
+            }
+        }
+    }
+}
+
+/*=====  End of Section comment block  ======*/
+
+/*=============================================
+=               Helpers block                 =
+=============================================*/
+
+// .pt-helper-uni-indent-1 {
+//     padding: 1.5rem 0;
+// }
+
+.pt-helper-no-bg {
+    background: none !important;
+    &:hover {
+        background: none !important;
+    }
+}
+
+/*=====      End of Helpers block      ======*/
+
+/*=============================================
+=                Animation block              =
+=============================================*/
+
+@keyframes opacity-from-1-to-0 {
+    // 0%,
+    // 100% {
+    //     opacity: 1;
+    // }
+    // 50% {
+    //     opacity: 0;
+    // }
+
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/*=====        Animation block         ======*/
