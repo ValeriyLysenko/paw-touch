@@ -5,7 +5,7 @@ import SimpleControl from 'atomicComponents/SimpleControl';
 
 interface Props {}
 
-const LayoutControls: FC<Props> = () => {
+const StepControls: FC<Props> = () => {
     const onPreviousStep = useCallback((e) => {
         console.log(e.target.textContent);
     }, []);
@@ -38,4 +38,4 @@ const LayoutControls: FC<Props> = () => {
     );
 };
 
-export default LayoutControls;
+export default StepControls;

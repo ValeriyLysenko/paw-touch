@@ -18,19 +18,16 @@ const SimpleControl: FC<Props> = ({
     ariaLabel,
     type,
     cssClass,
-}) => {
-    console.log(ariaLabel);
-    return (
-        <button
-            type={type || 'button'}
-            className={`button ${cssClass}`}
-            role={role || 'Default text'}
-            aria-label={ariaLabel || 'Default text'}
-            onClick={callback || ((e) => console.log(e))}
-        >
-            {text || 'Default text'}
-        </button>
-    );
-};
+}) => (
+    <button
+        type={type || 'button'}
+        className={`button ${cssClass}`}
+        role={role || 'Default text'}
+        aria-label={ariaLabel || 'Default text'}
+        onClick={callback || ((e) => console.log(e))}
+    >
+        {text || 'Default text'}
+    </button>
+);
 
 export default SimpleControl;

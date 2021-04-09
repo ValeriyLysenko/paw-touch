@@ -1,4 +1,4 @@
-import LayoutControls from 'components/LayoutControls';
+import StepControls from 'components/LayoutControls/StepControls';
 import Navigation from 'components/Navigation';
 import TimerMobX from 'components/Timer';
 import Timer from 'components/Timer/Timer';
@@ -31,7 +31,7 @@ function App() {
             </div>
 
             <div className="hero-foot">
-                <LayoutControls />
+                <StepControls />
             </div>
 
         </section>

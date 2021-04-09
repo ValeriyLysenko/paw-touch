@@ -17,7 +17,7 @@ const NavMenuSection: FC<Props> = ({
     if (nosubmenu) {
         return <NavItem {...root} />;
     }
-    // @ts-ignore
+
     return (
         <div className="navbar-item has-dropdown is-hoverable">
             <a
