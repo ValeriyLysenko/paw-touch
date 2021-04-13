@@ -1,13 +1,24 @@
 @charset "utf-8";
 
 @import "~bulma/sass/utilities/derived-variables";
+@import "./variables";
 
-%decorated-outline {
+/*=============================================
+=               Hidden classes                =
+=============================================*/
+
+%#{pt-prefix}decorated-outline {
     outline: 1px solid #260f33;
     box-shadow: 0 0 2px 2px #fff;
     // outline: 1px solid #4c421a;
     // outline: 1px solid #ef2e55;
 }
+
+%#{pt-prefix}relative-block {
+    position: relative;
+}
+
+/*=====     End of Hidden classes      ======*/
 
 .timer-block {
     color: #282c34;
@@ -39,7 +50,23 @@
     }
 }
 
-#pt-logo {
+#paw-touch {
+    @extend %#{pt-prefix}relative-block;
+
+    .hero-head {
+        padding: 1.5rem 2.5em;
+    }
+
+    .hero-body {
+        padding: 0 3em;
+    }
+
+    .hero-foot {
+        padding: 1.5rem 3em;
+    }
+}
+
+##{$pt-prefix}logo {
     display: block;
     width: 60px;
     height: 60px;
@@ -72,25 +99,9 @@
     }
 }
 
-#paw-touch {
-    .hero-head {
-        padding: 1.5rem 2.5em;
-    }
-
-    .hero-body {
-        padding: 0 3em;
-    }
-
-    .hero-foot {
-        padding: 1.5rem 3em;
-    }
-}
-
-.pt-canvas-container-split,
-.pt-canvas-container {
-    position: relative;
-    top: 0;
-    left: 0;
+.#{$pt-prefix}canvas-container-split,
+.#{$pt-prefix}canvas-container {
+    @extend %#{pt-prefix}relative-block;
     width: 100%;
     align-self: stretch;
 
@@ -102,30 +113,28 @@
         width: 100%;
         height: 100%;
         background-color: #fff;
-        @extend %decorated-outline;
+        @extend %#{pt-prefix}decorated-outline;
     }
 }
 
-.pt-canvas-container-split {
+.#{$pt-prefix}canvas-container-split {
     display: flex;
     justify-content: space-between;
 
     & > div {
         flex: 1 1 100%;
-        position: relative;
-        top: 0;
-        left: 0;
+        @extend %#{pt-prefix}relative-block;
         // background-color: #2e0875; //!Good color / Don't delete
 
         &:nth-child(2) {
             flex: 0 0 10px;
             background-color: #f5b041;
-            @extend %decorated-outline;
+            @extend %#{pt-prefix}decorated-outline;
         }
     }
 }
 
-.pt-horizontal-split {
+.#{$pt-prefix}horizontal-split {
     flex-direction: column;
 
     & > div {
@@ -135,7 +144,7 @@
     }
 }
 
-.pt-vertical-split {
+.#{$pt-prefix}vertical-split {
     & > div {
         height: 100%;
 
@@ -145,7 +154,7 @@
     }
 }
 
-.pt-on-top {
+.#{$pt-prefix}on-top {
     position: fixed;
     top: 0;
     left: 0;
@@ -155,34 +164,108 @@
     z-index: 100;
 }
 
-.pt-on-top-canvas {
+.#{$pt-prefix}on-top-canvas {
     padding: 100px 50px;
 
-    .pt-canvas-container {
+    .#{$pt-prefix}canvas-container {
         height: 100%;
     }
 
-    .pt-navbar {
+    .#{$pt-prefix}navbar {
         position: absolute;
         left: 50px;
         width: calc(100% - 100px);
         height: 40px;
     }
 
-    .pt-navbar-top {
+    .#{$pt-prefix}navbar-top {
         top: 30px;
     }
 
-    .pt-navbar-bottom {
+    .#{$pt-prefix}navbar-bottom {
         bottom: 30px;
     }
 }
 
 /*=============================================
+=                 Tools panel                 =
+=============================================*/
+
+.#{$pt-prefix}tools-panel {
+    position: absolute;
+    top: 124px;
+    left: 4px;
+    width: 38px;
+    // height: 50%;
+    display: flex;
+    flex-direction: column;
+    background-color: #2e0875;
+    @extend %#{pt-prefix}decorated-outline;
+
+    & .#{$pt-prefix}tools-panel-plate {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 38px;
+        background-color: #f4af4f;
+        margin-bottom: 1px;
+        color: #2e0875;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        & a {
+            font-size: 1.75rem;
+            line-height: 1;
+
+            &:hover {
+                color: #db4404;
+            }
+        }
+
+        & svg {
+            width: 30px;
+            fill: currentColor;
+
+            &:hover {
+                color: #db4404;
+            }
+        }
+    }
+
+    // & > .#{$pt-prefix}tools-panel-brush {
+    //     background: #fff url("../images/paint-brush-solid.svg") no-repeat 50%
+    //         50%;
+    //     background-size: 75%;
+    //     filter: invert(27%) sepia(51%) saturate(2878%) brightness(104%)
+    //         contrast(97%);
+    // }
+}
+
+.#{$pt-prefix}drag-plate {
+    height: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2px;
+
+    & > div {
+        width: 90%;
+        height: 1px;
+        background-color: #fff;
+    }
+}
+
+/*=====       End of Tools panel       ======*/
+
+/*=============================================
 =           Bulma styles correction           =
 =============================================*/
 
-.pt-main-navigation {
+.#{$pt-prefix}main-navigation {
     .navbar-start {
         & > .navbar-item {
             color: $white !important;
@@ -201,17 +284,17 @@
     }
 }
 
-/*=====  End of Section comment block  ======*/
+/*=====  End of Bulma styles correction  =====*/
 
 /*=============================================
 =               Helpers block                 =
 =============================================*/
 
-// .pt-helper-uni-indent-1 {
+// .#{$pt-prefix}helper-uni-indent-1 {
 //     padding: 1.5rem 0;
 // }
 
-.pt-helper-no-bg {
+.#{$pt-prefix}helper-no-bg {
     background: none !important;
     &:hover {
         background: none !important;
