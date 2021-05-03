@@ -1,6 +1,7 @@
 import {
     FC,
 } from 'react';
+import dragComponent from 'hocs/dragComponent';
 import ToolsPanelBrush from 'atomicComponents/SVG/ToolsPanelBrush';
 import ToolsPanelPencil from 'atomicComponents/SVG/ToolsPanelPencil';
 import ToolsPanelPaint from 'atomicComponents/SVG/ToolsPanelPaint';
@@ -70,4 +71,6 @@ const ToolsPanel: FC = (props: Props) => {
 
 };
 
-export default ToolsPanel;
+export default dragComponent(ToolsPanel, {
+    dragHandle: 'pt-drag-plate',
+});
