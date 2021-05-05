@@ -23,55 +23,20 @@
     line-height: 1;
 }
 
-.fa-lg {
-    font-size: 1.33333em;
-    line-height: 0.75em;
-    vertical-align: -0.0667em;
+.fa-paint-brush:before {
+    content: "\f1fc";
 }
 
-.fa-stack {
-    display: inline-block;
-    height: 2em;
-    line-height: 2em;
-    position: relative;
-    vertical-align: middle;
-    width: 2.5em;
+.fa-pencil-alt:before {
+    content: "\f303";
 }
 
-.fa-stack-1x,
-.fa-stack-2x {
-    position: absolute;
-    left: 0;
-    text-align: center;
-    width: 100%;
+.fa-fill-drip:before {
+    content: "\f576";
 }
 
-.fa-stack-1x {
-    line-height: inherit;
-}
-
-.fa-stack-2x {
-    font-size: 2em;
-}
-
-.fa-camera::before {
-    content: "\f030";
-}
-
-.fa-ban::before {
-    content: "\f05e";
-}
-
-.fa-github::before {
-    content: "\f09b";
-}
-
-.fa-user::before {
-    content: "\f007";
-}
-
-.fa-github-square::before {
-    content: "\f092";
+.fa-eraser:before {
+    content: "\f12d";
 }
 
 /**

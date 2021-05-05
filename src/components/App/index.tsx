@@ -4,6 +4,7 @@ import TimerMobX from 'components/Timer';
 import Timer from 'components/Timer/Timer';
 import TimerMobXStore from 'stores/TimerMobX';
 import Layout from 'components/Layout';
+import ToolsPanel from 'components/ToolsPanel';
 
 import logo from 'assets/images/logo.svg';
 
@@ -20,21 +21,20 @@ const interval = setInterval(() => {
 
 function App() {
     return (
-        <section className="hero is-fullheight">
-
-            <div className="hero-head">
-                <Navigation />
-            </div>
-
-            <div className="hero-body">
-                <Layout />
-            </div>
-
-            <div className="hero-foot">
-                <StepControls />
-            </div>
-
-        </section>
+        <>
+            <ToolsPanel />
+            <section className="hero is-fullheight">
+                <div className="hero-head">
+                    <Navigation />
+                </div>
+                <div className="hero-body">
+                    <Layout />
+                </div>
+                <div className="hero-foot">
+                    <StepControls />
+                </div>
+            </section>
+        </>
     );
 }
 
