@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 interface Props extends NavLinkObj {}
 
 const NavItem: FC<Props> = ({
-    name, url,
+    name, title, url,
 }) => {
     console.log('NavItem', name);
     return (
         <Link
             to={url}
             className="navbar-item"
+            title={title}
             // !Bulma bug fix (dropdown menu doesn't disappear after menu item clicking)
             onClick={(e) => {
                 const target = e.target as HTMLDivElement;

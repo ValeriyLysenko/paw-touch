@@ -22,6 +22,7 @@ const NavMenuSection: FC<Props> = ({
         <div className="navbar-item has-dropdown is-hoverable">
             <a
                 className="navbar-link"
+                title={root.title}
                 // !Bulma bug fix (dropdown menu doesn't disappear after menu item clicking)
                 onMouseEnter={(e) => {
                     const target = e.target as HTMLDivElement;
