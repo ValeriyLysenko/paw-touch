@@ -16,15 +16,21 @@ export default {
         },
         hsplit: {
             id: nanoid(),
-            name: 'Horizontal-split',
+            name: 'Horizontal split',
             title: '',
             url: 'horizontal-split',
         },
         vsplit: {
             id: nanoid(),
-            name: 'Vertical-split',
+            name: 'Vertical split',
             title: '',
             url: 'vertical-split',
+        },
+        rsplit: {
+            id: nanoid(),
+            name: 'Remove split',
+            title: '',
+            url: '',
         },
     },
 };

@@ -12,10 +12,10 @@ interface Props {}
 
 const Layout: FC = (props: Props) => {
     console.log('%cLayout', 'color: green;');
-    const basicLayoutPath = ['/layout', '/tools', '/new-canvas', '/canvas'];
+    const basicLayoutPath = ['/', '/layout', '/tools', '/new-canvas', '/canvas'];
     return (
         <Switch>
-            <Route exact path="/">
+            <Route exact path={basicLayoutPath}>
                 Home
                 <div id="pt-canvas-container" className="pt-canvas-container"><canvas /></div>
             </Route>
@@ -43,9 +43,6 @@ const Layout: FC = (props: Props) => {
                         <StepControls />
                     </div>
                 </div>
-            </Route>
-            <Route path={basicLayoutPath}>
-                <div id="pt-canvas-container" className="pt-canvas-container"><canvas /></div>
             </Route>
         </Switch>
     );
