@@ -1,13 +1,11 @@
 import { nanoid } from 'nanoid';
 
 export default {
-    root: {
-        id: nanoid(),
-        name: 'Canvas',
-        title: '',
-        url: 'canvas',
-    },
-    children: {
+    id: nanoid(),
+    name: 'Canvas',
+    title: '',
+    url: 'canvas',
+    sublevel: {
         'new-canvas': {
             id: nanoid(),
             name: 'New canvas',

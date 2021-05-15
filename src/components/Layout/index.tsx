@@ -7,8 +7,14 @@ import {
 } from 'react-router-dom';
 import StepControls from 'components/LayoutControls/StepControls';
 import FullscreenControls from 'components/LayoutControls/FullscreenControls';
+import CanvasStore from 'stores/CanvasStore';
+import BasicLayout from './BasicLayout';
+import AuxLayout from './AuxLayout';
 
 interface Props {}
+
+const mainCanvas = new CanvasStore();
+const auxCanvas = new CanvasStore();
 
 const Layout: FC = (props: Props) => {
     console.log('%cLayout', 'color: green;');
@@ -16,22 +22,27 @@ const Layout: FC = (props: Props) => {
     return (
         <Switch>
             <Route exact path={basicLayoutPath}>
-                Home
-                <div id="pt-canvas-container" className="pt-canvas-container"><canvas /></div>
+                <BasicLayout mainCanvas={mainCanvas} />
             </Route>
             <Route path="/vertical-split">
-                <div id="pt-canvas-container-vertical" className="pt-canvas-container-split pt-vertical-split">
-                    <div><canvas /></div>
-                    <div />
-                    <div><canvas /></div>
-                </div>
+                <AuxLayout
+                    mainCanvas={mainCanvas}
+                    auxCanvas={auxCanvas}
+                    spec={{
+                        id: 'pt-canvas-container-vertical',
+                        cssClass: 'pt-vertical-split',
+                    }}
+                />
             </Route>
             <Route path="/horizontal-split">
-                <div id="pt-canvas-container-horizontal" className="pt-canvas-container-split pt-horizontal-split">
-                    <div><canvas /></div>
-                    <div />
-                    <div><canvas /></div>
-                </div>
+                <AuxLayout
+                    mainCanvas={mainCanvas}
+                    auxCanvas={auxCanvas}
+                    spec={{
+                        id: 'pt-canvas-container-horizontal',
+                        cssClass: 'pt-horizontal-split',
+                    }}
+                />
             </Route>
             <Route path="/fullscreen">
                 <div className="pt-on-top pt-on-top-canvas">

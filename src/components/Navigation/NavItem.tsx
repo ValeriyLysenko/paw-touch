@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-interface Props extends NavLinkObj {}
+interface Props extends NavRouterObj {}
 
 const NavItem: FC<Props> = ({
     name, title, url,

@@ -20,6 +20,10 @@
 
 /*=====     End of Hidden classes      ======*/
 
+/*=============================================
+=                Main block                   =
+=============================================*/
+
 .timer-block {
     color: #282c34;
     background-color: aquamarine;
@@ -187,6 +191,8 @@
     }
 }
 
+/*=====        End of main block        ======*/
+
 /*=============================================
 =                 Tools panel                 =
 =============================================*/
@@ -284,6 +290,35 @@
     }
 }
 
+.nested.dropdown {
+    width: 100%;
+
+    &:hover {
+        & > .dropdown-menu {
+            display: block;
+        }
+    }
+
+    .dropdown-menu {
+        top: -14px;
+        margin-left: 100%;
+    }
+
+    .dropdown-content {
+        border-radius: 0;
+        border-top: 2px solid #dbdbdb;
+
+        .navbar-item {
+            width: 100%;
+            line-height: 1.5rem;
+
+            .icon-text {
+                flex-wrap: nowrap;
+            }
+        }
+    }
+}
+
 /*=====  End of Bulma styles correction  =====*/
 
 /*=============================================
@@ -324,4 +359,4 @@
     }
 }
 
-/*=====        Animation block         ======*/
+/*=====     End of Animation block     ======*/
