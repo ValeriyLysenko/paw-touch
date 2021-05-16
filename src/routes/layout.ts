@@ -1,13 +1,11 @@
 import { nanoid } from 'nanoid';
 
 export default {
-    root: {
-        id: nanoid(),
-        name: 'Layout',
-        title: '',
-        url: 'layout',
-    },
-    children: {
+    id: nanoid(),
+    name: 'Layout',
+    title: '',
+    url: 'layout',
+    sublevel: {
         fullscreen: {
             id: nanoid(),
             name: 'Fullscreen',

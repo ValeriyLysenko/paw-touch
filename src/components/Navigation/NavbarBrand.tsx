@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 interface Props {}
 
-const Layout: FC<Props> = () => {
+const NavbarBrand: FC<Props> = () => {
     console.log('ccc');
     return (
         <div className="navbar-brand">
@@ -42,4 +42,4 @@ const Layout: FC<Props> = () => {
     );
 };
 
-export default Layout;
+export default NavbarBrand;

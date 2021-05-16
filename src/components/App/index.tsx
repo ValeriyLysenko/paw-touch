@@ -1,3 +1,4 @@
+import 'aux/listeners';
 import StepControls from 'components/LayoutControls/StepControls';
 import Navigation from 'components/Navigation';
 import TimerMobX from 'components/Timer';
@@ -8,16 +9,16 @@ import ToolsPanel from 'components/ToolsPanel';
 
 import logo from 'assets/images/logo.svg';
 
-const timer = new TimerMobXStore();
-let loop = 0;
-const interval = setInterval(() => {
-    if (loop === 10) {
-        clearInterval(interval);
-        return false;
-    }
-    timer.increaseTimer();
-    loop++;
-}, 1000);
+// const timer = new TimerMobXStore();
+// let loop = 0;
+// const interval = setInterval(() => {
+//     if (loop === 10) {
+//         clearInterval(interval);
+//         return false;
+//     }
+//     timer.increaseTimer();
+//     loop++;
+// }, 1000);
 
 function App() {
     return (

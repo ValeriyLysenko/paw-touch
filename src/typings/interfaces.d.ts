@@ -1,13 +1,14 @@
-interface NavLinkObj {
+interface NavRouterObj {
     id: string;
     name: string;
     title: string;
     url: string;
+    sublevel?: {
+        [route:string]: NavRouterObj,
+    };
 }
 
-interface NavRouterObj {
-    root: NavLinkObj;
-    children?: {
-        [route:string]: NavLinkObj,
-    };
+interface CanvasSpec {
+    width: number;
+    height: number;
 }
