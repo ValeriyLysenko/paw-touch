@@ -24,12 +24,6 @@
 =                Main block                   =
 =============================================*/
 
-.timer-block {
-    color: #282c34;
-    background-color: aquamarine;
-    padding: 10px;
-}
-
 .appLoaderWrapper {
     position: fixed;
     z-index: 999998;
@@ -247,6 +241,14 @@
     //     filter: invert(27%) sepia(51%) saturate(2878%) brightness(104%)
     //         contrast(97%);
     // }
+}
+
+.#{$pt-prefix}tools-tab-hover {
+    background-color: $blue !important;
+
+    & a {
+        color: #db4404 !important;
+    }
 }
 
 .#{$pt-prefix}drag-plate {

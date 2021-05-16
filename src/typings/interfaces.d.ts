@@ -12,3 +12,8 @@ interface CanvasSpec {
     width: number;
     height: number;
 }
+
+interface ActiveTool {
+    type: string;
+    spec: {};
+}

@@ -1,5 +1,5 @@
 import {
-    makeObservable, observable, action, computed, flow,
+    makeObservable, makeAutoObservable, observable, action, computed, flow,
 } from 'mobx';
 
 class CanvasStore {
@@ -7,15 +7,22 @@ class CanvasStore {
 
     windowSize: number[] = [0, 0];
 
+    activeTool: ActiveTool | null = null;
+
     constructor() {
-        makeObservable(this, {
-            canvasHistory: observable,
-            windowSize: observable,
-            setWindowSize: action,
-            addHistory: action,
-            getHistory: computed,
-            getWindowSize: computed,
-        });
+        makeAutoObservable(this);
+        // makeObservable(this, {
+        //     canvasHistory: observable,
+        //     windowSize: observable,
+        //     setWindowSize: action,
+        //     addHistory: action,
+        //     getHistory: computed,
+        //     getWindowSize: computed,
+        // });
+    }
+
+    get getActiveTool(): ActiveTool | null {
+        return this.activeTool;
     }
 
     get getWindowSize(): number[] {
@@ -24,6 +31,13 @@ class CanvasStore {
 
     get getHistory(): string[] {
         return this.canvasHistory;
+    }
+
+    setActiveTool(type: string, spec: {}): void {
+        this.activeTool = {
+            type,
+            spec,
+        };
     }
 
     setWindowSize(size: number[]): void {

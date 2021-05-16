@@ -1,6 +1,6 @@
 import { FC, ComponentType } from 'react';
 import Draggable from './Draggable';
-import Droppable from './Droppable';
+import Droppable from './__Droppable';
 
 // interface Props {
 //     ComponentToWrap: ComponentType,

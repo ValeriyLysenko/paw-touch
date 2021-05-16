@@ -4,11 +4,11 @@ import {
 import { mainCanvas } from 'aux/init';
 
 configure({
-    // enforceActions: 'always',
+    enforceActions: 'always',
     computedRequiresReaction: true,
     reactionRequiresObservable: true,
     observableRequiresReaction: true,
-    disableErrorBoundaries: true,
+    // disableErrorBoundaries: true,
 });
 
 const onResize = (e: Event) => {
