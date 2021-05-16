@@ -29,23 +29,6 @@ export default {
                     name: 'Eraser',
                     title: '',
                     url: '',
-                    sublevel: {
-                        xxx: {
-                            id: nanoid(),
-                            name: 'XXX',
-                            title: '',
-                            url: '',
-                            sublevel: {
-                                xxx2: {
-                                    id: nanoid(),
-                                    name: 'XXX2',
-                                    title: '',
-                                    url: '',
-
-                                },
-                            },
-                        },
-                    },
                 },
             },
         },

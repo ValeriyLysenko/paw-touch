@@ -16,8 +16,6 @@ const dragComponent = (
         dragHandle?: string,
     },
 ) => {
-    console.log('==> ', opts);
-    console.log('==> ', ComponentToWrap);
     const spec = opts || {};
 
     if (!spec.drop) {

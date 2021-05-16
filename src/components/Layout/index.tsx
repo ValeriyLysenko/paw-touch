@@ -5,16 +5,13 @@ import {
     Switch,
     Route,
 } from 'react-router-dom';
+import { mainCanvas, auxCanvas } from 'aux/init';
 import StepControls from 'components/LayoutControls/StepControls';
 import FullscreenControls from 'components/LayoutControls/FullscreenControls';
-import CanvasStore from 'stores/CanvasStore';
 import BasicLayout from './BasicLayout';
 import AuxLayout from './AuxLayout';
 
 interface Props {}
-
-const mainCanvas = new CanvasStore();
-const auxCanvas = new CanvasStore();
 
 const Layout: FC = (props: Props) => {
     console.log('%cLayout', 'color: green;');
@@ -22,7 +19,9 @@ const Layout: FC = (props: Props) => {
     return (
         <Switch>
             <Route exact path={basicLayoutPath}>
-                <BasicLayout mainCanvas={mainCanvas} />
+                <BasicLayout
+                    mainCanvas={mainCanvas}
+                />
             </Route>
             <Route path="/vertical-split">
                 <AuxLayout

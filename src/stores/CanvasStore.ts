@@ -5,16 +5,29 @@ import {
 class CanvasStore {
     canvasHistory: string[] = [];
 
+    windowSize: number[] = [0, 0];
+
     constructor() {
         makeObservable(this, {
             canvasHistory: observable,
+            windowSize: observable,
+            setWindowSize: action,
             addHistory: action,
             getHistory: computed,
+            getWindowSize: computed,
         });
+    }
+
+    get getWindowSize(): number[] {
+        return this.windowSize;
     }
 
     get getHistory(): string[] {
         return this.canvasHistory;
+    }
+
+    setWindowSize(size: number[]): void {
+        this.windowSize = size;
     }
 
     addHistory(item: string): void {

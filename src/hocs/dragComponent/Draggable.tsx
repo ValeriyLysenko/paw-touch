@@ -15,12 +15,12 @@ const Draggable: FC<Props> = ({
     drag,
     drop,
 }) => {
-    console.log('%cDraggable', 'color: red', children);
+    // console.log('%cDraggable', 'color: red', children);
     const draggableRef = useRef(null);
     const dragStart = () => false;
 
     useEffect(() => {
-        console.log('%cuseEffect', 'color: pink');
+        // console.log('%cuseEffect', 'color: pink');
         const getCoords = (el: HTMLDivElement) => {
             const box = el.getBoundingClientRect();
             const { pageXOffset, pageYOffset } = window;
@@ -41,10 +41,10 @@ const Draggable: FC<Props> = ({
             el.style.top = `${e.pageY - shift.y}px`; // eslint-disable-line
         };
         const mouseDownHandler = (e: MouseEvent) => {
-            const currentTarget = e.currentTarget as HTMLDivElement | null;
+            const currentTarget = e.currentTarget as HTMLDivElement;
             if (!currentTarget) return;
 
-            const dragEl = currentTarget.closest('.pt-draggable') as HTMLDivElement | null;
+            const dragEl = currentTarget.closest('.pt-draggable') as HTMLDivElement;
             if (!dragEl) return;
 
             const coords = getCoords(dragEl);
@@ -60,9 +60,9 @@ const Draggable: FC<Props> = ({
             document.onmousemove = (ev) => {
                 moveAt(ev, dragEl, shift);
             };
-            dragEl.onmouseup = () => { // eslint-disable-line
+            dragEl.onmouseup = () => {
                 document.onmousemove = null;
-                dragEl.onmouseup = null; // eslint-disable-line
+                dragEl.onmouseup = null;
             };
         };
 
@@ -70,7 +70,7 @@ const Draggable: FC<Props> = ({
 
         if (!draggableEl || !dragHandle) return;
 
-        const els = document.querySelectorAll(`.${dragHandle}`) as NodeListOf<HTMLDivElement> | null;
+        const els = document.querySelectorAll(`.${dragHandle}`) as NodeListOf<HTMLDivElement>;
         if (els) {
             els.forEach((el) => {
                 el.addEventListener('mousedown', mouseDownHandler);
@@ -87,7 +87,7 @@ const Draggable: FC<Props> = ({
         };
     }, [dragHandle]);
 
-    console.log('%cRERENDER', 'color: green');
+    // console.log('%cRERENDER', 'color: green');
 
     return (
         <div

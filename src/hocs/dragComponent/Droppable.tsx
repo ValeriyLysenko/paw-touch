@@ -78,7 +78,7 @@ const Draggable: FC<Props> = ({
 
         if (!draggableEl || !dragHandle) return;
 
-        const els = document.querySelectorAll(`.${dragHandle}`) as NodeListOf<HTMLDivElement> | null;
+        const els = document.querySelectorAll(`.${dragHandle}`) as NodeListOf<HTMLDivElement>;
         if (els) {
             els.forEach((el) => {
                 el.addEventListener('mousedown', (e) => {

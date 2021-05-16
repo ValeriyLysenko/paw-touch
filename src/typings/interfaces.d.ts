@@ -7,3 +7,8 @@ interface NavRouterObj {
         [route:string]: NavRouterObj,
     };
 }
+
+interface CanvasSpec {
+    width: number;
+    height: number;
+}

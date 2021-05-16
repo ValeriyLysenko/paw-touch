@@ -9,7 +9,6 @@ interface Props {
 const NavMenuSection: FC<Props> = ({
     routes,
 }) => {
-    console.log('Canvas', routes);
     const {
         id, name, title, url, sublevel,
     } = routes;
