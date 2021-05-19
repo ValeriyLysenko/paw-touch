@@ -13,10 +13,16 @@ export function pencilDraw(
     ctx?.fillRect(spec.x, spec.y, spec.width, spec.height);
 }
 
-export function createPencil(canvasEl: HTMLCanvasElement) {
+export function createPencil(
+    canvasEl: HTMLCanvasElement,
+    spec: {
+        size: number,
+    },
+) {
     const downStream$ = fromEvent<MouseEvent>(canvasEl, 'mousedown');
     const upStream$ = fromEvent<MouseEvent>(canvasEl, 'mouseup');
     const moveStream$ = fromEvent<MouseEvent>(canvasEl, 'mousemove');
+    const { size } = spec;
     return downStream$
         .pipe(
             switchMap((_) => moveStream$.pipe(
@@ -40,7 +46,7 @@ export function createPencil(canvasEl: HTMLCanvasElement) {
                 const { x, y, ctx } = drawObj;
                 if (!ctx) return;
                 pencilDraw(ctx, {
-                    x, y, width: 2, height: 2,
+                    x, y, width: size, height: size,
                 });
             },
             error(err) {

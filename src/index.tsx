@@ -10,6 +10,7 @@ import App from 'components/App';
 import reportWebVitals from './reportWebVitals';
 
 import 'assets/bulma/index.scss';
+import 'assets/bulma/slider.scss';
 import 'assets/styles/fonts.scss';
 import 'assets/styles/main.scss';
 

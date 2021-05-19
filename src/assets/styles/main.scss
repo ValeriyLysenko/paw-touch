@@ -97,6 +97,17 @@
     }
 }
 
+.#{$pt-prefix}tool-settings-block {
+    width: 20vw;
+    align-self: center;
+
+    & .subtitle {
+        color: #fff !important;
+        margin: 0;
+        line-height: 1;
+    }
+}
+
 .#{$pt-prefix}canvas-container-split,
 .#{$pt-prefix}canvas-container {
     @extend %#{pt-prefix}relative-block;
@@ -248,6 +259,7 @@
 
     & a {
         color: #db4404 !important;
+        cursor: default;
     }
 }
 

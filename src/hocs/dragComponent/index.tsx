@@ -1,16 +1,9 @@
-import { FC, ComponentType } from 'react';
+import { ComponentType } from 'react';
 import Draggable from './Draggable';
 import Droppable from './__Droppable';
 
-// interface Props {
-//     ComponentToWrap: ComponentType,
-//     opts?: {
-//         drop?: boolean,
-//     },
-// }
-
 const dragComponent = (
-    ComponentToWrap: ComponentType,
+    ComponentToWrap: ComponentType<any>,
     opts?: {
         drop?: boolean,
         dragHandle?: string,
@@ -23,9 +16,9 @@ const dragComponent = (
         const finalProps = {
             dragHandle: dragHandle || '',
         };
-        return () => (
+        return ({ ...props }) => (
             <Draggable {...finalProps}>
-                <ComponentToWrap />
+                <ComponentToWrap {...props} />
             </Draggable>
         );
     }

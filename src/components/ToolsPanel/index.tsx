@@ -1,24 +1,28 @@
 import {
     FC,
-    useCallback,
-    useState,
+    MouseEvent,
 } from 'react';
+import { observer } from 'mobx-react';
+import CanvasStore from 'stores/CanvasStore';
 import dragComponent from 'hocs/dragComponent';
 import toolsPanelConfig from './toolsPanelConfig';
 
-interface Props {}
+interface Props {
+    mainCanvas: CanvasStore;
+}
 
-const ToolsPanel: FC = (props: Props) => {
-    console.log('%ToolsPanel', 'color: olive;');
-    const [active, setActive] = useState('');
-    const handleToolsClick = useCallback((e) => {
+const ToolsPanel: FC<Props> = observer(({ mainCanvas }) => {
+    console.log('%cToolsPanel', 'color: olive;');
+    const { type: active } = mainCanvas.getActiveTool;
+    const clickHandler = (e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
         const target = e.currentTarget as HTMLDivElement;
         const type = target.dataset?.type || '';
-        setActive(type);
-    }, []);
+        if (type === active) return;
+        mainCanvas.setActiveToolType(type);
+    };
     const items = Object.values(toolsPanelConfig);
-
-    console.log('active', active);
 
     return (
         <div className="pt-tools-panel">
@@ -32,7 +36,7 @@ const ToolsPanel: FC = (props: Props) => {
                 items.map((item) => (
                     <div
                         className={`pt-tools-panel-plate${active === item.type ? ' pt-tools-tab-hover' : ''}`}
-                        onClick={handleToolsClick}
+                        onClick={clickHandler}
                         aria-label={item.ariaLabel}
                         role="presentation"
                         data-type={item.type}
@@ -52,7 +56,7 @@ const ToolsPanel: FC = (props: Props) => {
         </div>
     );
 
-};
+});
 
 export default dragComponent(ToolsPanel, {
     dragHandle: 'pt-drag-plate',

@@ -12,7 +12,7 @@ import ToolsPanelEraser from 'atomicComponents/SVG/ToolsPanelEraser';
 interface Props {}
 
 const ToolsPanel: FC = (props: Props) => {
-    console.log('%ToolsPanel', 'color: olive;');
+    console.log('%TcoolsPanel', 'color: olive;');
     const [active, setActive] = useState('');
     const handleToolsClick = useCallback((e) => {
         const target = e.currentTarget as HTMLDivElement;

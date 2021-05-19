@@ -5,7 +5,6 @@ import NavMenuSection from './NavMenuSection';
 interface Props {}
 
 const NavbarStart: FC<Props> = () => {
-    console.log('Navigation');
     const {
         canvas,
         layout,

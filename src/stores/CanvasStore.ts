@@ -7,7 +7,12 @@ class CanvasStore {
 
     windowSize: number[] = [0, 0];
 
-    activeTool: ActiveTool | null = null;
+    activeTool: ActiveTool = {
+        type: 'pencil',
+        spec: {
+            size: 2,
+        },
+    };
 
     constructor() {
         makeAutoObservable(this);
@@ -21,7 +26,7 @@ class CanvasStore {
         // });
     }
 
-    get getActiveTool(): ActiveTool | null {
+    get getActiveTool(): ActiveTool {
         return this.activeTool;
     }
 
@@ -33,11 +38,12 @@ class CanvasStore {
         return this.canvasHistory;
     }
 
-    setActiveTool(type: string, spec: {}): void {
-        this.activeTool = {
-            type,
-            spec,
-        };
+    setActiveToolType(type: string): void {
+        this.activeTool = { ...this.activeTool, type };
+    }
+
+    setActiveToolSpec(spec: ActiveToolSpec): void {
+        this.activeTool = { ...this.activeTool, spec };
     }
 
     setWindowSize(size: number[]): void {

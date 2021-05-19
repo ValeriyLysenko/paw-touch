@@ -12,6 +12,7 @@ const NavItem: FC<Props> = ({
         title={title}
             // !Bulma bug fix (dropdown menu doesn't disappear after menu item clicking)
         onClick={(e) => {
+            e.stopPropagation();
             const target = e.target as HTMLDivElement;
             if (target) {
                 const closest = target.closest('.navbar-dropdown') as HTMLDivElement;

@@ -13,7 +13,7 @@ interface Props {
     };
 }
 
-const AuxLayout: FC<Props> = ({
+const AuxLayout: FC<Props> = observer(({
     mainCanvas,
     auxCanvas,
     spec,
@@ -29,6 +29,6 @@ const AuxLayout: FC<Props> = ({
         </div>
     );
 
-};
+});
 
-export default observer(AuxLayout);
+export default AuxLayout;

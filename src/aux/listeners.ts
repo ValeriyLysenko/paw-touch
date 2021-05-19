@@ -20,6 +20,7 @@ const onResize = (e: Event) => {
 
 // autorun(() => {
 //     console.log('autorun ==>', mainCanvas.getWindowSize);
+//     console.log('autorun ==>', mainCanvas.getActiveTool);
 // });
 
 // spy((e) => {
