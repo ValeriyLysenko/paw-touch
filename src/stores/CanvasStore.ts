@@ -7,6 +7,8 @@ class CanvasStore {
 
     windowSize: number[] = [0, 0];
 
+    mainCnavasSize: number[] = [0, 0];
+
     activeTool: ActiveTool = {
         type: 'pencil',
         spec: {
@@ -30,6 +32,10 @@ class CanvasStore {
         return this.activeTool;
     }
 
+    get getMainCanvasSize(): number[] {
+        return this.mainCnavasSize;
+    }
+
     get getWindowSize(): number[] {
         return this.windowSize;
     }
@@ -44,6 +50,10 @@ class CanvasStore {
 
     setActiveToolSpec(spec: ActiveToolSpec): void {
         this.activeTool = { ...this.activeTool, spec };
+    }
+
+    setMainCanvasSize(size: number[]): void {
+        this.mainCnavasSize = size;
     }
 
     setWindowSize(size: number[]): void {

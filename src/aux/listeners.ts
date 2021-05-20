@@ -14,7 +14,15 @@ configure({
 const onResize = (e: Event) => {
     const target = e.target as Window;
     // console.log('onResize ==>', e);
+    // !May be remove later
+    // !TODO be remove later
     mainCanvas.setWindowSize([target.innerWidth, target.innerHeight]);
+
+    const mainCanvasWrapperEl = document.getElementById('pt-canvas-container') as HTMLDivElement;
+    if (mainCanvasWrapperEl) {
+        mainCanvas.setMainCanvasSize([mainCanvasWrapperEl.clientWidth, mainCanvasWrapperEl.clientHeight]);
+    }
+
     // console.log('%cmainCanvas', 'color: red', mainCanvas);
 };
 

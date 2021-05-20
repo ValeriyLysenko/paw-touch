@@ -1,3 +1,7 @@
+interface ActiveToolSpec {
+    size: number;
+}
+
 interface NavRouterObj {
     id: string;
     name: string;
@@ -13,10 +17,9 @@ interface CanvasSpec {
     height: number;
 }
 
-interface ActiveToolSpec {
-    size: number;
-}
 interface ActiveTool {
     type: string;
     spec: ActiveToolSpec;
 }
+
+type CanvasInstanceCreator = (canvasSpec: ActiveToolSpec) => Subscription;
