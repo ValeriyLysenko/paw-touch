@@ -16,7 +16,7 @@ const Draggable: FC<Props> = ({
     drop,
 }) => {
     // console.log('%cDraggable', 'color: red', children);
-    const draggableRef = useRef(null);
+    const draggableRef = useRef<HTMLDivElement>(null);
     const dragStart = () => false;
 
     useEffect(() => {
@@ -66,7 +66,7 @@ const Draggable: FC<Props> = ({
             };
         };
 
-        const draggableEl = draggableRef.current as HTMLDivElement | null;
+        const { current: draggableEl } = draggableRef;
 
         if (!draggableEl || !dragHandle) return;
 

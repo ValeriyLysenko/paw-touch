@@ -103,8 +103,18 @@
 
     & .subtitle {
         color: #fff !important;
-        margin: 0;
-        line-height: 1;
+    }
+
+    input[type="range"] {
+        &.slider {
+            margin: 0;
+        }
+
+        &.has-output + output {
+            position: absolute;
+            top: -1.45rem;
+            left: -2.1rem;
+        }
     }
 }
 
@@ -348,6 +358,10 @@
     &:hover {
         background: none !important;
     }
+}
+
+.#{$pt-prefix}helper-pos-rel {
+    position: relative;
 }
 
 /*=====      End of Helpers block      ======*/
