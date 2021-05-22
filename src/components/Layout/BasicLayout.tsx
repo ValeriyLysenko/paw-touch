@@ -5,6 +5,9 @@ import { observer } from 'mobx-react';
 import { Subscription } from 'rxjs';
 import CanvasStore from 'stores/CanvasStore';
 import { createDrawTool } from 'libs/canvasLib';
+import {
+    resizeCanvasToDisplaySize,
+} from 'libs/lib';
 
 interface Props {
     mainCanvas: CanvasStore;
@@ -15,34 +18,36 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
     const canvasSize = mainCanvas.getMainCanvasSize;
     const { type, spec } = mainCanvas.getActiveTool;
     const { size } = spec;
-    const wrapperRef = useRef<HTMLDivElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const canvasInstRef = useRef<CanvasInstanceCreator | null>(null);
     const canvasSubRef = useRef<Subscription | null>(null);
-    const manageCanvasSise = useCallback((command: string): void => {
-        const { current: wrapperEl } = wrapperRef;
+    const manageCanvasSise = useCallback((command?: string): void => {
         const { current: canvasEl } = canvasRef;
 
-        if (!canvasEl || !wrapperEl) return;
+        if (!canvasEl) return;
 
         switch (command) {
             case 'createDrawTool': {
-                // Set canvas size
-                canvasEl.width = wrapperEl.clientWidth;
-                canvasEl.height = wrapperEl.clientHeight;
-                // console.log('%cBefore createDrawTool', 'color: blue');
+                console.log('%cBefore createDrawTool', 'color: blue');
                 canvasInstRef.current = createDrawTool(canvasEl);
                 break;
             }
             case 'setCanvasSize': {
                 const ctx = canvasEl.getContext('2d');
+
                 if (!ctx) break;
                 // Backup canvas
                 const canvasBackup = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
 
-                // Set canvas size
-                canvasEl.width = wrapperEl.clientWidth;
-                canvasEl.height = wrapperEl.clientHeight;
+                // Accord drawingBuffer / display pixels
+                resizeCanvasToDisplaySize(canvasEl);
+
+                // !TODO Adequate canvas resize implementation
+                // const ratio = Math.min(
+                //     canvasEl.width / wrapperEl.clientWidth,
+                //     canvasEl.height / wrapperEl.clientHeight,
+                // );
+                // ctx.scale(ratio, ratio);
 
                 // Restore canvas
                 ctx.putImageData(canvasBackup, 0, 0);
@@ -63,7 +68,6 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
     useEffect(() => {
         console.log('%cuseEffect#2', 'color: red');
         manageCanvasSise('setCanvasSize');
-
     }, [canvasSize, manageCanvasSise]);
 
     useEffect(() => {
@@ -89,7 +93,7 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
     }, [size]);
 
     return (
-        <div ref={wrapperRef} id="pt-canvas-container" className="pt-canvas-container">
+        <div id="pt-canvas-container" className="pt-canvas-container">
             <canvas ref={canvasRef} />
         </div>
     );
