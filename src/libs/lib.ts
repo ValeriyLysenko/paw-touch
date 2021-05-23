@@ -55,6 +55,7 @@ export function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement): boolean {
 }
 
 /**
+ * TODO Remove later
  * Set constant drawingBuffer / display canvas resolution.
  * @param canvas
  * @returns
@@ -65,7 +66,7 @@ export function resizeCanvasToDisplaySizeConstCanvas(
 ): void {
     const maxWindowSize = getMaxWindowSize();
     const width = Math.round((maxWindowSize[0] - 15) * sizeRatio[0]);
-    const height = Math.round(maxWindowSize[1] * sizeRatio[0]);
+    const height = Math.round(maxWindowSize[1] * sizeRatio[1]);
 
     // Set drawingBuffer resolution
     canvas.width = width; /* eslint-disable-line */

@@ -1,13 +1,17 @@
 import {
-    FC, useCallback, useEffect, useRef,
+    FC, useCallback, useEffect, useRef, useState,
 } from 'react';
 import { observer } from 'mobx-react';
 import { Subscription } from 'rxjs';
 import CanvasStore from 'stores/CanvasStore';
 import { createDrawTool } from 'libs/canvasLib';
 import {
+    getMaxWindowSize,
     resizeCanvasToDisplaySize,
+    resizeCanvasToDisplaySizeConstCanvas,
 } from 'libs/lib';
+import StepControls from 'components/LayoutControls/StepControls';
+import ToolSettings from 'components/Tools/ToolSettings';
 
 interface Props {
     mainCanvas: CanvasStore;
@@ -28,6 +32,29 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
 
         switch (command) {
             case 'createDrawTool': {
+                const maxWindowSize = getMaxWindowSize();
+                // const sizeRatio: number[] = [0.943425076, 0.82658518];
+                // const sizeRatio: number[] = [0.937157107, 0.82658518];
+                // const canvasRectSize = canvasEl.getBoundingClientRect();
+                // console.log('screen.availWidth', window.screen.availWidth);
+                // console.log('window.outerWidth', window.outerWidth);
+                // console.log('window.innerWidth', window.innerWidth);
+                // console.log('res', window.outerWidth - window.innerWidth);
+
+                // console.log('maxWindowSize', maxWindowSize);
+                // console.log('body inners', document.body.clientWidth, document.body.clientHeight);
+                // console.log('canvasRectSize', canvasRectSize);
+                // console.log('sizeRatio', sizeRatio);
+
+                // Accord drawingBuffer / display pixels
+                resizeCanvasToDisplaySize(canvasEl);
+
+                // resizeCanvasToDisplaySizeConstCanvas(canvasEl, sizeRatio);
+
+                // canvasEl.width = 1866;
+                // canvasEl.height = 1097;
+                // canvasEl.setAttribute('style', 'width: 1866px; height: 1097px');
+
                 console.log('%cBefore createDrawTool', 'color: blue');
                 canvasInstRef.current = createDrawTool(canvasEl);
                 break;
@@ -37,10 +64,10 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
 
                 if (!ctx) break;
                 // Backup canvas
-                const canvasBackup = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
+                // const canvasBackup = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
 
                 // Accord drawingBuffer / display pixels
-                resizeCanvasToDisplaySize(canvasEl);
+                // resizeCanvasToDisplaySize(canvasEl);
 
                 // !TODO Adequate canvas resize implementation
                 // const ratio = Math.min(
@@ -50,8 +77,7 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
                 // ctx.scale(ratio, ratio);
 
                 // Restore canvas
-                ctx.putImageData(canvasBackup, 0, 0);
-
+                // ctx.putImageData(canvasBackup, 0, 0);
                 break;
             }
             default: {
@@ -93,8 +119,13 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
     }, [size]);
 
     return (
-        <div id="pt-canvas-container" className="pt-canvas-container">
-            <canvas ref={canvasRef} />
+        <div className="pt-drawing-block">
+            <div id="pt-canvas-container" className="pt-canvas-container">
+                <canvas ref={canvasRef} />
+            </div>
+            <div className="pt-drawing-block-gap" />
+            {/* <StepControls /> */}
+            <ToolSettings />
         </div>
     );
 

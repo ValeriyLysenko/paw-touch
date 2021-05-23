@@ -28,8 +28,7 @@ const Layout: FC = (props: Props) => {
                     mainCanvas={mainCanvas}
                     auxCanvas={auxCanvas}
                     spec={{
-                        id: 'pt-canvas-container-vertical',
-                        cssClass: 'pt-vertical-split',
+                        type: 'vertical',
                     }}
                 />
             </Route>
@@ -38,8 +37,7 @@ const Layout: FC = (props: Props) => {
                     mainCanvas={mainCanvas}
                     auxCanvas={auxCanvas}
                     spec={{
-                        id: 'pt-canvas-container-horizontal',
-                        cssClass: 'pt-horizontal-split',
+                        type: 'horizontal',
                     }}
                 />
             </Route>

@@ -14,8 +14,9 @@
     // outline: 1px solid #ef2e55;
 }
 
-%#{pt-prefix}relative-block {
-    position: relative;
+%#{pt-prefix}panel-decoration {
+    background: #f5b041;
+    padding: 10px;
 }
 
 /*=====     End of Hidden classes      ======*/
@@ -23,6 +24,15 @@
 /*=============================================
 =                Main block                   =
 =============================================*/
+
+html {
+    overflow: initial;
+}
+
+html,
+body {
+    height: 100%;
+}
 
 .appLoaderWrapper {
     position: fixed;
@@ -49,19 +59,11 @@
 }
 
 #paw-touch {
-    @extend %#{pt-prefix}relative-block;
-
-    .hero-head {
-        padding: 1.5rem 2.5em;
-    }
-
-    .hero-body {
-        padding: 0 3em;
-    }
-
-    .hero-foot {
-        padding: 1.5rem 3em;
-    }
+    @extend .#{$pt-prefix}helper-pos-rel;
+    height: 100%;
+    min-width: 2000px;
+    min-height: 1200px;
+    max-width: 2200px;
 }
 
 ##{$pt-prefix}logo {
@@ -97,81 +99,125 @@
     }
 }
 
-.#{$pt-prefix}tool-settings-block {
-    width: 20vw;
-    align-self: center;
-
-    & .subtitle {
-        color: #fff !important;
-    }
-
-    input[type="range"] {
-        &.slider {
-            margin: 0;
-        }
-
-        &.has-output + output {
-            position: absolute;
-            top: -1.45rem;
-            left: -2.1rem;
-        }
-    }
-}
-
-.#{$pt-prefix}canvas-container-split,
-.#{$pt-prefix}canvas-container {
-    @extend %#{pt-prefix}relative-block;
-    width: 100%;
-    align-self: stretch;
-
-    canvas {
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-        @extend %#{pt-prefix}decorated-outline;
-    }
-}
-
-.#{$pt-prefix}canvas-container-split {
+.#{$pt-prefix}page-wrapper {
     display: flex;
-    justify-content: space-between;
-
-    & > div {
-        flex: 1 1 100%;
-        @extend %#{pt-prefix}relative-block;
-        // background-color: #2e0875; //!Good color / Don't delete
-
-        &:nth-child(2) {
-            flex: 0 0 10px;
-            background-color: #f5b041;
-            @extend %#{pt-prefix}decorated-outline;
-        }
-    }
-}
-
-.#{$pt-prefix}horizontal-split {
     flex-direction: column;
+    height: 100%;
 
-    & > div {
-        &:nth-child(2) {
-            margin: 4px 0;
+    header {
+        padding: 1.5rem 2.5em;
+
+        .navbar {
+            background-color: transparent;
         }
+    }
+
+    main {
+        flex: 1;
+        padding: 0 3em;
+    }
+
+    footer {
+        background-color: saddlebrown;
+        padding: 1.5rem 2.5em;
     }
 }
 
-.#{$pt-prefix}vertical-split {
-    & > div {
-        height: 100%;
+/*=============================================
+=               Drawing block                 =
+=============================================*/
 
-        &:nth-child(2) {
-            margin: 0 4px;
+.#{$pt-prefix}drawing-block {
+    display: flex;
+    background: #f5b041;
+
+    & > * {
+        margin-left: 1px;
+    }
+
+    .#{$pt-prefix}canvas-container {
+        @extend %#{pt-prefix}decorated-outline;
+        width: 1602px;
+        height: 950px;
+        padding: 10px;
+
+        canvas {
+            width: 1580px;
+            height: 930px;
+            background-color: #fff;
+            outline: 1px solid #260f33;
+        }
+
+        &.#{$pt-prefix}vertical-split {
+            width: 795px;
+
+            canvas {
+                width: 773px;
+            }
+        }
+
+        &.#{$pt-prefix}horizontal-split {
+            height: 469px;
+
+            canvas {
+                height: 449px;
+            }
         }
     }
+
+    .#{$pt-prefix}drawing-canvas-block {
+        margin-top: -1px;
+
+        & > * {
+            margin-top: 1px;
+        }
+
+        .#{$pt-prefix}drawing-block-gap {
+            width: 100%;
+            height: 10px;
+        }
+    }
+
+    .#{$pt-prefix}tool-settings-block {
+        @extend %#{pt-prefix}decorated-outline;
+        @extend %#{pt-prefix}panel-decoration;
+        flex: 1;
+        color: rgba(0, 0, 0, 0.7);
+        // margin-left: 2px;
+
+        input[type="range"] {
+            &.slider {
+                margin: 1rem 0;
+            }
+        }
+
+        & .subtitle {
+            margin-bottom: 0;
+        }
+
+        // !Moving thumb
+        // !Don't remove
+        // input[type="range"] {
+        //     &.slider {
+        //         margin: 0;
+        //     }
+
+        //     &.has-output + output {
+        //         position: absolute;
+        //         top: -1.45rem;
+        //         left: -2.1rem;
+        //     }
+        // }
+    }
+
+    .#{$pt-prefix}drawing-block-gap {
+        @extend %#{pt-prefix}decorated-outline;
+        width: 10px;
+        transform: translate(0, 0);
+    }
 }
+
+/*=====       End of drawing block      ======*/
 
 .#{$pt-prefix}on-top {
     position: fixed;
@@ -215,7 +261,7 @@
 .#{$pt-prefix}tools-panel {
     position: absolute;
     top: 124px;
-    left: 4px;
+    left: 6px;
     width: 38px;
     // height: 50%;
     display: flex;

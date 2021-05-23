@@ -2,7 +2,6 @@ import { FC } from 'react';
 import NavbarBrand from './NavbarBrand';
 import NavbarStart from './NavbarStart';
 import NavbarEnd from './NavbarEnd';
-import ToolSettings from './ToolSettings';
 
 interface Props {}
 
@@ -13,7 +12,6 @@ const Navigation: FC<Props> = () => {
             <NavbarBrand />
             <div id="pt-navbar" className="navbar-menu">
                 <NavbarStart />
-                <ToolSettings />
                 <NavbarEnd />
             </div>
         </nav>
