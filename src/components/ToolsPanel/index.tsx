@@ -1,18 +1,18 @@
 import {
     FC,
     MouseEvent,
+    useContext,
 } from 'react';
 import { observer } from 'mobx-react';
-import CanvasStore from 'stores/CanvasStore';
+import AppContext from 'aux/AppContext';
 import dragComponent from 'hocs/dragComponent';
 import toolsPanelConfig from './toolsPanelConfig';
 
-interface Props {
-    mainCanvas: CanvasStore;
-}
+interface Props {}
 
-const ToolsPanel: FC<Props> = observer(({ mainCanvas }) => {
+const ToolsPanel: FC<Props> = observer(() => {
     console.log('%cToolsPanel', 'color: olive;');
+    const { mainCanvas } = useContext(AppContext);
     const { type: active } = mainCanvas.getActiveTool;
     const clickHandler = (e: MouseEvent) => {
         e.preventDefault();

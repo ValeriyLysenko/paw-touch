@@ -1,9 +1,8 @@
-import { FC, useRef } from 'react';
+import { FC, useContext, useRef } from 'react';
 import { makeFirstUppercase } from 'libs/lib';
-import CanvasStore from 'stores/CanvasStore';
+import AppContext from 'aux/AppContext';
 
 interface Props {
-    mainCanvas: CanvasStore;
     type: string;
     step: number;
     min: number;
@@ -12,13 +11,13 @@ interface Props {
 }
 
 const SimpleSlider: FC<Props> = ({
-    mainCanvas,
     type,
     step,
     min,
     max,
     value,
 }) => {
+    const { mainCanvas } = useContext(AppContext);
     const sliderRef = useRef<HTMLInputElement>(null);
     const outputRef = useRef<HTMLOutputElement>(null);
 

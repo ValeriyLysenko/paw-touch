@@ -1,24 +1,21 @@
 import {
-    FC, useCallback, useEffect, useRef, useState,
+    FC, useCallback, useContext, useEffect, useRef,
 } from 'react';
 import { observer } from 'mobx-react';
 import { Subscription } from 'rxjs';
-import CanvasStore from 'stores/CanvasStore';
+import AppContext from 'aux/AppContext';
 import { createDrawTool } from 'libs/canvasLib';
 import {
-    getMaxWindowSize,
     resizeCanvasToDisplaySize,
-    resizeCanvasToDisplaySizeConstCanvas,
 } from 'libs/lib';
 import StepControls from 'components/LayoutControls/StepControls';
 import ToolSettings from 'components/Tools/ToolSettings';
 
-interface Props {
-    mainCanvas: CanvasStore;
-}
+interface Props {}
 
-const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
+const BasicLayout: FC<Props> = observer(() => {
     // console.log('%cBasicLayout', 'color: green;', mainCanvas);
+    const { mainCanvas } = useContext(AppContext);
     const canvasSize = mainCanvas.getMainCanvasSize;
     const { type, spec } = mainCanvas.getActiveTool;
     const { size, color } = spec;
@@ -32,29 +29,8 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
 
         switch (command) {
             case 'createDrawTool': {
-                const maxWindowSize = getMaxWindowSize();
-                // const sizeRatio: number[] = [0.943425076, 0.82658518];
-                // const sizeRatio: number[] = [0.937157107, 0.82658518];
-                // const canvasRectSize = canvasEl.getBoundingClientRect();
-                // console.log('screen.availWidth', window.screen.availWidth);
-                // console.log('window.outerWidth', window.outerWidth);
-                // console.log('window.innerWidth', window.innerWidth);
-                // console.log('res', window.outerWidth - window.innerWidth);
-
-                // console.log('maxWindowSize', maxWindowSize);
-                // console.log('body inners', document.body.clientWidth, document.body.clientHeight);
-                // console.log('canvasRectSize', canvasRectSize);
-                // console.log('sizeRatio', sizeRatio);
-
                 // Accord drawingBuffer / display pixels
                 resizeCanvasToDisplaySize(canvasEl);
-
-                // resizeCanvasToDisplaySizeConstCanvas(canvasEl, sizeRatio);
-
-                // canvasEl.width = 1866;
-                // canvasEl.height = 1097;
-                // canvasEl.setAttribute('style', 'width: 1866px; height: 1097px');
-
                 console.log('%cBefore createDrawTool', 'color: blue');
                 canvasInstRef.current = createDrawTool(canvasEl);
                 break;

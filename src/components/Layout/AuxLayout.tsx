@@ -1,29 +1,31 @@
 import {
     FC,
+    useContext,
     useRef,
 } from 'react';
 import { observer } from 'mobx-react';
-import CanvasStore from 'stores/CanvasStore';
 import ToolSettings from 'components/Tools/ToolSettings';
+import AppContext from 'aux/AppContext';
 
 interface Props {
-    mainCanvas: CanvasStore;
-    auxCanvas: CanvasStore;
     spec: {
         type: string,
     };
 }
 
 const AuxLayout: FC<Props> = observer(({
-    mainCanvas,
-    auxCanvas,
+
     spec,
 }) => {
-    console.log('%cBasicLayout', 'color: green;', mainCanvas);
-    console.log('%cBasicLayout', 'color: blue;', auxCanvas);
+    const {
+        mainCanvas,
+        auxCanvas,
+    } = useContext(AppContext);
     const { type } = spec;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const auxCanvasRef = useRef<HTMLCanvasElement | null>(null);
+    console.log('%cBasicLayout', 'color: green;', mainCanvas);
+    console.log('%cBasicLayout', 'color: blue;', auxCanvas);
 
     if (type === 'vertical') {
         return (

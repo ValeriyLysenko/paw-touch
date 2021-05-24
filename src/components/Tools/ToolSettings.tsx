@@ -1,16 +1,16 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { observer } from 'mobx-react';
-import { mainCanvas } from 'aux/init';
+import AppContext from 'aux/AppContext';
 import SimpleSlider from 'atomicComponents/Slider/SimpleSlider';
 import SimpleColorPicker from 'atomicComponents/ColorPicker/SimpleColorPicker';
 
 interface Props {}
 
 const ToolSettings: FC<Props> = observer(() => {
+    const { mainCanvas } = useContext(AppContext);
     const { type, spec } = mainCanvas.getActiveTool;
     const sliderShowArr: string[] = ['pencil', 'brush'];
     const sliderSpec = {
-        mainCanvas,
         type,
         step: 1,
         min: 0,
