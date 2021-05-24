@@ -20,7 +20,7 @@ const BasicLayout: FC<Props> = observer(() => {
     const { mainCanvas } = useContext(AppContext);
     const canvasSize = mainCanvas.getMainCanvasSize;
     const { type, spec } = mainCanvas.getActiveTool;
-    const { size, color, eraserRadius } = spec;
+    const { size, color } = spec;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const canvasInstRef = useRef<CanvasInstanceCreator | null>(null);
     const canvasSubRef = useRef<Subscription | null>(null);
@@ -86,7 +86,6 @@ const BasicLayout: FC<Props> = observer(() => {
         canvasSubRef.current = canvasInst(type, {
             color,
             size,
-            eraserRadius,
         });
 
         return () => {
@@ -96,7 +95,7 @@ const BasicLayout: FC<Props> = observer(() => {
                 canvasSub.unsubscribe();
             }
         };
-    }, [type, color, size, eraserRadius]);
+    }, [type, color, size]);
 
     return (
         <div className="pt-drawing-block">

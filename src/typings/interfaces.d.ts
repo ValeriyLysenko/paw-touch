@@ -1,5 +1,4 @@
 interface ActiveToolSpec {
-    eraserRadius: number;
     color: string;
     size: number;
 }

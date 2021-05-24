@@ -15,7 +15,7 @@ export function createDrawTool(
         type: string,
         spec: ActiveToolSpec,
     ) => {
-        const { color, size, eraserRadius } = spec;
+        const { color, size } = spec;
 
         return downStream$
             .pipe(
@@ -47,9 +47,15 @@ export function createDrawTool(
                             });
                             break;
                         }
+                        case 'brush': {
+                            brushDraw(ctx, {
+                                color, x, y, radius: size,
+                            });
+                            break;
+                        }
                         case 'eraser':
                             eraser(ctx, {
-                                x, y, radius: eraserRadius,
+                                x, y, radius: size,
                             });
                             break;
                         default: {
@@ -88,6 +94,30 @@ export function pencilDraw(
 }
 
 /**
+ * Brush drawing functionality.
+ */
+export function brushDraw(
+    ctx: CanvasRenderingContext2D,
+    spec: {
+        color: string,
+        x: number,
+        y: number,
+        radius: number,
+    },
+): void {
+    if (!ctx) return;
+    const {
+        color, x, y, radius,
+    } = spec;
+    // Set default 'globalCompositeOperation' mode (reset after erasing)
+    ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
+    ctx.fillStyle = color; // eslint-disable-line
+    ctx.beginPath();
+    ctx.arc(x - (radius / 2), y - (radius / 2), radius, 0, 2 * Math.PI, false);
+    ctx.fill();
+}
+
+/**
  * Eraser functionality.
  */
 export function eraser(
@@ -96,8 +126,6 @@ export function eraser(
         x: number,
         y: number,
         radius: number,
-        // width: number,
-        // height: number,
     },
 ): void {
     if (!ctx) return;
