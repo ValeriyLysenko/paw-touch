@@ -1,0 +1,84 @@
+@charset "utf-8";
+
+/*=============================================
+=                 Tools panel                 =
+=============================================*/
+
+.#{$pt-prefix}tools-panel {
+    position: absolute;
+    top: 124px;
+    left: 6px;
+    width: 38px;
+    // height: 50%;
+    display: flex;
+    flex-direction: column;
+    background-color: #2e0875;
+    @extend %#{pt-prefix}decorated-outline;
+
+    & .#{$pt-prefix}tools-panel-plate {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 38px;
+        background-color: #f4af4f;
+        margin-bottom: 1px;
+        color: #2e0875;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        & a {
+            font-size: 1.75rem;
+            line-height: 1;
+
+            &:hover {
+                color: #db4404;
+            }
+        }
+
+        & svg {
+            width: 30px;
+
+            &:hover {
+                color: #db4404;
+            }
+        }
+    }
+
+    // & > .#{$pt-prefix}tools-panel-brush {
+    //     background: #fff url("../images/paint-brush-solid.svg") no-repeat 50%
+    //         50%;
+    //     background-size: 75%;
+    //     filter: invert(27%) sepia(51%) saturate(2878%) brightness(104%)
+    //         contrast(97%);
+    // }
+}
+
+.#{$pt-prefix}tools-tab-hover {
+    background-color: $blue !important;
+
+    & a {
+        color: #db4404 !important;
+        cursor: default;
+    }
+}
+
+.#{$pt-prefix}drag-plate {
+    height: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2px;
+    cursor: grabbing;
+
+    & > div {
+        width: 90%;
+        height: 1px;
+        background-color: #fff;
+    }
+}
+
+/*=====       End of Tools panel       ======*/
