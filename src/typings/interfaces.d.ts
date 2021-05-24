@@ -1,4 +1,5 @@
 interface ActiveToolSpec {
+    eraserRadius: number;
     color: string;
     size: number;
 }
@@ -23,4 +24,4 @@ interface ActiveTool {
     spec: ActiveToolSpec;
 }
 
-type CanvasInstanceCreator = (canvasSpec: ActiveToolSpec) => Subscription;
+type CanvasInstanceCreator = (type: string, canvasSpec: ActiveToolSpec) => Subscription;

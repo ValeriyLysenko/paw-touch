@@ -1,21 +1,9 @@
 import { fromEvent } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 
-export function pencilDraw(
-    ctx: CanvasRenderingContext2D,
-    spec: {
-        color: string,
-        x: number,
-        y: number,
-        width: number,
-        height: number,
-    },
-): void {
-    if (!ctx) return;
-    ctx.fillStyle = spec.color; // eslint-disable-line
-    ctx.fillRect(spec.x, spec.y, spec.width, spec.height);
-}
-
+/**
+ * Create basic drawing tool.
+ */
 export function createDrawTool(
     canvasEl: HTMLCanvasElement,
 ) {
@@ -23,8 +11,11 @@ export function createDrawTool(
     const upStream$ = fromEvent<MouseEvent>(canvasEl, 'mouseup');
     const moveStream$ = fromEvent<MouseEvent>(canvasEl, 'mousemove');
 
-    return (spec: ActiveToolSpec) => {
-        const { color, size } = spec;
+    return (
+        type: string,
+        spec: ActiveToolSpec,
+    ) => {
+        const { color, size, eraserRadius } = spec;
 
         return downStream$
             .pipe(
@@ -48,9 +39,23 @@ export function createDrawTool(
                         x, y, ctx,
                     } = drawObj;
                     if (!ctx) return;
-                    pencilDraw(ctx, {
-                        color, x, y, width: size, height: size,
-                    });
+
+                    switch (type) {
+                        case 'pencil': {
+                            pencilDraw(ctx, {
+                                color, x, y, width: size, height: size,
+                            });
+                            break;
+                        }
+                        case 'eraser':
+                            eraser(ctx, {
+                                x, y, radius: eraserRadius,
+                            });
+                            break;
+                        default: {
+                            break;
+                        }
+                    }
                 },
                 error(err) {
                     console.log('%cERROR', 'color: red', err);
@@ -62,4 +67,47 @@ export function createDrawTool(
     };
 }
 
-export function brushDraw() {}
+/**
+ * Pencil drawing functionality.
+ */
+export function pencilDraw(
+    ctx: CanvasRenderingContext2D,
+    spec: {
+        color: string,
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+    },
+): void {
+    if (!ctx) return;
+    // Set default 'globalCompositeOperation' mode (reset after erasing)
+    ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
+    ctx.fillStyle = spec.color; // eslint-disable-line
+    ctx.fillRect(spec.x, spec.y, spec.width, spec.height);
+}
+
+/**
+ * Eraser functionality.
+ */
+export function eraser(
+    ctx: CanvasRenderingContext2D,
+    spec: {
+        x: number,
+        y: number,
+        radius: number,
+        // width: number,
+        // height: number,
+    },
+): void {
+    if (!ctx) return;
+    const { x, y, radius } = spec;
+    ctx.fillStyle = '#fff'; // eslint-disable-line
+    // Set proper 'globalCompositeOperation' mode.
+    // The existing canvas content is kept where both the new shape and existing canvas content overlap.
+    // Everything else is made transparent.
+    ctx.globalCompositeOperation = 'destination-out'; // eslint-disable-line
+    ctx.beginPath();
+    ctx.arc(x - (radius / 2), y - (radius / 2), radius, 0, 2 * Math.PI, false);
+    ctx.fill();
+}

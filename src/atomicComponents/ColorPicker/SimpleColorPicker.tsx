@@ -1,16 +1,21 @@
 import { FC, useContext } from 'react';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
+import { makeFirstUppercase } from 'libs/lib';
 
-interface Props {}
+interface Props {
+    type: string;
+}
 
-const SimpleColorPicker: FC<Props> = observer(() => {
+const SimpleColorPicker: FC<Props> = observer(({
+    type,
+}) => {
     const { mainCanvas } = useContext(AppContext);
     const { spec: { color } } = mainCanvas.getActiveTool;
     console.log('===SimpleColorPicker===', color);
     return (
         <div>
-            <label className="label" htmlFor="toolColor">Color picker</label>
+            <label className="label" htmlFor="toolColor">{`${makeFirstUppercase(type)} color picker`}</label>
             <input
                 id="toolColor"
                 name="toolColor"

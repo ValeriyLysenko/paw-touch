@@ -13,7 +13,8 @@ class CanvasStore {
         type: 'pencil',
         spec: {
             color: '#000',
-            size: 2,
+            size: 10,
+            eraserRadius: 10,
         },
     };
 
@@ -43,6 +44,10 @@ class CanvasStore {
 
     get getHistory(): string[] {
         return this.canvasHistory;
+    }
+
+    setActiveToolEraserRadius(radius: number): void {
+        this.activeTool.spec.eraserRadius = radius;
     }
 
     setActiveToolColor(color: string): void {

@@ -36,7 +36,8 @@ const SimpleSlider: FC<Props> = ({
                 type="range"
                 onChange={(e) => {
                     e.stopPropagation();
-                    mainCanvas.setActiveToolSize(+e.target.value);
+                    if (type === 'eraser') mainCanvas.setActiveToolEraserRadius(+e.target.value);
+                    else mainCanvas.setActiveToolSize(+e.target.value);
                 }}
             />
             <output ref={outputRef} htmlFor="toolSize">{value}</output>

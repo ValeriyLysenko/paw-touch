@@ -1,8 +1,5 @@
 /**
  * Capitalize first letter of given string.
- *
- * @param str string
- * @returns string
  */
 export function makeFirstUppercase(str: string): string {
     return str.substr(0, 1).toUpperCase() + str.substr(1);
@@ -10,7 +7,6 @@ export function makeFirstUppercase(str: string): string {
 
 /**
  * Get max available width / height of browser window.
- * @returns string
  */
 export function getMaxWindowSize(): number[] {
     const {
@@ -24,7 +20,6 @@ export function getMaxWindowSize(): number[] {
 
 /**
  * Check if window has max width / height.
- * @returns boolean
  */
 export function isMaxWindowSize(): boolean {
     const {
@@ -36,8 +31,6 @@ export function isMaxWindowSize(): boolean {
 
 /**
  * Make to fit canvas pixels in drawingBuffer and on display the same.
- * @param canvas
- * @returns
  */
 export function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement): boolean {
     // Look up the size the canvas is being displayed

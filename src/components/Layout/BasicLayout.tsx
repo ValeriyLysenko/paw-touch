@@ -4,7 +4,9 @@ import {
 import { observer } from 'mobx-react';
 import { Subscription } from 'rxjs';
 import AppContext from 'aux/AppContext';
-import { createDrawTool } from 'libs/canvasLib';
+import {
+    createDrawTool,
+} from 'libs/canvasLib';
 import {
     resizeCanvasToDisplaySize,
 } from 'libs/lib';
@@ -18,7 +20,7 @@ const BasicLayout: FC<Props> = observer(() => {
     const { mainCanvas } = useContext(AppContext);
     const canvasSize = mainCanvas.getMainCanvasSize;
     const { type, spec } = mainCanvas.getActiveTool;
-    const { size, color } = spec;
+    const { size, color, eraserRadius } = spec;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const canvasInstRef = useRef<CanvasInstanceCreator | null>(null);
     const canvasSubRef = useRef<Subscription | null>(null);
@@ -73,7 +75,7 @@ const BasicLayout: FC<Props> = observer(() => {
     }, [canvasSize, manageCanvasSise]);
 
     useEffect(() => {
-        console.log('%cuseEffect#3', 'color: green');
+        console.log('%cuseEffect#3', 'color: green', type);
         const { current: canvasEl } = canvasRef;
         const { current: canvasInst } = canvasInstRef;
 
@@ -81,9 +83,10 @@ const BasicLayout: FC<Props> = observer(() => {
         if (!canvasInst) return;
         console.log('%cBefore get subscription', 'color: green');
 
-        canvasSubRef.current = canvasInst({
+        canvasSubRef.current = canvasInst(type, {
             color,
             size,
+            eraserRadius,
         });
 
         return () => {
@@ -93,7 +96,7 @@ const BasicLayout: FC<Props> = observer(() => {
                 canvasSub.unsubscribe();
             }
         };
-    }, [color, size]);
+    }, [type, color, size, eraserRadius]);
 
     return (
         <div className="pt-drawing-block">

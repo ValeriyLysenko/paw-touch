@@ -9,7 +9,8 @@ interface Props {}
 const ToolSettings: FC<Props> = observer(() => {
     const { mainCanvas } = useContext(AppContext);
     const { type, spec } = mainCanvas.getActiveTool;
-    const sliderShowArr: string[] = ['pencil', 'brush'];
+    const sliderShowArr: string[] = ['pencil', 'brush', 'eraser'];
+    const collorShowArr: string[] = ['pencil', 'brush'];
     const sliderSpec = {
         type,
         step: 1,
@@ -17,10 +18,17 @@ const ToolSettings: FC<Props> = observer(() => {
         max: 100,
         value: spec.size,
     };
+    const colorPickerSpec = {
+        type,
+    };
     return (
-        <div className={`pt-tool-settings-block ${!sliderShowArr.includes(type) ? 'is-hidden' : ''}`}>
-            <SimpleSlider {...sliderSpec} />
-            <SimpleColorPicker />
+        <div className="pt-tool-settings-block">
+            <div className={`${!sliderShowArr.includes(type) ? 'is-hidden' : ''}`}>
+                <SimpleSlider {...sliderSpec} />
+            </div>
+            <div className={`${!collorShowArr.includes(type) ? 'is-hidden' : ''}`}>
+                <SimpleColorPicker {...colorPickerSpec} />
+            </div>
         </div>
     );
 });
