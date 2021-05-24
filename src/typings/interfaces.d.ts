@@ -1,4 +1,5 @@
 interface ActiveToolSpec {
+    color: string;
     size: number;
 }
 

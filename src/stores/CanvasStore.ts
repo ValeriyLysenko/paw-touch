@@ -12,6 +12,7 @@ class CanvasStore {
     activeTool: ActiveTool = {
         type: 'pencil',
         spec: {
+            color: '#000',
             size: 2,
         },
     };
@@ -44,12 +45,16 @@ class CanvasStore {
         return this.canvasHistory;
     }
 
+    setActiveToolColor(color: string): void {
+        this.activeTool.spec.color = color;
+    }
+
     setActiveToolType(type: string): void {
         this.activeTool = { ...this.activeTool, type };
     }
 
-    setActiveToolSpec(spec: ActiveToolSpec): void {
-        this.activeTool = { ...this.activeTool, spec };
+    setActiveToolSize(size: number): void {
+        this.activeTool.spec.size = size;
     }
 
     setMainCanvasSize(size: number[]): void {

@@ -183,16 +183,17 @@ body {
         @extend %#{pt-prefix}panel-decoration;
         flex: 1;
         color: rgba(0, 0, 0, 0.7);
-        // margin-left: 2px;
 
         input[type="range"] {
             &.slider {
-                margin: 1rem 0;
+                margin: 0;
             }
         }
 
-        & .subtitle {
-            margin-bottom: 0;
+        & .label {
+            font-size: 1.25rem;
+            font-weight: normal;
+            color: #4a4a4a;
         }
 
         // !Moving thumb

@@ -21,7 +21,7 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
     // console.log('%cBasicLayout', 'color: green;', mainCanvas);
     const canvasSize = mainCanvas.getMainCanvasSize;
     const { type, spec } = mainCanvas.getActiveTool;
-    const { size } = spec;
+    const { size, color } = spec;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const canvasInstRef = useRef<CanvasInstanceCreator | null>(null);
     const canvasSubRef = useRef<Subscription | null>(null);
@@ -106,6 +106,7 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
         console.log('%cBefore get subscription', 'color: green');
 
         canvasSubRef.current = canvasInst({
+            color,
             size,
         });
 
@@ -116,7 +117,7 @@ const BasicLayout: FC<Props> = observer(({ mainCanvas }) => {
                 canvasSub.unsubscribe();
             }
         };
-    }, [size]);
+    }, [color, size]);
 
     return (
         <div className="pt-drawing-block">

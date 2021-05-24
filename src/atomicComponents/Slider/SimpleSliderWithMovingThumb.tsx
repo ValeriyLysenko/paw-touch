@@ -70,7 +70,7 @@ const SimpleSliderWithMovingThumb: FC<Props> = ({
                     type="range"
                     onChange={(e) => {
                         e.stopPropagation();
-                        mainCanvas.setActiveToolSpec({ size: +e.target.value });
+                        mainCanvas.setActiveToolSize(+e.target.value);
                     }}
                 />
                 <output ref={outputRef} htmlFor="sliderWithValue">{value}</output>

@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { observer } from 'mobx-react';
 import { mainCanvas } from 'aux/init';
 import SimpleSlider from 'atomicComponents/Slider/SimpleSlider';
+import SimpleColorPicker from 'atomicComponents/ColorPicker/SimpleColorPicker';
 
 interface Props {}
 
@@ -19,6 +20,7 @@ const ToolSettings: FC<Props> = observer(() => {
     return (
         <div className={`pt-tool-settings-block ${!sliderShowArr.includes(type) ? 'is-hidden' : ''}`}>
             <SimpleSlider {...sliderSpec} />
+            <SimpleColorPicker />
         </div>
     );
 });

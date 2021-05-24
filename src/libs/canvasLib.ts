@@ -4,13 +4,16 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
 export function pencilDraw(
     ctx: CanvasRenderingContext2D,
     spec: {
+        color: string,
         x: number,
         y: number,
         width: number,
         height: number,
     },
-) {
-    ctx?.fillRect(spec.x, spec.y, spec.width, spec.height);
+): void {
+    if (!ctx) return;
+    ctx.fillStyle = spec.color; // eslint-disable-line
+    ctx.fillRect(spec.x, spec.y, spec.width, spec.height);
 }
 
 export function createDrawTool(
@@ -21,7 +24,7 @@ export function createDrawTool(
     const moveStream$ = fromEvent<MouseEvent>(canvasEl, 'mousemove');
 
     return (spec: ActiveToolSpec) => {
-        const { size } = spec;
+        const { color, size } = spec;
 
         return downStream$
             .pipe(
@@ -41,11 +44,12 @@ export function createDrawTool(
             )
             .subscribe({
                 next(drawObj) {
-                // console.log('%cdrawObj', 'color: olive', drawObj);
-                    const { x, y, ctx } = drawObj;
+                    const {
+                        x, y, ctx,
+                    } = drawObj;
                     if (!ctx) return;
                     pencilDraw(ctx, {
-                        x, y, width: size, height: size,
+                        color, x, y, width: size, height: size,
                     });
                 },
                 error(err) {

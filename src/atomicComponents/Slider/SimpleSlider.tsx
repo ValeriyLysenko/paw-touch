@@ -23,30 +23,25 @@ const SimpleSlider: FC<Props> = ({
     const outputRef = useRef<HTMLOutputElement>(null);
 
     return (
-        <div className="block">
-            <p className="subtitle is-5">
-                {makeFirstUppercase(type)}
-                {' '}
-                size
-            </p>
-            <div className="pt-helper-pos-rel">
-                <input
-                    ref={sliderRef}
-                    id="sliderWithValue"
-                    className="slider has-output is-fullwidth is-info"
-                    step={step}
-                    min={min}
-                    max={max}
-                    value={value}
-                    type="range"
-                    onChange={(e) => {
-                        e.stopPropagation();
-                        mainCanvas.setActiveToolSpec({ size: +e.target.value });
-                    }}
-                />
-                <output ref={outputRef} htmlFor="sliderWithValue">{value}</output>
-            </div>
-        </div>
+        <label className="label" htmlFor="toolSize">
+            {`${makeFirstUppercase(type)} size`}
+            <input
+                ref={sliderRef}
+                id="toolSize"
+                name="toolSize"
+                className="slider has-output is-fullwidth is-info"
+                step={step}
+                min={min}
+                max={max}
+                value={value}
+                type="range"
+                onChange={(e) => {
+                    e.stopPropagation();
+                    mainCanvas.setActiveToolSize(+e.target.value);
+                }}
+            />
+            <output ref={outputRef} htmlFor="toolSize">{value}</output>
+        </label>
     );
 };
 
