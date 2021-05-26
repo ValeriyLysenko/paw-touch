@@ -23,4 +23,11 @@ interface ActiveTool {
     spec: ActiveToolSpec;
 }
 
+interface DrawToolObject {
+    downStream$: Observable,
+    upStream$: Observable,
+    moveStream$: Observable,
+    sub: Subscription,
+}
+
 type CanvasInstanceCreator = (type: string, canvasSpec: ActiveToolSpec) => Subscription;

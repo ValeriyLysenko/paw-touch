@@ -1,23 +1,26 @@
-import { fromEvent } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { fromEvent, Subscription } from 'rxjs';
+import {
+    map, switchMap, takeUntil,
+} from 'rxjs/operators';
 
 /**
  * Create basic drawing tool.
  */
 export function createDrawTool(
     canvasEl: HTMLCanvasElement,
-) {
+): DrawToolObject {
     const downStream$ = fromEvent<MouseEvent>(canvasEl, 'mousedown');
     const upStream$ = fromEvent<MouseEvent>(canvasEl, 'mouseup');
     const moveStream$ = fromEvent<MouseEvent>(canvasEl, 'mousemove');
 
-    return (
-        type: string,
-        spec: ActiveToolSpec,
-    ) => {
-        const { color, size } = spec;
-
-        return downStream$
+    return {
+        downStream$,
+        upStream$,
+        moveStream$,
+        sub: (
+            type: string,
+            spec: ActiveToolSpec,
+        ): Subscription => downStream$
             .pipe(
                 switchMap((_) => moveStream$.pipe(
                     takeUntil(upStream$),
@@ -35,33 +38,7 @@ export function createDrawTool(
             )
             .subscribe({
                 next(drawObj) {
-                    const {
-                        x, y, ctx,
-                    } = drawObj;
-                    if (!ctx) return;
-
-                    switch (type) {
-                        case 'pencil': {
-                            pencilDraw(ctx, {
-                                color, x, y, width: size, height: size,
-                            });
-                            break;
-                        }
-                        case 'brush': {
-                            brushDraw(ctx, {
-                                color, x, y, radius: size,
-                            });
-                            break;
-                        }
-                        case 'eraser':
-                            eraser(ctx, {
-                                x, y, radius: size,
-                            });
-                            break;
-                        default: {
-                            break;
-                        }
-                    }
+                    drawStrategy(type, drawObj, spec);
                 },
                 error(err) {
                     console.log('%cERROR', 'color: red', err);
@@ -69,8 +46,51 @@ export function createDrawTool(
                 complete() {
                     console.log('%cDONE', 'color: azure');
                 },
-            });
+            }),
     };
+
+}
+
+/**
+ * Define draw strategy.
+ */
+export function drawStrategy(
+    type: string,
+    drawObj: {
+        x: number,
+        y: number,
+        ctx: CanvasRenderingContext2D | null,
+    },
+    spec: ActiveToolSpec,
+): void {
+    const {
+        x, y, ctx,
+    } = drawObj;
+    const { color, size } = spec;
+    if (!ctx) return;
+
+    switch (type) {
+        case 'pencil': {
+            pencilDraw(ctx, {
+                color, x, y, width: size, height: size,
+            });
+            break;
+        }
+        case 'brush': {
+            brushDraw(ctx, {
+                color, x, y, radius: size,
+            });
+            break;
+        }
+        case 'eraser':
+            eraser(ctx, {
+                x, y, radius: size,
+            });
+            break;
+        default: {
+            break;
+        }
+    }
 }
 
 /**
@@ -86,7 +106,6 @@ export function pencilDraw(
         height: number,
     },
 ): void {
-    if (!ctx) return;
     // Set default 'globalCompositeOperation' mode (reset after erasing)
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
     ctx.fillStyle = spec.color; // eslint-disable-line
@@ -105,7 +124,6 @@ export function brushDraw(
         radius: number,
     },
 ): void {
-    if (!ctx) return;
     const {
         color, x, y, radius,
     } = spec;
@@ -128,7 +146,6 @@ export function eraser(
         radius: number,
     },
 ): void {
-    if (!ctx) return;
     const { x, y, radius } = spec;
     ctx.fillStyle = '#fff'; // eslint-disable-line
     // Set proper 'globalCompositeOperation' mode.
