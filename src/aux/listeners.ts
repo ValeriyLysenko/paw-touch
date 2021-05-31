@@ -34,7 +34,8 @@ const onResize = (e: Event) => {
 // spy((e) => {
 //     // console.log('spy ==>', e);
 //     if (e.type === 'action') {
-//         console.log('spy ==>', getDebugName(mainCanvas, 'getWindowSize'));
+//         // console.log('spy ==>', getDebugName(mainCanvas, 'getWindowSize'));
+//         console.log('spy ==>', e);
 //     }
 // });
 

@@ -86,7 +86,12 @@ body {
     }
 }
 
-.#{$pt-prefix}page-wrapper {
+##{$pt-prefix}draggable-wrapper,
+##{$pt-prefix}modals-wrapper {
+    @extend .#{$pt-prefix}helper-pos-rel;
+}
+
+##{$pt-prefix}page-wrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -177,7 +182,8 @@ body {
             }
         }
 
-        & .label {
+        & .label,
+        .#{$pt-prefix}tool-settings-block-subtitle {
             font-size: 1.25rem;
             font-weight: normal;
             color: #4a4a4a;

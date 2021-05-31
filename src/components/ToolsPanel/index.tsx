@@ -3,7 +3,7 @@ import {
     MouseEvent,
     useContext,
 } from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import AppContext from 'aux/AppContext';
 import dragComponent from 'hocs/dragComponent';
 import toolsPanelConfig from './toolsPanelConfig';
@@ -19,8 +19,17 @@ const ToolsPanel: FC<Props> = observer(() => {
         e.stopPropagation();
         const target = e.currentTarget as HTMLDivElement;
         const type = target.dataset?.type || '';
+
         if (type === active) return;
-        mainCanvas.setActiveToolType(type);
+
+        let canvasCache = null;
+        // Cache canvas
+        if (type === 'zoom') {
+            const mainCanvasEl = document.getElementById('pt-main-canvas') as HTMLCanvasElement;
+            const ctx = mainCanvasEl.getContext('2d');
+            canvasCache = ctx && ctx.getImageData(0, 0, mainCanvasEl.width, mainCanvasEl.height);
+        }
+        mainCanvas.setActiveToolType(type, canvasCache);
     };
     const items = Object.values(toolsPanelConfig);
 

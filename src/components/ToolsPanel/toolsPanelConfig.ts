@@ -22,5 +22,12 @@ export default {
         type: 'eraser',
         linkClassName: 'fas fa-eraser',
     },
+    zoom: {
+        id: nanoid(),
+        className: 'pt-tools-panel-plate',
+        ariaLabel: 'Zoom tool',
+        type: 'zoom',
+        linkClassName: 'fas fa-search',
+    },
 
 };

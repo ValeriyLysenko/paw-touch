@@ -1,7 +1,13 @@
 import { createContext } from 'react';
-import { mainCanvas, auxCanvas } from './init';
+import CanvasStore from 'stores/CanvasStore';
 
-export default createContext({
-    mainCanvas,
-    auxCanvas,
-});
+export interface AppContextProps {
+    mainCanvas: CanvasStore;
+    auxCanvas: CanvasStore;
+}
+
+const AppContext = createContext({} as AppContextProps);
+
+export const AppContextProvider = AppContext.Provider;
+
+export default AppContext;

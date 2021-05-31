@@ -5,8 +5,11 @@ import ReactDOM from 'react-dom';
 import {
     BrowserRouter as Router,
 } from 'react-router-dom';
-
+import 'aux/listeners';
+import { mainCanvas, auxCanvas } from 'aux/init';
+import { AppContextProvider } from 'aux/AppContext';
 import App from 'components/App';
+
 import reportWebVitals from './reportWebVitals';
 
 import 'assets/bulma/index.scss';
@@ -15,11 +18,16 @@ import 'assets/styles/fonts.scss';
 import 'assets/styles/main.scss';
 
 ReactDOM.render(
-    <StrictMode>
-        <Router>
-            <App />
-        </Router>
-    </StrictMode>,
+    <AppContextProvider value={{
+        mainCanvas, auxCanvas,
+    }}
+    >
+        <StrictMode>
+            <Router>
+                <App />
+            </Router>
+        </StrictMode>
+    </AppContextProvider>,
     document.getElementById('paw-touch'),
 );
 

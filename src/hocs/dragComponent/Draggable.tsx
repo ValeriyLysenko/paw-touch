@@ -54,7 +54,7 @@ const Draggable: FC<Props> = ({
             };
 
             dragEl.setAttribute('style', 'position: absolute; z-index: 1000;');
-            document.body.appendChild(dragEl);
+            // document.body.appendChild(dragEl);
             moveAt(e, dragEl, shift);
 
             document.onmousemove = (ev) => {

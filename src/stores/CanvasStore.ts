@@ -15,6 +15,13 @@ class CanvasStore {
             color: '#000',
             size: 10,
         },
+        scale: {
+            initScale: 1,
+            currentScale: 1,
+            canvasCache: null,
+            scaleStep: 0.1,
+            scaleHistory: [],
+        },
     };
 
     constructor() {
@@ -45,12 +52,38 @@ class CanvasStore {
         return this.canvasHistory;
     }
 
+    setActiveToolZoom(
+        zoomObj: ScaleToolHistory,
+        currentScale: number,
+    ): void {
+        const { scale } = this.activeTool;
+        this.activeTool = {
+            ...this.activeTool,
+            scale: {
+                ...scale,
+                currentScale,
+                scaleHistory: [...scale.scaleHistory, zoomObj],
+            },
+        };
+    }
+
     setActiveToolColor(color: string): void {
         this.activeTool.spec.color = color;
     }
 
-    setActiveToolType(type: string): void {
-        this.activeTool = { ...this.activeTool, type };
+    setActiveToolType(
+        type: string,
+        canvasCache: ImageData | null,
+    ): void {
+        this.activeTool = {
+            ...this.activeTool,
+            type,
+            scale: {
+                ...this.activeTool.scale,
+                canvasCache,
+            },
+
+        };
     }
 
     setActiveToolSize(size: number): void {

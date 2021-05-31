@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import {
     createDrawTool,
+    cursorManager,
 } from 'libs/canvasLib';
 import {
     resizeCanvasToDisplaySize,
@@ -8,21 +9,18 @@ import {
 import useDrawingTools from './useDrawingTools';
 import useResizeCanvas from './useResizeCanvas';
 
-interface Args {
-    type: string;
-    color: string;
-    size: number;
-}
+interface Args extends ActiveTool {}
 
 const useCanvasDrawing = (
     spec: Args,
 ) : Array<React.MutableRefObject<HTMLCanvasElement | null>> => {
     console.log('%cuseCanvasDrawing', 'color: tomato');
+    const { type } = spec;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const canvasInstRef = useRef<CanvasInstanceCreator | null>(null);
+    const canvasDrawingRef = useRef<DrawToolObject | null>(null);
 
     useEffect(() => {
-        console.log('%cuseCanvasDrawing useEffect', 'color: tomato');
+        console.log('%cuseCanvasDrawing useEffect#1', 'color: tomato');
         const { current: canvasEl } = canvasRef;
         if (!canvasEl) return;
 
@@ -30,37 +28,20 @@ const useCanvasDrawing = (
         resizeCanvasToDisplaySize(canvasEl);
 
         console.log('%cBefore createDrawTool', 'color: tomato');
-        const { downStream$, upStream$, sub } = createDrawTool(canvasEl) as DrawToolObject;
-        canvasInstRef.current = sub;
-
-        /**
-         * Add / remove crosshair cursor
-         */
-
-        const downStream$Sub = downStream$.subscribe((e: MouseEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const target = e.target as HTMLCanvasElement;
-            if (!target) return;
-            target.style.cursor = 'crosshair';
-        });
-
-        const upStream$Sub = upStream$.subscribe((e: MouseEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const target = e.target as HTMLCanvasElement;
-            if (!target) return;
-            target.style.cursor = 'default';
-        });
-
-        return (() => {
-            downStream$Sub.unsubscribe();
-            upStream$Sub.unsubscribe();
-        });
+        canvasDrawingRef.current = createDrawTool(canvasEl) as DrawToolObject;
     }, []);
 
+    useEffect(() => {
+        console.log('%cuseCanvasDrawing useEffect#2', 'color: tomato');
+        const { current: canvasEl } = canvasRef;
+        if (!canvasEl) return;
+
+        // Add / remove crosshair cursor
+        cursorManager(type, canvasEl);
+    }, [type]);
+
     // useResizeCanvas(canvasRef);
-    useDrawingTools(canvasRef, canvasInstRef, spec);
+    useDrawingTools(canvasRef, canvasDrawingRef, spec);
 
     return [canvasRef];
 };

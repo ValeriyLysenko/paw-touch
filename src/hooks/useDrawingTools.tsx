@@ -3,29 +3,32 @@ import { Subscription } from 'rxjs';
 
 const useDrawingTools = (
     canvasRef: MutableRefObject<HTMLCanvasElement | null>,
-    canvasInstRef: MutableRefObject<CanvasInstanceCreator | null>,
-    spec: {
-        type: string;
-        color: string;
-        size: number;
-    },
+    canvasDrawingRef: MutableRefObject<DrawToolObject | null>,
+    spec: ActiveTool,
 ): void => {
     console.log('%cuseDrawingTools', 'color: teal');
-    const { type, color, size } = spec;
+    const {
+        type, spec: {
+            color,
+            size,
+        },
+        scale,
+    } = spec;
     const canvasSubRef = useRef<Subscription | null>(null);
 
     useEffect(() => {
         console.log('%cuseDrawingTools useEffect', 'color: teal', type);
         const { current: canvasEl } = canvasRef;
-        const { current: canvasInst } = canvasInstRef;
+        const { current: canvasDrawing } = canvasDrawingRef;
 
         if (!canvasEl) return;
-        if (!canvasInst) return;
+        if (!canvasDrawing) return;
 
-        canvasSubRef.current = canvasInst(type, {
+        console.log('%cBefore drawingSub', 'color: teal');
+        canvasSubRef.current = canvasDrawing.drawingSub(type, {
             color,
             size,
-        });
+        }, scale);
 
         return () => {
             const { current: canvasSub } = canvasSubRef;
@@ -34,8 +37,8 @@ const useDrawingTools = (
             }
         };
     // ?Everything is ok here
-    // ?We don't need to add 'canvasInstRef' and 'canvasRef' to array
-    }, [type, color, size]);
+    // ?We don't need to add 'canvasDrawingRef' / 'canvasRef' to array
+    }, [type, color, size, scale]);
 };
 
 export default useDrawingTools;
