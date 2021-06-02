@@ -208,6 +208,9 @@ export function zoomer(
     scaleHistory.push({
         type: scaleType,
     });
+    console.log('~~~~~~~~~~~~~~');
+    console.log(scaleHistory);
+    console.log(spec.currentScale);
 
     // Get current zoom
     const zoom = zoomManager({
@@ -216,11 +219,7 @@ export function zoomer(
         scaleHistory,
     });
 
-    // Set current zoom to store
-    mainCanvas.setActiveToolZoom(
-        { type: scaleType },
-        zoom,
-    );
+    console.log(zoom);
 
     // Create temp canvas
     const tempCanvas = createTempCanvas(
@@ -234,6 +233,14 @@ export function zoomer(
         tempCanvas,
         zoom,
     );
+
+    // Set current zoom to store
+    mainCanvas.setActiveToolZoom(
+        { type: scaleType },
+        zoom,
+    );
+
+    console.log('After setActiveToolZoom');
 }
 
 /**
@@ -311,6 +318,7 @@ export function zoomManager(
 export function cursorManager(
     type: string,
     el: HTMLCanvasElement,
+    ctrlKey: boolean,
 ): void {
     switch (type) {
         case 'pencil':
@@ -320,7 +328,7 @@ export function cursorManager(
             break;
         }
         case 'zoom':
-            el.style.cursor = 'zoom-in'; // eslint-disable-line
+            el.style.cursor = !ctrlKey ? 'zoom-in' : 'zoom-out'; // eslint-disable-line
             break;
         default: {
             break;

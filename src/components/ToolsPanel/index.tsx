@@ -49,6 +49,7 @@ const ToolsPanel: FC<Props> = observer(() => {
                         aria-label={item.ariaLabel}
                         role="presentation"
                         data-type={item.type}
+                        title={item.title}
                         key={item.id}
                     >
                         <a>

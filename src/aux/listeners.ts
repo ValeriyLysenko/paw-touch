@@ -26,6 +26,14 @@ const onResize = (e: Event) => {
     // console.log('%cmainCanvas', 'color: red', mainCanvas);
 };
 
+const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Control') mainCanvas.setAuxDataCtrlKey(true);
+};
+
+const onKeyUp = (e: KeyboardEvent) => {
+    if (e.key === 'Control') mainCanvas.setAuxDataCtrlKey(false);
+};
+
 // autorun(() => {
 //     console.log('autorun ==>', mainCanvas.getWindowSize);
 //     console.log('autorun ==>', mainCanvas.getActiveTool);
@@ -38,6 +46,9 @@ const onResize = (e: Event) => {
 //         console.log('spy ==>', e);
 //     }
 // });
+
+document.addEventListener('keydown', onKeyDown);
+document.addEventListener('keyup', onKeyUp);
 
 window.addEventListener('resize', onResize);
 

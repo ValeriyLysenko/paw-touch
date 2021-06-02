@@ -15,9 +15,11 @@ const BasicLayout: FC<Props> = observer(() => {
     console.log('%cBasicLayout', 'color: olive;');
     const { mainCanvas } = useContext(AppContext);
     const activeTool = mainCanvas.getActiveTool;
-    const [canvasRef] = useCanvasDrawing(toJS(activeTool));
+    const auxData = mainCanvas.getAuxData;
+    const [canvasRef] = useCanvasDrawing(toJS(activeTool), toJS(auxData));
 
     console.log('%c===>', 'color: red', activeTool.scale);
+    console.log('%c===>', 'color: red', auxData.ctrlKey);
 
     return (
         <div className="pt-drawing-block">

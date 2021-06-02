@@ -1,4 +1,6 @@
-import { useEffect, useRef, MutableRefObject } from 'react';
+import {
+    useEffect, useRef, MutableRefObject,
+} from 'react';
 import { Subscription } from 'rxjs';
 
 const useDrawingTools = (

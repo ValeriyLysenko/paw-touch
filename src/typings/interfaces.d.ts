@@ -1,6 +1,11 @@
+interface AuxProps {
+    ctrlKey: boolean;
+}
+
 interface ScaleToolHistory {
     type: string;
 }
+
 interface ScaleToolObject {
     initScale: number;
     canvasCache: ImageData | null;

@@ -38,11 +38,5 @@ export default {
             title: '',
             url: '',
         },
-        'color-picker': {
-            id: nanoid(),
-            name: 'Color picker',
-            title: '',
-            url: '',
-        },
     },
 };

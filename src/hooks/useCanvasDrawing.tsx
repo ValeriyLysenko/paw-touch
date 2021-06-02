@@ -13,9 +13,11 @@ interface Args extends ActiveTool {}
 
 const useCanvasDrawing = (
     spec: Args,
+    aux: AuxProps,
 ) : Array<React.MutableRefObject<HTMLCanvasElement | null>> => {
     console.log('%cuseCanvasDrawing', 'color: tomato');
     const { type } = spec;
+    const { ctrlKey } = aux;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const canvasDrawingRef = useRef<DrawToolObject | null>(null);
 
@@ -36,9 +38,9 @@ const useCanvasDrawing = (
         const { current: canvasEl } = canvasRef;
         if (!canvasEl) return;
 
-        // Add / remove crosshair cursor
-        cursorManager(type, canvasEl);
-    }, [type]);
+        // Сhange the cursor depending on the tool
+        cursorManager(type, canvasEl, ctrlKey);
+    }, [type, ctrlKey]);
 
     // useResizeCanvas(canvasRef);
     useDrawingTools(canvasRef, canvasDrawingRef, spec);

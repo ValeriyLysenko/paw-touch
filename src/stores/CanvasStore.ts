@@ -24,16 +24,38 @@ class CanvasStore {
         },
     };
 
+    auxData: AuxProps = {
+        ctrlKey: false,
+    };
+
     constructor() {
         makeAutoObservable(this);
         // makeObservable(this, {
         //     canvasHistory: observable,
         //     windowSize: observable,
+        //     mainCnavasSize: observable,
+        //     activeTool: observable,
+        //     auxData: observable,
+
+        //     getAuxData: computed,
+        //     getActiveTool: computed,
+        //     getMainCanvasSize: computed,
+        //     getWindowSize: computed,
+        //     getHistory: computed,
+
+        //     setAuxDataCtrlKey: action,
+        //     setActiveToolZoom: action,
+        //     setActiveToolColor: action,
+        //     setActiveToolType: action,
+        //     setActiveToolSize: action,
+        //     setMainCanvasSize: action,
         //     setWindowSize: action,
         //     addHistory: action,
-        //     getHistory: computed,
-        //     getWindowSize: computed,
         // });
+    }
+
+    get getAuxData(): AuxProps {
+        return this.auxData;
     }
 
     get getActiveTool(): ActiveTool {
@@ -50,6 +72,10 @@ class CanvasStore {
 
     get getHistory(): string[] {
         return this.canvasHistory;
+    }
+
+    setAuxDataCtrlKey(ctrlKey: boolean): void {
+        this.auxData.ctrlKey = ctrlKey;
     }
 
     setActiveToolZoom(
