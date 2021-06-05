@@ -1,16 +1,16 @@
 import {
-    useContext, useEffect, MutableRefObject,
+    useContext, useEffect,
 } from 'react';
 import AppContext from 'aux/AppContext';
+import LayoutContext from 'aux/LayoutContext';
 import {
     resizeCanvasToDisplaySize,
 } from 'libs/lib';
 
-const useResizeCanvas = (
-    canvasRef: MutableRefObject<HTMLCanvasElement | null>,
-): void => {
+const useResizeCanvas = (): void => {
     console.log('%cuseResizeCanvas', 'color: blue');
     const { mainCanvas } = useContext(AppContext);
+    const { canvasRef } = useContext(LayoutContext);
     const canvasSize = mainCanvas.getMainCanvasSize;
 
     useEffect(() => {

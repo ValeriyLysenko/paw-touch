@@ -1,4 +1,7 @@
-import { useEffect, useRef, MutableRefObject } from 'react';
+import {
+    useEffect, useRef, useContext,
+} from 'react';
+import LayoutContext from 'aux/LayoutContext';
 import {
     createDrawTool,
     cursorManager,
@@ -13,11 +16,11 @@ const useCanvasDrawing = (
     activeTool: ActiveTool,
     auxData: AuxProps,
     history: HistoryData,
-) : Array<MutableRefObject<HTMLCanvasElement | null>> => {
+): void => {
     console.log('%cuseCanvasDrawing', 'color: tomato');
     const { type } = activeTool;
     const { ctrlKey } = auxData;
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const { canvasRef } = useContext(LayoutContext);
     const canvasDrawingRef = useRef<DrawToolObject | null>(null);
 
     useEffect(() => {
@@ -30,6 +33,8 @@ const useCanvasDrawing = (
 
         console.log('%cBefore createDrawTool', 'color: tomato');
         canvasDrawingRef.current = createDrawTool(canvasEl) as DrawToolObject;
+    // ?Everything is ok here
+    // ?We don't need to add 'canvasRef' to array
     }, []);
 
     useEffect(() => {
@@ -39,12 +44,12 @@ const useCanvasDrawing = (
 
         // Сhange the cursor depending on the tool
         cursorManager(type, canvasEl, ctrlKey);
+    // ?Everything is ok here
+    // ?We don't need to add 'canvasRef' to array
     }, [type, ctrlKey]);
 
-    // useResizeCanvas(canvasRef);
-    useDrawingTools(canvasRef, canvasDrawingRef, activeTool, history);
-
-    return [canvasRef];
+    // useResizeCanvas();
+    useDrawingTools(canvasDrawingRef, activeTool, history);
 };
 
 export default useCanvasDrawing;

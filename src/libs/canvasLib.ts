@@ -279,52 +279,26 @@ export function zoomOnReset(
 }
 
 /**
- * Redraw canvas functionality.
+ * Basic redraw canvas functionality.
  */
 export function redrawCanvas(
     ctx: CanvasRenderingContext2D,
-    history: HistoryData,
+    data: HistoryObj[][],
 ): void {
-    const typeToToolMap = {
+    const typeToToolMap: {
+        [name:string]: TypeToToolMapMappedFunc
+    } = {
         pencil: pencilDraw,
         brush: brushDraw,
         eraser,
     };
-    const { data } = history;
     data.forEach((arr) => {
         arr.forEach((item) => {
-            // @ts-ignore
-            typeToToolMap[item.type](ctx, item.spec);
+            const args = item.spec as DrawingSpec;
+            typeToToolMap[item.type](ctx, args);
         });
     });
 
-}
-
-/**
- * Redraw canvas functionality.
- */
-export function redrawCanvasHistoryGo(
-    ctx: CanvasRenderingContext2D,
-    history: HistoryObj[][],
-): void {
-    const typeToToolMap = {
-        pencil: pencilDraw,
-        brush: brushDraw,
-        eraser,
-    };
-    const { width, height } = ctx.canvas;
-
-    ctx.save();
-    ctx.clearRect(0, 0, width, height);
-
-    console.log('historyToGo', history);
-    history.forEach((level) => {
-        level.forEach((item) => {
-            // @ts-ignore
-            typeToToolMap[item.type](ctx, item.spec);
-        });
-    });
-    ctx.restore();
 }
 
 /**
@@ -345,7 +319,7 @@ export function scaleCanvasWithRedraw(
     ctx.translate(translation[0], translation[1]);
     ctx.scale(zoom, zoom);
     ctx.clearRect(0, 0, width, height);
-    redrawCanvas(ctx, history);
+    redrawCanvas(ctx, history.data);
     ctx.restore();
 }
 
@@ -456,7 +430,7 @@ export function goThroughHistory(
     type: string,
     spec: {
         position: number,
-        history: HistoryObj[][]
+        history: HistoryObj[][],
     },
 ) {
     const ctx = canvas.getContext('2d');
@@ -470,6 +444,12 @@ export function goThroughHistory(
     const modHistory = [...history];
     modHistory.splice((historyLen - newHistoryPosition), newHistoryPosition);
 
-    redrawCanvasHistoryGo(ctx, modHistory);
+    const { width, height } = ctx.canvas;
+
+    ctx.save();
+    ctx.clearRect(0, 0, width, height);
+    redrawCanvas(ctx, modHistory);
+    ctx.restore();
+
     mainCanvas.setHistorySpec(newHistoryPosition);
 }

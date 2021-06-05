@@ -1,4 +1,4 @@
-import { FC, useContext, useRef } from 'react';
+import { FC, useContext } from 'react';
 import { makeFirstUppercase } from 'libs/lib';
 import AppContext from 'aux/AppContext';
 
@@ -18,14 +18,11 @@ const SimpleSlider: FC<Props> = ({
     value,
 }) => {
     const { mainCanvas } = useContext(AppContext);
-    const sliderRef = useRef<HTMLInputElement>(null);
-    const outputRef = useRef<HTMLOutputElement>(null);
 
     return (
         <label className="label" htmlFor="toolSize">
             {`${makeFirstUppercase(type)} size`}
             <input
-                ref={sliderRef}
                 id="toolSize"
                 name="toolSize"
                 className="slider has-output is-fullwidth is-info"
@@ -39,7 +36,7 @@ const SimpleSlider: FC<Props> = ({
                     mainCanvas.setActiveToolSize(+e.target.value);
                 }}
             />
-            <output ref={outputRef} htmlFor="toolSize">{value}</output>
+            <output htmlFor="toolSize">{value}</output>
         </label>
     );
 };

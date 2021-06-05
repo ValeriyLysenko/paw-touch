@@ -4,7 +4,6 @@ import {
 import { Subscription } from 'rxjs';
 
 const useDrawingTools = (
-    canvasRef: MutableRefObject<HTMLCanvasElement | null>,
     canvasDrawingRef: MutableRefObject<DrawToolObject | null>,
     ActiveTool: ActiveTool,
     history: HistoryData,
@@ -21,10 +20,8 @@ const useDrawingTools = (
 
     useEffect(() => {
         console.log('%cuseDrawingTools useEffect', 'color: teal', type);
-        const { current: canvasEl } = canvasRef;
         const { current: canvasDrawing } = canvasDrawingRef;
 
-        if (!canvasEl) return;
         if (!canvasDrawing) return;
 
         console.log('%cBefore drawingSub', 'color: teal');
@@ -40,7 +37,7 @@ const useDrawingTools = (
             }
         };
     // ?Everything is ok here
-    // ?We don't need to add 'canvasDrawingRef' / 'canvasRef' to array
+    // ?We don't need to add 'canvasDrawingRef' to array
     }, [type, color, size, scale, history]);
 };
 

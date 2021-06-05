@@ -1,6 +1,7 @@
 import {
     FC, useContext, MouseEvent,
 } from 'react';
+import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
@@ -23,12 +24,13 @@ const StepControls: FC<Props> = observer(() => {
         if (!type) return;
         if (!canvas) return;
 
-        console.log('BEFORE REDRAW', target.dataset);
-
-        goThroughHistory(canvas, type, {
-            position,
-            history,
+        runInAction(() => {
+            goThroughHistory(canvas, type, {
+                position,
+                history,
+            });
         });
+
         console.log('AFTER REDAW');
     };
 

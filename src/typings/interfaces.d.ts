@@ -78,3 +78,8 @@ interface DrawToolObject {
 }
 
 type CanvasInstanceCreator = (type: string, canvasSpec: ActiveToolSpec) => Subscription;
+type TypeToToolMapMappedFunc = (
+    ctx: CanvasRenderingContext2D,
+    spec: DrawingSpec,
+    // spec: DrawingSpec | Omit<DrawingSpec, 'color'>,
+) => void;

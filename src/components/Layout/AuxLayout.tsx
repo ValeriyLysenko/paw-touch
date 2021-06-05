@@ -14,7 +14,6 @@ interface Props {
 }
 
 const AuxLayout: FC<Props> = observer(({
-
     spec,
 }) => {
     const {
