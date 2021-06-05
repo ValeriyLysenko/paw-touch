@@ -1,9 +1,8 @@
-// @ts-nocheck
 import {
     FC, useContext,
 } from 'react';
 import { toJS } from 'mobx';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import useCanvasDrawing from 'hooks/useCanvasDrawing';
 import StepControls from 'components/LayoutControls/StepControls';
@@ -18,17 +17,20 @@ const BasicLayout: FC<Props> = observer(() => {
     const auxData = mainCanvas.getAuxData;
     const [canvasRef] = useCanvasDrawing(toJS(activeTool), toJS(auxData));
 
-    console.log('%c===>', 'color: red', activeTool.scale);
-    console.log('%c===>', 'color: red', auxData.ctrlKey);
+    // console.log('%c===>', 'color: red', mainCanvas.getHistory);
+    // console.log('%c===>', 'color: red', activeTool.scale);
+    // console.log('%c===>', 'color: red', auxData.ctrlKey);
 
     return (
-        <div className="pt-drawing-block">
-            <div id="pt-canvas-container" className="pt-canvas-container">
-                <canvas id="pt-main-canvas" ref={canvasRef} />
+        <div>
+            <div className="pt-drawing-block">
+                <div id="pt-canvas-container" className="pt-canvas-container">
+                    <canvas id="pt-main-canvas" ref={canvasRef} />
+                </div>
+                <div className="pt-drawing-block-gap" />
+                <ToolSettings />
             </div>
-            <div className="pt-drawing-block-gap" />
-            {/* <StepControls /> */}
-            <ToolSettings />
+            <StepControls ref={canvasRef} />
         </div>
     );
 

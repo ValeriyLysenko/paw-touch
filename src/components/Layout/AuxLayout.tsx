@@ -3,7 +3,7 @@ import {
     useContext,
     useRef,
 } from 'react';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import ToolSettings from 'components/Tools/ToolSettings';
 import AppContext from 'aux/AppContext';
 

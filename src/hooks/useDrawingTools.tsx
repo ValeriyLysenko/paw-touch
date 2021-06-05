@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 const useDrawingTools = (
     canvasRef: MutableRefObject<HTMLCanvasElement | null>,
     canvasDrawingRef: MutableRefObject<DrawToolObject | null>,
-    spec: ActiveTool,
+    ActiveTool: ActiveTool,
 ): void => {
     console.log('%cuseDrawingTools', 'color: teal');
     const {
@@ -15,7 +15,7 @@ const useDrawingTools = (
             size,
         },
         scale,
-    } = spec;
+    } = ActiveTool;
     const canvasSubRef = useRef<Subscription | null>(null);
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import {
-    autorun, spy, getDebugName, configure,
+    configure,
 } from 'mobx';
 import { mainCanvas } from 'aux/init';
 

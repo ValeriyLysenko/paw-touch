@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import { makeFirstUppercase } from 'libs/lib';
 

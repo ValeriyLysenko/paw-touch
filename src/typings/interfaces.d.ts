@@ -1,6 +1,29 @@
 interface AuxProps {
     ctrlKey: boolean;
 }
+interface CanvasHistorySpec {
+    position: number;
+}
+
+interface RawDrawingSpec {
+    x: number;
+    y: number;
+    ctx: CanvasRenderingContext2D | null;
+    ctrlKey: boolean;
+}
+interface DrawingSpec {
+    x: number;
+    y: number;
+    color: string;
+    size: number;
+    ctrlKey?: boolean;
+    isReset?: boolean;
+}
+
+interface HistoryObj {
+    type: string;
+    spec: Partial<DrawingSpec>;
+}
 
 interface ScaleToolHistory {
     type: string;

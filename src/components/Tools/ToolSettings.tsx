@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import SimpleSlider from 'atomicComponents/Slider/SimpleSlider';
 import SimpleColorPicker from 'atomicComponents/ColorPicker/SimpleColorPicker';
@@ -13,13 +13,10 @@ const ToolSettings: FC<Props> = observer(() => {
         type, spec: {
             size,
         },
-        scale: {
-            currentScale,
-        },
+        scale,
     } = mainCanvas.getActiveTool;
     const sliderShowArr: string[] = ['pencil', 'brush', 'eraser'];
     const colorShowArr: string[] = ['pencil', 'brush'];
-    const zoomShowArr: string[] = ['zoom'];
     const sliderSpec = {
         type,
         step: 1,
@@ -31,19 +28,16 @@ const ToolSettings: FC<Props> = observer(() => {
         type,
     };
     const zoomSpec = {
-        type,
-        value: currentScale,
+        scale,
     };
     return (
         <div className="pt-tool-settings-block">
+            <ZoomInfo {...zoomSpec} />
             {
                 sliderShowArr.includes(type) && <SimpleSlider {...sliderSpec} />
             }
             {
                 colorShowArr.includes(type) && <SimpleColorPicker {...colorPickerSpec} />
-            }
-            {
-                zoomShowArr.includes(type) && <ZoomInfo {...zoomSpec} />
             }
         </div>
     );

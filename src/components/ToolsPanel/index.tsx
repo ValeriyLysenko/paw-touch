@@ -3,7 +3,7 @@ import {
     MouseEvent,
     useContext,
 } from 'react';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import dragComponent from 'hocs/dragComponent';
 import toolsPanelConfig from './toolsPanelConfig';
@@ -15,7 +15,6 @@ const ToolsPanel: FC<Props> = observer(() => {
     const { mainCanvas } = useContext(AppContext);
     const { type: active } = mainCanvas.getActiveTool;
     const clickHandler = (e: MouseEvent) => {
-        e.preventDefault();
         e.stopPropagation();
         const target = e.currentTarget as HTMLDivElement;
         const type = target.dataset?.type || '';

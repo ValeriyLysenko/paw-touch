@@ -1,9 +1,13 @@
 import {
-    makeObservable, makeAutoObservable, observable, action, computed, flow,
+    makeObservable, observable, action, computed,
 } from 'mobx';
 
 class CanvasStore {
-    canvasHistory: string[] = [];
+    canvasHistory: HistoryObj[][] = [];
+
+    canvasHistorySpec: CanvasHistorySpec = {
+        position: 0,
+    };
 
     windowSize: number[] = [0, 0];
 
@@ -29,29 +33,34 @@ class CanvasStore {
     };
 
     constructor() {
-        makeAutoObservable(this);
-        // makeObservable(this, {
-        //     canvasHistory: observable,
-        //     windowSize: observable,
-        //     mainCnavasSize: observable,
-        //     activeTool: observable,
-        //     auxData: observable,
+        // makeAutoObservable(this);
+        makeObservable(this, {
+            canvasHistorySpec: observable,
+            canvasHistory: observable.shallow,
+            windowSize: observable,
+            mainCnavasSize: observable,
+            activeTool: observable,
+            auxData: observable,
 
-        //     getAuxData: computed,
-        //     getActiveTool: computed,
-        //     getMainCanvasSize: computed,
-        //     getWindowSize: computed,
-        //     getHistory: computed,
+            getAuxData: computed,
+            getActiveTool: computed,
+            getMainCanvasSize: computed,
+            getWindowSize: computed,
+            getHistory: computed,
+            getCanvasHistorySpec: computed,
 
-        //     setAuxDataCtrlKey: action,
-        //     setActiveToolZoom: action,
-        //     setActiveToolColor: action,
-        //     setActiveToolType: action,
-        //     setActiveToolSize: action,
-        //     setMainCanvasSize: action,
-        //     setWindowSize: action,
-        //     addHistory: action,
-        // });
+            resetScale: action,
+            setAuxDataCtrlKey: action,
+            setActiveToolZoom: action,
+            setActiveToolColor: action,
+            setActiveToolType: action,
+            setActiveToolSize: action,
+            setMainCanvasSize: action,
+            setWindowSize: action,
+            setHistory: action,
+            setHistoryItem: action,
+            setCanvasHistorySpec: action,
+        });
     }
 
     get getAuxData(): AuxProps {
@@ -70,8 +79,21 @@ class CanvasStore {
         return this.windowSize;
     }
 
-    get getHistory(): string[] {
+    get getHistory(): HistoryObj[][] {
         return this.canvasHistory;
+    }
+
+    get getCanvasHistorySpec(): CanvasHistorySpec {
+        return this.canvasHistorySpec;
+    }
+
+    resetScale(): void {
+        const { scale } = this.activeTool;
+        this.activeTool.scale = {
+            ...scale,
+            currentScale: 1,
+            scaleHistory: [],
+        };
     }
 
     setAuxDataCtrlKey(ctrlKey: boolean): void {
@@ -124,8 +146,16 @@ class CanvasStore {
         this.windowSize = size;
     }
 
-    addHistory(item: string): void {
+    setCanvasHistorySpec(pos: number): void {
+        this.canvasHistorySpec.position = pos;
+    }
+
+    setHistoryItem(item: HistoryObj[]): void {
         this.canvasHistory.push(item);
+    }
+
+    setHistory(history: HistoryObj[][]): void {
+        this.canvasHistory = history;
     }
 
 }

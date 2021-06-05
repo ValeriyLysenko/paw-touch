@@ -122,6 +122,7 @@ body {
 .#{$pt-prefix}drawing-block {
     display: flex;
     background: #f5b041;
+    margin-bottom: 1.5rem;
 
     & > * {
         margin-left: 1px;
@@ -183,10 +184,20 @@ body {
         }
 
         & .label,
-        .#{$pt-prefix}tool-settings-block-subtitle {
+        h4 {
             font-size: 1.25rem;
             font-weight: normal;
             color: #4a4a4a;
+        }
+
+        .#{$pt-prefix}tool-settings-block-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+
+            & > *:not(last-child) {
+                margin-right: 7px;
+            }
         }
 
         // !Moving thumb

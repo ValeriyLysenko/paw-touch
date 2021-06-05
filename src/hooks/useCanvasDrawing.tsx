@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, MutableRefObject } from 'react';
 import {
     createDrawTool,
     cursorManager,
@@ -7,17 +7,15 @@ import {
     resizeCanvasToDisplaySize,
 } from 'libs/lib';
 import useDrawingTools from './useDrawingTools';
-import useResizeCanvas from './useResizeCanvas';
-
-interface Args extends ActiveTool {}
+// import useResizeCanvas from './useResizeCanvas';
 
 const useCanvasDrawing = (
-    spec: Args,
-    aux: AuxProps,
-) : Array<React.MutableRefObject<HTMLCanvasElement | null>> => {
+    activeTool: ActiveTool,
+    auxData: AuxProps,
+) : Array<MutableRefObject<HTMLCanvasElement | null>> => {
     console.log('%cuseCanvasDrawing', 'color: tomato');
-    const { type } = spec;
-    const { ctrlKey } = aux;
+    const { type } = activeTool;
+    const { ctrlKey } = auxData;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const canvasDrawingRef = useRef<DrawToolObject | null>(null);
 
@@ -43,7 +41,7 @@ const useCanvasDrawing = (
     }, [type, ctrlKey]);
 
     // useResizeCanvas(canvasRef);
-    useDrawingTools(canvasRef, canvasDrawingRef, spec);
+    useDrawingTools(canvasRef, canvasDrawingRef, activeTool);
 
     return [canvasRef];
 };

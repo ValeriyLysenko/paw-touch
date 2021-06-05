@@ -1,8 +1,21 @@
 import { fromEvent, Subscription } from 'rxjs';
 import {
-    map, switchMap, takeUntil,
+    map, switchMap, takeUntil, tap,
 } from 'rxjs/operators';
 import { mainCanvas } from 'aux/init';
+
+/**
+ * Create data object for drawing / zooming tools.
+ */
+export function createRawDrawObject(e: MouseEvent): RawDrawingSpec {
+    const target = e.target as HTMLCanvasElement;
+    return {
+        x: e.offsetX,
+        y: e.offsetY,
+        ctx: target && target.getContext('2d'),
+        ctrlKey: e.ctrlKey,
+    };
+}
 
 /**
  * Create basic drawing tool.
@@ -14,6 +27,8 @@ export function createDrawTool(
     const upStream$ = fromEvent<MouseEvent>(canvasEl, 'mouseup');
     const moveStream$ = fromEvent<MouseEvent>(canvasEl, 'mousemove');
     const clickStream$ = fromEvent<MouseEvent>(canvasEl, 'click');
+    // Temp history (between mouse clicks)
+    let historySpan: HistoryObj[] = [];
 
     return {
         downStream$,
@@ -31,29 +46,22 @@ export function createDrawTool(
                         case 'zoom': {
                             return clickStream$
                                 .pipe(
-                                    map((e) => {
-                                        const target = e.target as HTMLCanvasElement;
-                                        return {
-                                            x: e.offsetX,
-                                            y: e.offsetY,
-                                            ctx: target && target.getContext('2d'),
-                                            ctrlKey: e.ctrlKey,
-                                        };
-                                    }),
+                                    map((e) => createRawDrawObject(e)),
                                 );
                         }
                         default: {
-                            return moveStream$.pipe(
-                                takeUntil(upStream$),
-                                map((e) => {
-                                    const target = e.target as HTMLCanvasElement;
-                                    return {
-                                        x: e.offsetX,
-                                        y: e.offsetY,
-                                        ctx: target && target.getContext('2d'),
-                                    };
-                                }),
-                            );
+                            return moveStream$
+                                .pipe(
+                                    takeUntil(upStream$.pipe(
+                                        tap((e) => {
+                                            console.log('MOUSEUP', e);
+                                            mainCanvas.setHistoryItem(historySpan);
+                                            // Clear temp history
+                                            historySpan = [];
+                                        }),
+                                    )),
+                                    map((e) => createRawDrawObject(e)),
+                                );
                         }
 
                     }
@@ -61,7 +69,8 @@ export function createDrawTool(
             )
             .subscribe({
                 next(drawObj) {
-                    drawStrategy(type, drawObj, spec, scale);
+                    console.log('HERE');
+                    drawStrategy(type, drawObj, spec, scale, historySpan);
                 },
                 error(err) {
                     console.log('%cERROR', 'color: red', err);
@@ -76,14 +85,10 @@ export function createDrawTool(
  */
 export function drawStrategy(
     type: string,
-    drawObj: {
-        x: number,
-        y: number,
-        ctx: CanvasRenderingContext2D | null,
-        ctrlKey?: boolean,
-    },
+    drawObj: RawDrawingSpec,
     spec: ActiveToolSpec,
     scale: ScaleToolObject,
+    historySpan: HistoryObj[],
 ): void {
     const {
         x, y, ctx, ctrlKey,
@@ -96,19 +101,37 @@ export function drawStrategy(
     switch (type) {
         case 'pencil': {
             pencilDraw(ctx, {
-                color, x, y, width: size, height: size,
+                color, x, y, size,
+            });
+            historySpan.push({
+                type,
+                spec: {
+                    color, x, y, size,
+                },
             });
             break;
         }
         case 'brush': {
             brushDraw(ctx, {
-                color, x, y, radius: size,
+                color, x, y, size,
+            });
+            historySpan.push({
+                type,
+                spec: {
+                    color, x, y, size,
+                },
             });
             break;
         }
         case 'eraser':
             eraser(ctx, {
-                x, y, radius: size,
+                x, y, size,
+            });
+            historySpan.push({
+                type,
+                spec: {
+                    x, y, size,
+                },
             });
             break;
         case 'zoom':
@@ -118,6 +141,10 @@ export function drawStrategy(
             break;
         }
     }
+    // Record drawing
+    // recordHistory(type, {
+    //     x, y, color, size,
+    // });
 }
 
 /**
@@ -125,18 +152,11 @@ export function drawStrategy(
  */
 export function pencilDraw(
     ctx: CanvasRenderingContext2D,
-    spec: {
-        color: string,
-        x: number,
-        y: number,
-        width: number,
-        height: number,
-    },
+    spec: DrawingSpec,
 ): void {
-    // Set default 'globalCompositeOperation' mode (may be modified after, for example, erasing)
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
     ctx.fillStyle = spec.color; // eslint-disable-line
-    ctx.fillRect(spec.x, spec.y, spec.width, spec.height);
+    ctx.fillRect(spec.x, spec.y, spec.size, spec.size);
 }
 
 /**
@@ -144,21 +164,15 @@ export function pencilDraw(
  */
 export function brushDraw(
     ctx: CanvasRenderingContext2D,
-    spec: {
-        color: string,
-        x: number,
-        y: number,
-        radius: number,
-    },
+    spec: DrawingSpec,
 ): void {
     const {
-        color, x, y, radius,
+        color, x, y, size,
     } = spec;
-    // Set default 'globalCompositeOperation' mode (may be modified after, for example, erasing)
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
     ctx.fillStyle = color; // eslint-disable-line
     ctx.beginPath();
-    ctx.arc(x - (radius / 2), y - (radius / 2), radius, 0, 2 * Math.PI, false);
+    ctx.arc(x - (size / 2), y - (size / 2), size, 0, 2 * Math.PI, false);
     ctx.fill();
 }
 
@@ -167,20 +181,16 @@ export function brushDraw(
  */
 export function eraser(
     ctx: CanvasRenderingContext2D,
-    spec: {
-        x: number,
-        y: number,
-        radius: number,
-    },
+    spec: Omit<DrawingSpec, 'color'>,
 ): void {
-    const { x, y, radius } = spec;
+    const { x, y, size } = spec;
     ctx.fillStyle = '#fff'; // eslint-disable-line
     // Set proper 'globalCompositeOperation' mode.
     // The existing canvas content is kept where both the new shape and existing canvas content overlap.
     // Everything else is made transparent.
     ctx.globalCompositeOperation = 'destination-out'; // eslint-disable-line
     ctx.beginPath();
-    ctx.arc(x - (radius / 2), y - (radius / 2), radius, 0, 2 * Math.PI, false);
+    ctx.arc(x - (size / 2), y - (size / 2), size, 0, 2 * Math.PI, false);
     ctx.fill();
 }
 
@@ -189,58 +199,131 @@ export function eraser(
  */
 export function zoomer(
     ctx: CanvasRenderingContext2D,
-    spec: ScaleToolObject,
-    aux: {
-        ctrlKey: boolean | undefined,
+    scale: ScaleToolObject,
+    spec?: {
+        ctrlKey?: boolean | undefined,
+        isReset?: boolean | undefined,
     },
 ): void {
-    // Set default 'globalCompositeOperation' mode (may be modified after, for example, erasing)
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
     const {
         initScale, scaleStep, scaleHistory, canvasCache,
-    } = spec;
+    } = scale;
 
     if (!canvasCache) return;
 
-    const { ctrlKey } = aux;
+    const ctrlKey = spec?.ctrlKey ?? false;
+    const isReset = spec?.isReset ?? false;
+    const scaleHistoryCopy = [...scaleHistory];
     const scaleType = !ctrlKey ? '+' : '-';
-    // Add current click to history
-    scaleHistory.push({
-        type: scaleType,
-    });
+
+    if (!isReset) {
+        // Add current click to history
+        scaleHistoryCopy.push({
+            type: scaleType,
+        });
+    }
+
     console.log('~~~~~~~~~~~~~~');
-    console.log(scaleHistory);
-    console.log(spec.currentScale);
+    console.log(scaleHistoryCopy);
+    console.log(scale.currentScale);
 
     // Get current zoom
     const zoom = zoomManager({
         initScale,
         scaleStep,
-        scaleHistory,
+        scaleHistory: scaleHistoryCopy,
     });
 
-    console.log(zoom);
-
-    // Create temp canvas
-    const tempCanvas = createTempCanvas(
-        ctx,
-        canvasCache,
-    );
-
     // Scale current canvas
-    scaleCanvas(
-        ctx,
-        tempCanvas,
-        zoom,
-    );
+    // scaleCanvas(
+    //     ctx,
+    //     canvasCache,
+    //     zoom,
+    // );
+
+    // Scale / redraw canvas
+    scaleCanvasWithRedraw(ctx, zoom);
 
     // Set current zoom to store
-    mainCanvas.setActiveToolZoom(
-        { type: scaleType },
-        zoom,
-    );
+    if (!isReset) {
+        mainCanvas.setActiveToolZoom(
+            { type: scaleType },
+            zoom,
+        );
+    }
 
     console.log('After setActiveToolZoom');
+}
+
+/**
+ * Redraw canvas functionality.
+ */
+export function redrawCanvas(
+    ctx: CanvasRenderingContext2D,
+): void {
+    const typeToToolMap = {
+        pencil: pencilDraw,
+        brush: brushDraw,
+        eraser,
+    };
+    const history = mainCanvas.getHistory;
+
+    history.forEach((level) => {
+        level.forEach((item) => {
+            // @ts-ignore
+            typeToToolMap[item.type](ctx, item.spec);
+        });
+    });
+
+}
+
+/**
+ * Redraw canvas functionality.
+ */
+export function redrawCanvasHistoryGo(
+    ctx: CanvasRenderingContext2D,
+    history: HistoryObj[][],
+): void {
+    const typeToToolMap = {
+        pencil: pencilDraw,
+        brush: brushDraw,
+        eraser,
+    };
+    const { width, height } = ctx.canvas;
+
+    ctx.save();
+    ctx.clearRect(0, 0, width, height);
+
+    console.log('historyToGo', history);
+    history.forEach((level) => {
+        level.forEach((item) => {
+            // @ts-ignore
+            typeToToolMap[item.type](ctx, item.spec);
+        });
+    });
+    ctx.restore();
+}
+
+/**
+ * Scale canvas with redraw functionality.
+ */
+export function scaleCanvasWithRedraw(
+    ctx: CanvasRenderingContext2D,
+    zoom: number,
+): void {
+    const { width, height } = ctx.canvas;
+
+    const newWidth = width * zoom;
+    const newHeight = height * zoom;
+    const translation = [-((newWidth - width) / 2), -((newHeight - height) / 2)];
+
+    ctx.save();
+    ctx.translate(translation[0], translation[1]);
+    ctx.scale(zoom, zoom);
+    ctx.clearRect(0, 0, width, height);
+    redrawCanvas(ctx);
+    ctx.restore();
 }
 
 /**
@@ -248,10 +331,16 @@ export function zoomer(
  */
 export function scaleCanvas(
     ctx: CanvasRenderingContext2D,
-    tempCanvas: HTMLCanvasElement,
+    canvasCache: ImageData,
     zoom: number,
 ): void {
     const { width, height } = ctx.canvas;
+
+    // Create temp canvas
+    const tempCanvas = createTempCanvas(
+        ctx,
+        canvasCache,
+    );
 
     const newWidth = width * zoom;
     const newHeight = height * zoom;
@@ -334,4 +423,30 @@ export function cursorManager(
             break;
         }
     }
+}
+
+/**
+ * Let us go forward / back through history
+ */
+export function goThroughHistory(
+    canvas: HTMLCanvasElement,
+    type: string,
+    spec: {
+        position: number,
+        history: HistoryObj[][]
+    },
+) {
+    const ctx = canvas.getContext('2d');
+    const { position, history } = spec;
+    const newHistoryPosition = type === 'prev' ? position + 1 : position - 1;
+    const historyLen = history.length;
+
+    if (!ctx) return;
+    if (newHistoryPosition > historyLen) return;
+
+    const modHistory = [...history];
+    modHistory.splice((historyLen - newHistoryPosition), newHistoryPosition);
+
+    redrawCanvasHistoryGo(ctx, modHistory);
+    mainCanvas.setCanvasHistorySpec(newHistoryPosition);
 }
