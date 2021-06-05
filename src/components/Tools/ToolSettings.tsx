@@ -13,7 +13,6 @@ const ToolSettings: FC<Props> = observer(() => {
         type, spec: {
             size,
         },
-        scale,
     } = mainCanvas.getActiveTool;
     const sliderShowArr: string[] = ['pencil', 'brush', 'eraser'];
     const colorShowArr: string[] = ['pencil', 'brush'];
@@ -27,12 +26,10 @@ const ToolSettings: FC<Props> = observer(() => {
     const colorPickerSpec = {
         type,
     };
-    const zoomSpec = {
-        scale,
-    };
+
     return (
         <div className="pt-tool-settings-block">
-            <ZoomInfo {...zoomSpec} />
+            <ZoomInfo />
             {
                 sliderShowArr.includes(type) && <SimpleSlider {...sliderSpec} />
             }

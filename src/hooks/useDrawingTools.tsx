@@ -7,6 +7,7 @@ const useDrawingTools = (
     canvasRef: MutableRefObject<HTMLCanvasElement | null>,
     canvasDrawingRef: MutableRefObject<DrawToolObject | null>,
     ActiveTool: ActiveTool,
+    history: HistoryData,
 ): void => {
     console.log('%cuseDrawingTools', 'color: teal');
     const {
@@ -30,7 +31,7 @@ const useDrawingTools = (
         canvasSubRef.current = canvasDrawing.drawingSub(type, {
             color,
             size,
-        }, scale);
+        }, scale, history);
 
         return () => {
             const { current: canvasSub } = canvasSubRef;
@@ -40,7 +41,7 @@ const useDrawingTools = (
         };
     // ?Everything is ok here
     // ?We don't need to add 'canvasDrawingRef' / 'canvasRef' to array
-    }, [type, color, size, scale]);
+    }, [type, color, size, scale, history]);
 };
 
 export default useDrawingTools;

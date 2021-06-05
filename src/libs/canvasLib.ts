@@ -39,6 +39,7 @@ export function createDrawTool(
             type: string,
             spec: ActiveToolSpec,
             scale: ScaleToolObject,
+            history: HistoryData,
         ): Subscription => downStream$
             .pipe(
                 switchMap((_) => {
@@ -70,7 +71,9 @@ export function createDrawTool(
             .subscribe({
                 next(drawObj) {
                     console.log('HERE');
-                    drawStrategy(type, drawObj, spec, scale, historySpan);
+                    drawStrategy(type, drawObj, {
+                        spec, scale, historySpan, history,
+                    });
                 },
                 error(err) {
                     console.log('%cERROR', 'color: red', err);
@@ -86,10 +89,19 @@ export function createDrawTool(
 export function drawStrategy(
     type: string,
     drawObj: RawDrawingSpec,
-    spec: ActiveToolSpec,
-    scale: ScaleToolObject,
-    historySpan: HistoryObj[],
+    aux: {
+        spec: ActiveToolSpec,
+        scale: ScaleToolObject,
+        historySpan: HistoryObj[],
+        history: HistoryData,
+    },
 ): void {
+    const {
+        spec,
+        scale,
+        historySpan,
+        history,
+    } = aux;
     const {
         x, y, ctx, ctrlKey,
     } = drawObj;
@@ -135,7 +147,7 @@ export function drawStrategy(
             });
             break;
         case 'zoom':
-            zoomer(ctx, scale, { ctrlKey });
+            zoomer(ctx, scale, history, { ctrlKey });
             break;
         default: {
             break;
@@ -200,9 +212,9 @@ export function eraser(
 export function zoomer(
     ctx: CanvasRenderingContext2D,
     scale: ScaleToolObject,
+    history: HistoryData,
     spec?: {
         ctrlKey?: boolean | undefined,
-        isReset?: boolean | undefined,
     },
 ): void {
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
@@ -213,16 +225,13 @@ export function zoomer(
     if (!canvasCache) return;
 
     const ctrlKey = spec?.ctrlKey ?? false;
-    const isReset = spec?.isReset ?? false;
     const scaleHistoryCopy = [...scaleHistory];
     const scaleType = !ctrlKey ? '+' : '-';
 
-    if (!isReset) {
-        // Add current click to history
-        scaleHistoryCopy.push({
-            type: scaleType,
-        });
-    }
+    // Add current click to history
+    scaleHistoryCopy.push({
+        type: scaleType,
+    });
 
     console.log('~~~~~~~~~~~~~~');
     console.log(scaleHistoryCopy);
@@ -243,17 +252,30 @@ export function zoomer(
     // );
 
     // Scale / redraw canvas
-    scaleCanvasWithRedraw(ctx, zoom);
+    scaleCanvasWithRedraw(ctx, zoom, history);
 
     // Set current zoom to store
-    if (!isReset) {
-        mainCanvas.setActiveToolZoom(
-            { type: scaleType },
-            zoom,
-        );
-    }
+    mainCanvas.setActiveToolZoom(
+        { type: scaleType },
+        zoom,
+    );
 
     console.log('After setActiveToolZoom');
+}
+
+/**
+ * Simplified zoom functionality (during reset).
+ */
+export function zoomOnReset(
+    ctx: CanvasRenderingContext2D,
+    history: HistoryData,
+): void {
+    ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
+    const zoom = 1;
+    // Scale / redraw canvas
+    scaleCanvasWithRedraw(ctx, zoom, history);
+
+    console.log('After zoomOnReset');
 }
 
 /**
@@ -261,16 +283,16 @@ export function zoomer(
  */
 export function redrawCanvas(
     ctx: CanvasRenderingContext2D,
+    history: HistoryData,
 ): void {
     const typeToToolMap = {
         pencil: pencilDraw,
         brush: brushDraw,
         eraser,
     };
-    const history = mainCanvas.getHistory;
-
-    history.forEach((level) => {
-        level.forEach((item) => {
+    const { data } = history;
+    data.forEach((arr) => {
+        arr.forEach((item) => {
             // @ts-ignore
             typeToToolMap[item.type](ctx, item.spec);
         });
@@ -311,6 +333,7 @@ export function redrawCanvasHistoryGo(
 export function scaleCanvasWithRedraw(
     ctx: CanvasRenderingContext2D,
     zoom: number,
+    history: HistoryData,
 ): void {
     const { width, height } = ctx.canvas;
 
@@ -322,7 +345,7 @@ export function scaleCanvasWithRedraw(
     ctx.translate(translation[0], translation[1]);
     ctx.scale(zoom, zoom);
     ctx.clearRect(0, 0, width, height);
-    redrawCanvas(ctx);
+    redrawCanvas(ctx, history);
     ctx.restore();
 }
 
@@ -448,5 +471,5 @@ export function goThroughHistory(
     modHistory.splice((historyLen - newHistoryPosition), newHistoryPosition);
 
     redrawCanvasHistoryGo(ctx, modHistory);
-    mainCanvas.setCanvasHistorySpec(newHistoryPosition);
+    mainCanvas.setHistorySpec(newHistoryPosition);
 }

@@ -1,23 +1,24 @@
 import {
-    useContext, MouseEvent, forwardRef,
+    FC, useContext, MouseEvent,
 } from 'react';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
+import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/SimpleControl';
 import { goThroughHistory } from 'libs/canvasLib';
 
 interface Props {}
 
-const StepControls = observer(forwardRef<HTMLCanvasElement, Props>((props, ref) => {
+const StepControls: FC<Props> = observer(() => {
     const { mainCanvas } = useContext(AppContext);
+    const { canvasRef } = useContext(LayoutContext);
     const history = mainCanvas.getHistory;
-    const { position } = mainCanvas.getCanvasHistorySpec;
+    const { position } = mainCanvas.getHistorySpec;
     const onClick = (e: MouseEvent): void => {
         e.stopPropagation();
         const target = e.target as HTMLButtonElement;
         const { type } = target.dataset;
-        // @ts-ignore
-        const { current: canvas } = ref;
+        const { current: canvas } = canvasRef;
 
         if (!type) return;
         if (!canvas) return;
@@ -61,6 +62,6 @@ const StepControls = observer(forwardRef<HTMLCanvasElement, Props>((props, ref) 
             </div>
         </div>
     );
-}));
+});
 
 export default StepControls;

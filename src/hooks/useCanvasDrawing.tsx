@@ -12,6 +12,7 @@ import useDrawingTools from './useDrawingTools';
 const useCanvasDrawing = (
     activeTool: ActiveTool,
     auxData: AuxProps,
+    history: HistoryData,
 ) : Array<MutableRefObject<HTMLCanvasElement | null>> => {
     console.log('%cuseCanvasDrawing', 'color: tomato');
     const { type } = activeTool;
@@ -41,7 +42,7 @@ const useCanvasDrawing = (
     }, [type, ctrlKey]);
 
     // useResizeCanvas(canvasRef);
-    useDrawingTools(canvasRef, canvasDrawingRef, activeTool);
+    useDrawingTools(canvasRef, canvasDrawingRef, activeTool, history);
 
     return [canvasRef];
 };

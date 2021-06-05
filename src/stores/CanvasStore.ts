@@ -3,9 +3,9 @@ import {
 } from 'mobx';
 
 class CanvasStore {
-    canvasHistory: HistoryObj[][] = [];
+    history: HistoryObj[][] = [];
 
-    canvasHistorySpec: CanvasHistorySpec = {
+    historySpec: HistorySpec = {
         position: 0,
     };
 
@@ -35,8 +35,8 @@ class CanvasStore {
     constructor() {
         // makeAutoObservable(this);
         makeObservable(this, {
-            canvasHistorySpec: observable,
-            canvasHistory: observable.shallow,
+            historySpec: observable,
+            history: observable.shallow,
             windowSize: observable,
             mainCnavasSize: observable,
             activeTool: observable,
@@ -47,7 +47,7 @@ class CanvasStore {
             getMainCanvasSize: computed,
             getWindowSize: computed,
             getHistory: computed,
-            getCanvasHistorySpec: computed,
+            getHistorySpec: computed,
 
             resetScale: action,
             setAuxDataCtrlKey: action,
@@ -59,7 +59,7 @@ class CanvasStore {
             setWindowSize: action,
             setHistory: action,
             setHistoryItem: action,
-            setCanvasHistorySpec: action,
+            setHistorySpec: action,
         });
     }
 
@@ -80,11 +80,11 @@ class CanvasStore {
     }
 
     get getHistory(): HistoryObj[][] {
-        return this.canvasHistory;
+        return this.history;
     }
 
-    get getCanvasHistorySpec(): CanvasHistorySpec {
-        return this.canvasHistorySpec;
+    get getHistorySpec(): HistorySpec {
+        return this.historySpec;
     }
 
     resetScale(): void {
@@ -146,16 +146,16 @@ class CanvasStore {
         this.windowSize = size;
     }
 
-    setCanvasHistorySpec(pos: number): void {
-        this.canvasHistorySpec.position = pos;
+    setHistorySpec(pos: number): void {
+        this.historySpec.position = pos;
     }
 
     setHistoryItem(item: HistoryObj[]): void {
-        this.canvasHistory.push(item);
+        this.history.push(item);
     }
 
     setHistory(history: HistoryObj[][]): void {
-        this.canvasHistory = history;
+        this.history = history;
     }
 
 }

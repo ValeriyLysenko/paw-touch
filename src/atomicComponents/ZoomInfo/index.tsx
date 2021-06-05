@@ -3,17 +3,25 @@ import {
 } from 'react';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
-import { zoomer } from 'libs/canvasLib';
+import LayoutContext from 'aux/LayoutContext';
+import { zoomOnReset } from 'libs/canvasLib';
 
-interface Props {
-    scale: ScaleToolObject;
-}
+interface Props {}
 
-const ZoomInfo: FC<Props> = observer(({
-    scale,
-}) => {
+const ZoomInfo: FC<Props> = observer(() => {
+    const {
+        canvasRef: {
+            current: canvasEl,
+        },
+    } = useContext(LayoutContext);
     const { mainCanvas } = useContext(AppContext);
-    const { currentScale } = scale;
+    const {
+        scale: {
+            currentScale,
+        },
+    } = mainCanvas.getActiveTool;
+    const history = mainCanvas.getHistory;
+    const historySpec = mainCanvas.getHistorySpec;
     return (
         <div className="pt-tool-settings-block-line">
             <h4>Zoom size</h4>
@@ -24,15 +32,14 @@ const ZoomInfo: FC<Props> = observer(({
                 className="button is-info is-small"
                 onClick={() => {
                     console.log('BEFORE RESET');
-                    mainCanvas.resetScale();
-                    /* const mainCanvasEl = document.getElementById('pt-main-canvas') as HTMLCanvasElement;
-                    const ctx = mainCanvasEl.getContext('2d');
+                    if (!canvasEl) return;
+                    const ctx = canvasEl.getContext('2d');
                     if (!ctx) return;
-                    // const activeTool = mainCanvas.getActiveTool;
-                    // zoomer(ctx, activeTool.scale, {
-                    zoomer(ctx, scale, {
-                        isReset: true,
-                    }); */
+                    mainCanvas.resetScale();
+                    zoomOnReset(ctx, {
+                        data: history,
+                        spec: historySpec,
+                    });
                     console.log('AFTER RESET');
                 }}
             >
