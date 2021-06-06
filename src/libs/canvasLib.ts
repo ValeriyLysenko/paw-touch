@@ -263,11 +263,6 @@ export function zoomer(
         scaleHistory: scaleHistoryCopy,
     });
 
-    console.log('~~~~~~~~~~~~~~');
-    console.log(scaleHistoryCopy);
-    console.log('scale.currentScale', scale.currentScale);
-    console.log('zoom', zoom);
-
     // Scale current canvas
     // scaleCanvas(
     //     ctx,
@@ -277,7 +272,7 @@ export function zoomer(
 
     // Scale / redraw canvas
     // scaleCanvasWithRedraw(ctx, zoom, history);
-    scaleCanvasWithRedrawChangeSize(ctx, zoom, history, scale);
+    scaleCanvasWithRedrawChangeSize(ctx, zoom, history);
 
     const { canvas } = ctx;
     let scaledPosRatio: number[] = [];
@@ -304,13 +299,12 @@ export function zoomer(
 export function zoomOnReset(
     ctx: CanvasRenderingContext2D,
     history: HistoryData,
-    scale: ScaleToolObject,
 ): void {
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
     const zoom = 1;
     // Scale / redraw canvas
     // scaleCanvasWithRedraw(ctx, zoom, history);
-    scaleCanvasWithRedrawChangeSize(ctx, zoom, history, scale);
+    scaleCanvasWithRedrawChangeSize(ctx, zoom, history);
 
     // Reset 'scaledPosRatio'
     mainCanvas.setScaledPosRatio([]);
@@ -367,11 +361,9 @@ export function scaleCanvasWithRedrawChangeSize(
     ctx: CanvasRenderingContext2D,
     zoom: number,
     history: HistoryData,
-    scale: ScaleToolObject,
 ): void {
-    const { initSize } = scale;
     const { canvas } = ctx;
-    const [width, height] = initSize;
+    const { width, height } = canvas;
     const newWidth = width * zoom;
     const newHeight = height * zoom;
 

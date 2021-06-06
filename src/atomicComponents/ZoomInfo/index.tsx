@@ -28,7 +28,7 @@ const ZoomInfo: FC<Props> = observer(() => {
             zoomOnReset(ctx, {
                 data: history,
                 spec: historySpec,
-            }, scale);
+            });
         });
 
         console.log('AFTER RESET');

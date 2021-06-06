@@ -32,9 +32,6 @@ const useCanvasDrawing = (
 
         // Accord drawingBuffer / display pixels
         resizeCanvasToDisplaySize(canvasEl);
-        console.log('new canvas size', canvasEl.width);
-        // Set initial canvas size
-        mainCanvas.setScaleInitSize([canvasEl.width, canvasEl.height]);
 
         console.log('%cBefore createDrawTool', 'color: tomato');
         canvasDrawingRef.current = createDrawTool(canvasEl) as DrawToolObject;

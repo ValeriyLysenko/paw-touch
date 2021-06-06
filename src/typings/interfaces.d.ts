@@ -36,7 +36,6 @@ interface ScaleToolHistory {
 }
 
 interface ScaleToolObject {
-    initSize: number[];
     initScale: number;
     canvasCache: ImageData | null;
     currentScale: number;

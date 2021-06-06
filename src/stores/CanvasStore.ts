@@ -20,7 +20,6 @@ class CanvasStore {
             size: 10,
         },
         scale: {
-            initSize: [],
             initScale: 1,
             currentScale: 1,
             canvasCache: null,
@@ -52,7 +51,6 @@ class CanvasStore {
             getHistorySpec: computed,
 
             setScaledPosRatio: action,
-            setScaleInitSize: action,
             resetScale: action,
             setAuxDataCtrlKey: action,
             setActiveToolZoom: action,
@@ -93,10 +91,6 @@ class CanvasStore {
 
     setScaledPosRatio(scaledPosRatio: number[]): void {
         this.activeTool.scale.scaledPosRatio = scaledPosRatio;
-    }
-
-    setScaleInitSize(size: number[]): void {
-        this.activeTool.scale.initSize = size;
     }
 
     resetScale(): void {
