@@ -12,11 +12,8 @@ interface Props {}
 const ZoomInfo: FC<Props> = observer(() => {
     const { canvasRef } = useContext(LayoutContext);
     const { mainCanvas } = useContext(AppContext);
-    const {
-        scale: {
-            currentScale,
-        },
-    } = mainCanvas.getActiveTool;
+    const { scale } = mainCanvas.getActiveTool;
+    const { currentScale } = scale;
     const history = mainCanvas.getHistory;
     const historySpec = mainCanvas.getHistorySpec;
     const clickHandler = (e: MouseEvent) => {
@@ -31,7 +28,7 @@ const ZoomInfo: FC<Props> = observer(() => {
             zoomOnReset(ctx, {
                 data: history,
                 spec: historySpec,
-            });
+            }, scale);
         });
 
         console.log('AFTER RESET');

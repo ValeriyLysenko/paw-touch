@@ -1,6 +1,7 @@
 import {
     useEffect, useRef, useContext,
 } from 'react';
+import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
 import {
     createDrawTool,
@@ -20,6 +21,7 @@ const useCanvasDrawing = (
     console.log('%cuseCanvasDrawing', 'color: tomato');
     const { type } = activeTool;
     const { ctrlKey } = auxData;
+    const { mainCanvas } = useContext(AppContext);
     const { canvasRef } = useContext(LayoutContext);
     const canvasDrawingRef = useRef<DrawToolObject | null>(null);
 
@@ -30,6 +32,9 @@ const useCanvasDrawing = (
 
         // Accord drawingBuffer / display pixels
         resizeCanvasToDisplaySize(canvasEl);
+        console.log('new canvas size', canvasEl.width);
+        // Set initial canvas size
+        mainCanvas.setScaleInitSize([canvasEl.width, canvasEl.height]);
 
         console.log('%cBefore createDrawTool', 'color: tomato');
         canvasDrawingRef.current = createDrawTool(canvasEl) as DrawToolObject;

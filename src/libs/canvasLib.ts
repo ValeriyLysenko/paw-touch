@@ -82,7 +82,23 @@ export function createDrawTool(
             .subscribe({
                 next(drawObj) {
                     console.log('HERE');
-                    drawStrategy(type, drawObj, {
+                    const { currentScale, scaledPosRatio } = scale;
+                    let newDrawObj = drawObj;
+
+                    // !Use this correction with 'scaleCanvasWithRedrawChangeSize' only
+                    if (currentScale !== 1) {
+                        const { x, y } = drawObj;
+                        newDrawObj = {
+                            ...drawObj,
+                            x: x * scaledPosRatio[0],
+                            y: y * scaledPosRatio[1],
+                        };
+
+                        console.log('translation', scaledPosRatio);
+                    }
+
+                    // drawStrategy(type, drawObj, {
+                    drawStrategy(type, newDrawObj, {
                         spec, scale, historySpan, history,
                     });
                 },
@@ -164,10 +180,6 @@ export function drawStrategy(
             break;
         }
     }
-    // Record drawing
-    // recordHistory(type, {
-    //     x, y, color, size,
-    // });
 }
 
 /**
@@ -244,16 +256,17 @@ export function zoomer(
         type: scaleType,
     });
 
-    console.log('~~~~~~~~~~~~~~');
-    console.log(scaleHistoryCopy);
-    console.log(scale.currentScale);
-
     // Get current zoom
     const zoom = zoomManager({
         initScale,
         scaleStep,
         scaleHistory: scaleHistoryCopy,
     });
+
+    console.log('~~~~~~~~~~~~~~');
+    console.log(scaleHistoryCopy);
+    console.log('scale.currentScale', scale.currentScale);
+    console.log('zoom', zoom);
 
     // Scale current canvas
     // scaleCanvas(
@@ -263,12 +276,23 @@ export function zoomer(
     // );
 
     // Scale / redraw canvas
-    scaleCanvasWithRedraw(ctx, zoom, history);
+    // scaleCanvasWithRedraw(ctx, zoom, history);
+    scaleCanvasWithRedrawChangeSize(ctx, zoom, history, scale);
+
+    const { canvas } = ctx;
+    let scaledPosRatio: number[] = [];
+    if (zoom !== 1) {
+        scaledPosRatio = [
+            canvas.width / parseInt(canvas.style.width, 10),
+            canvas.height / parseInt(canvas.style.height, 10),
+        ];
+    }
 
     // Set current zoom to store
     mainCanvas.setActiveToolZoom(
         { type: scaleType },
         zoom,
+        scaledPosRatio,
     );
 
     console.log('After setActiveToolZoom');
@@ -280,11 +304,16 @@ export function zoomer(
 export function zoomOnReset(
     ctx: CanvasRenderingContext2D,
     history: HistoryData,
+    scale: ScaleToolObject,
 ): void {
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
     const zoom = 1;
     // Scale / redraw canvas
-    scaleCanvasWithRedraw(ctx, zoom, history);
+    // scaleCanvasWithRedraw(ctx, zoom, history);
+    scaleCanvasWithRedrawChangeSize(ctx, zoom, history, scale);
+
+    // Reset 'scaledPosRatio'
+    mainCanvas.setScaledPosRatio([]);
 
     console.log('After zoomOnReset');
 }
@@ -313,7 +342,7 @@ export function redrawCanvas(
 }
 
 /**
- * Scale canvas with redraw functionality.
+ * Scale canvas with redraw functionality (using 'scale' method).
  */
 export function scaleCanvasWithRedraw(
     ctx: CanvasRenderingContext2D,
@@ -321,10 +350,7 @@ export function scaleCanvasWithRedraw(
     history: HistoryData,
 ): void {
     const { width, height } = ctx.canvas;
-
-    const newWidth = width * zoom;
-    const newHeight = height * zoom;
-    const translation = [-((newWidth - width) / 2), -((newHeight - height) / 2)];
+    const translation = getTranslation([width, height], zoom);
 
     ctx.save();
     ctx.translate(translation[0], translation[1]);
@@ -332,6 +358,28 @@ export function scaleCanvasWithRedraw(
     ctx.clearRect(0, 0, width, height);
     redrawCanvas(ctx, history.data);
     ctx.restore();
+}
+
+/**
+ * Scale canvas with redraw functionality (changing phisical canvas size).
+ */
+export function scaleCanvasWithRedrawChangeSize(
+    ctx: CanvasRenderingContext2D,
+    zoom: number,
+    history: HistoryData,
+    scale: ScaleToolObject,
+): void {
+    const { initSize } = scale;
+    const { canvas } = ctx;
+    const [width, height] = initSize;
+    const newWidth = width * zoom;
+    const newHeight = height * zoom;
+
+    // Set layout canvas size
+    canvas.style.width = `${newWidth}px`;
+    canvas.style.height = `${newHeight}px`;
+
+    redrawCanvas(ctx, history.data);
 }
 
 /**
@@ -343,16 +391,13 @@ export function scaleCanvas(
     zoom: number,
 ): void {
     const { width, height } = ctx.canvas;
+    const translation = getTranslation([width, height], zoom);
 
     // Create temp canvas
     const tempCanvas = createTempCanvas(
         ctx,
         canvasCache,
     );
-
-    const newWidth = width * zoom;
-    const newHeight = height * zoom;
-    const translation = [-((newWidth - width) / 2), -((newHeight - height) / 2)];
 
     ctx.save();
     ctx.translate(translation[0], translation[1]);
@@ -463,4 +508,16 @@ export function goThroughHistory(
     ctx.restore();
 
     mainCanvas.setHistorySpecPos(newHistoryPosition);
+}
+
+/**
+ * Get transition according to zoom.
+ */
+export function getTranslation(
+    size: number[],
+    zoom: number,
+): number[] {
+    const newWidth = size[0] * zoom;
+    const newHeight = size[1] * zoom;
+    return [-((newWidth - size[0]) / 2), -((newHeight - size[1]) / 2)];
 }

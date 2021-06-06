@@ -27,14 +27,16 @@ const BasicLayout: FC<Props> = observer(() => {
     );
 
     // console.log('%c===>', 'color: red', mainCanvas.getHistory);
-    // console.log('%c===>', 'color: red', activeTool.scale);
+    console.log('%c===>', 'color: red', activeTool.scale);
     // console.log('%c===>', 'color: red', auxData.ctrlKey);
 
     return (
         <div>
             <div className="pt-drawing-block">
                 <div id="pt-canvas-container" className="pt-canvas-container">
-                    <canvas id="pt-main-canvas" ref={canvasRef} />
+                    <div className="pt-canvas-container-inner">
+                        <canvas id="pt-main-canvas" ref={canvasRef} />
+                    </div>
                 </div>
                 <div className="pt-drawing-block-gap" />
                 <ToolSettings />

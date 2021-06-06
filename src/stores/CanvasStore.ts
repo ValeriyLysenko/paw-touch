@@ -20,11 +20,13 @@ class CanvasStore {
             size: 10,
         },
         scale: {
+            initSize: [],
             initScale: 1,
             currentScale: 1,
             canvasCache: null,
             scaleStep: 0.1,
             scaleHistory: [],
+            scaledPosRatio: [],
         },
     };
 
@@ -49,6 +51,8 @@ class CanvasStore {
             getHistory: computed,
             getHistorySpec: computed,
 
+            setScaledPosRatio: action,
+            setScaleInitSize: action,
             resetScale: action,
             setAuxDataCtrlKey: action,
             setActiveToolZoom: action,
@@ -87,6 +91,14 @@ class CanvasStore {
         return this.historySpec;
     }
 
+    setScaledPosRatio(scaledPosRatio: number[]): void {
+        this.activeTool.scale.scaledPosRatio = scaledPosRatio;
+    }
+
+    setScaleInitSize(size: number[]): void {
+        this.activeTool.scale.initSize = size;
+    }
+
     resetScale(): void {
         const { scale } = this.activeTool;
         this.activeTool.scale = {
@@ -103,6 +115,7 @@ class CanvasStore {
     setActiveToolZoom(
         zoomObj: ScaleToolHistory,
         currentScale: number,
+        scaledPosRatio: number[],
     ): void {
         const { scale } = this.activeTool;
         this.activeTool = {
@@ -111,6 +124,7 @@ class CanvasStore {
                 ...scale,
                 currentScale,
                 scaleHistory: [...scale.scaleHistory, zoomObj],
+                scaledPosRatio,
             },
         };
     }
