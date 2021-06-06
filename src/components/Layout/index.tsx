@@ -5,7 +5,6 @@ import {
     Switch,
     Route,
 } from 'react-router-dom';
-import { mainCanvas, auxCanvas } from 'aux/init';
 import StepControls from 'components/LayoutControls/StepControls';
 import FullscreenControls from 'components/LayoutControls/FullscreenControls';
 import BasicLayout from './BasicLayout';
@@ -19,27 +18,19 @@ const Layout: FC = (props: Props) => {
     return (
         <Switch>
             <Route exact path={basicLayoutPath}>
-                <BasicLayout
-                    mainCanvas={mainCanvas}
-                />
+                <BasicLayout />
             </Route>
             <Route path="/vertical-split">
                 <AuxLayout
-                    mainCanvas={mainCanvas}
-                    auxCanvas={auxCanvas}
                     spec={{
-                        id: 'pt-canvas-container-vertical',
-                        cssClass: 'pt-vertical-split',
+                        type: 'vertical',
                     }}
                 />
             </Route>
             <Route path="/horizontal-split">
                 <AuxLayout
-                    mainCanvas={mainCanvas}
-                    auxCanvas={auxCanvas}
                     spec={{
-                        id: 'pt-canvas-container-horizontal',
-                        cssClass: 'pt-horizontal-split',
+                        type: 'horizontal',
                     }}
                 />
             </Route>
@@ -48,7 +39,7 @@ const Layout: FC = (props: Props) => {
                     <div className="pt-navbar pt-navbar-top">
                         <FullscreenControls />
                     </div>
-                    <div id="pt-canvas-container" className="pt-canvas-container"><canvas /></div>
+                    <div className="pt-canvas-container"><canvas /></div>
                     <div className="pt-navbar pt-navbar-bottom">
                         <StepControls />
                     </div>

@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+/*=============================================
+=           Bulma styles correction           =
+=============================================*/
+
+.#{$pt-prefix}main-navigation {
+    .navbar-start {
+        & > .navbar-item {
+            color: $white !important;
+            .navbar-link {
+                color: $white !important;
+            }
+            &:hover,
+            &:focus,
+            &.is-active {
+                color: $text-strong !important;
+                .navbar-link {
+                    color: $text-strong !important;
+                }
+            }
+        }
+    }
+}
+
+.nested.dropdown {
+    width: 100%;
+
+    &:hover {
+        & > .dropdown-menu {
+            display: block;
+        }
+    }
+
+    .dropdown-menu {
+        top: -14px;
+        margin-left: 100%;
+    }
+
+    .dropdown-content {
+        border-radius: 0;
+        border-top: 2px solid #dbdbdb;
+
+        .navbar-item {
+            width: 100%;
+            line-height: 1.5rem;
+
+            .icon-text {
+                flex-wrap: nowrap;
+            }
+        }
+    }
+}
+
+/*=====  End of Bulma styles correction  =====*/

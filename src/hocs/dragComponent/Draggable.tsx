@@ -16,7 +16,7 @@ const Draggable: FC<Props> = ({
     drop,
 }) => {
     // console.log('%cDraggable', 'color: red', children);
-    const draggableRef = useRef(null);
+    const draggableRef = useRef<HTMLDivElement>(null);
     const dragStart = () => false;
 
     useEffect(() => {
@@ -41,6 +41,7 @@ const Draggable: FC<Props> = ({
             el.style.top = `${e.pageY - shift.y}px`; // eslint-disable-line
         };
         const mouseDownHandler = (e: MouseEvent) => {
+            e.preventDefault();
             const currentTarget = e.currentTarget as HTMLDivElement;
             if (!currentTarget) return;
 
@@ -54,10 +55,11 @@ const Draggable: FC<Props> = ({
             };
 
             dragEl.setAttribute('style', 'position: absolute; z-index: 1000;');
-            document.body.appendChild(dragEl);
+            // document.body.appendChild(dragEl);
             moveAt(e, dragEl, shift);
 
             document.onmousemove = (ev) => {
+                ev.preventDefault();
                 moveAt(ev, dragEl, shift);
             };
             dragEl.onmouseup = () => {
@@ -66,7 +68,7 @@ const Draggable: FC<Props> = ({
             };
         };
 
-        const draggableEl = draggableRef.current as HTMLDivElement | null;
+        const { current: draggableEl } = draggableRef;
 
         if (!draggableEl || !dragHandle) return;
 

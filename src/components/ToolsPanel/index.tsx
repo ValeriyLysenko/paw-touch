@@ -1,16 +1,30 @@
 import {
     FC,
+    MouseEvent,
+    useContext,
 } from 'react';
+import { observer } from 'mobx-react';
+import AppContext from 'aux/AppContext';
 import dragComponent from 'hocs/dragComponent';
-import ToolsPanelBrush from 'atomicComponents/SVG/ToolsPanelBrush';
-import ToolsPanelPencil from 'atomicComponents/SVG/ToolsPanelPencil';
-import ToolsPanelPaint from 'atomicComponents/SVG/ToolsPanelPaint';
-import ToolsPanelEraser from 'atomicComponents/SVG/ToolsPanelEraser';
+import toolsPanelConfig from './toolsPanelConfig';
 
 interface Props {}
 
-const ToolsPanel: FC = (props: Props) => {
-    console.log('%ToolsPanel', 'color: olive;');
+const ToolsPanel: FC<Props> = observer(() => {
+    console.log('%cToolsPanel', 'color: olive;');
+    const { mainCanvas } = useContext(AppContext);
+    const { type: active } = mainCanvas.getActiveTool;
+    const clickHandler = (e: MouseEvent) => {
+        e.stopPropagation();
+        const target = e.currentTarget as HTMLDivElement;
+        const type = target.dataset?.type || '';
+
+        if (type === active) return;
+
+        mainCanvas.setActiveToolType(type);
+    };
+    const items = Object.values(toolsPanelConfig);
+
     return (
         <div className="pt-tools-panel">
 
@@ -19,48 +33,23 @@ const ToolsPanel: FC = (props: Props) => {
                 <div />
                 <div />
             </div>
-
-            <div className="pt-tools-panel-plate">
-                <a>
-                    <i className="fas fa-paint-brush" />
-                </a>
-            </div>
-            <div className="pt-tools-panel-plate">
-                <a>
-                    <ToolsPanelBrush />
-                </a>
-            </div>
-            <div className="pt-tools-panel-plate">
-                <a>
-                    <i className="fas fa-pencil-alt" />
-                </a>
-            </div>
-            <div className="pt-tools-panel-plate">
-                <a>
-                    <ToolsPanelPencil />
-                </a>
-            </div>
-            <div className="pt-tools-panel-plate">
-                <a>
-                    <i className="fas fa-fill-drip" />
-                </a>
-            </div>
-            <div className="pt-tools-panel-plate">
-                <a>
-                    <ToolsPanelPaint />
-                </a>
-            </div>
-            <div className="pt-tools-panel-plate">
-                <a>
-                    <i className="fas fa-eraser" />
-                </a>
-            </div>
-            <div className="pt-tools-panel-plate">
-                <a>
-                    <ToolsPanelEraser />
-                </a>
-            </div>
-
+            {
+                items.map((item) => (
+                    <div
+                        className={`pt-tools-panel-plate${active === item.type ? ' pt-tools-tab-hover' : ''}`}
+                        onClick={clickHandler}
+                        aria-label={item.ariaLabel}
+                        role="presentation"
+                        data-type={item.type}
+                        title={item.title}
+                        key={item.id}
+                    >
+                        <a>
+                            <i className={item.linkClassName} />
+                        </a>
+                    </div>
+                ))
+            }
             <div className="pt-drag-plate">
                 <div />
                 <div />
@@ -69,7 +58,7 @@ const ToolsPanel: FC = (props: Props) => {
         </div>
     );
 
-};
+});
 
 export default dragComponent(ToolsPanel, {
     dragHandle: 'pt-drag-plate',

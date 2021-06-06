@@ -1,34 +1,63 @@
 import {
     FC,
+    useContext,
+    useRef,
 } from 'react';
 import { observer } from 'mobx-react';
-import CanvasStore from 'stores/CanvasStore';
+import ToolSettings from 'components/Tools/ToolSettings';
+import AppContext from 'aux/AppContext';
 
 interface Props {
-    mainCanvas: CanvasStore;
-    auxCanvas: CanvasStore;
     spec: {
-        id: string,
-        cssClass: string,
+        type: string,
     };
 }
 
-const AuxLayout: FC<Props> = ({
-    mainCanvas,
-    auxCanvas,
+const AuxLayout: FC<Props> = observer(({
     spec,
 }) => {
+    const {
+        mainCanvas,
+        auxCanvas,
+    } = useContext(AppContext);
+    const { type } = spec;
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const auxCanvasRef = useRef<HTMLCanvasElement | null>(null);
     console.log('%cBasicLayout', 'color: green;', mainCanvas);
     console.log('%cBasicLayout', 'color: blue;', auxCanvas);
-    const { id, cssClass } = spec;
+
+    if (type === 'vertical') {
+        return (
+            <div className="pt-drawing-block">
+                <div className="pt-canvas-container pt-vertical-split">
+                    <canvas ref={canvasRef} />
+                </div>
+                <div className="pt-drawing-block-gap" />
+                <div className="pt-canvas-container pt-vertical-split">
+                    <canvas ref={auxCanvasRef} />
+                </div>
+                <div className="pt-drawing-block-gap" />
+                <ToolSettings />
+            </div>
+        );
+    }
+
     return (
-        <div id={id} className={`pt-canvas-container-split ${cssClass}`}>
-            <div><canvas /></div>
-            <div />
-            <div><canvas /></div>
+        <div className="pt-drawing-block">
+            <div className="pt-drawing-canvas-block">
+                <div className="pt-canvas-container pt-horizontal-split">
+                    <canvas ref={canvasRef} />
+                </div>
+                <div className="pt-drawing-block-gap" />
+                <div className="pt-canvas-container pt-horizontal-split">
+                    <canvas ref={auxCanvasRef} />
+                </div>
+            </div>
+            <div className="pt-drawing-block-gap" />
+            <ToolSettings />
         </div>
+
     );
+});
 
-};
-
-export default observer(AuxLayout);
+export default AuxLayout;

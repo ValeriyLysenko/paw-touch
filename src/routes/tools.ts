@@ -8,7 +8,7 @@ export default {
     sublevel: {
         ptools: {
             id: nanoid(),
-            name: 'Paint tools Paint tools',
+            name: 'Paint tools',
             title: '',
             url: '',
             sublevel: {
@@ -35,12 +35,6 @@ export default {
         zoom: {
             id: nanoid(),
             name: 'Zoom',
-            title: '',
-            url: '',
-        },
-        'color-picker': {
-            id: nanoid(),
-            name: 'Color picker',
             title: '',
             url: '',
         },
