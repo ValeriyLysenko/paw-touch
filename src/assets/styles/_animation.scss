@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+/*=============================================
+=                Animation block              =
+=============================================*/
+
+@keyframes opacity-from-1-to-0 {
+    // 0%,
+    // 100% {
+    //     opacity: 1;
+    // }
+    // 50% {
+    //     opacity: 0;
+    // }
+
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/*=====     End of Animation block     ======*/

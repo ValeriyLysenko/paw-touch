@@ -9,6 +9,8 @@ interface Props {
     ariaLabel: string;
     cssClass?: string;
     type?: 'submit' | 'reset' | 'button';
+    dataType?: string;
+    disabled?: boolean;
 }
 
 const SimpleControl: FC<Props> = ({
@@ -17,14 +19,18 @@ const SimpleControl: FC<Props> = ({
     role,
     ariaLabel,
     type,
+    dataType,
     cssClass,
+    disabled,
 }) => (
     <button
         type={type || 'button'}
+        data-type={dataType || ''}
         className={`button ${cssClass}`}
         role={role || 'Default text'}
         aria-label={ariaLabel || 'Default text'}
         onClick={callback || ((e) => console.log(e))}
+        {...(disabled && { disabled: true })}
     >
         {text || 'Default text'}
     </button>

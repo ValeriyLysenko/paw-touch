@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+/*=============================================
+=                 Decorators                  =
+=============================================*/
+
+%#{pt-prefix}decorated-outline {
+    outline: 1px solid #260f33;
+    box-shadow: 0 0 2px 2px #fff;
+    // outline: 1px solid #4c421a;
+    // outline: 1px solid #ef2e55;
+}
+
+%#{pt-prefix}panel-decoration {
+    background: $bg-color-1;
+    padding: 10px;
+}
+
+/*=====       End of Decorators       ======*/
