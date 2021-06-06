@@ -12,7 +12,7 @@ interface Props {}
 const ZoomInfo: FC<Props> = observer(() => {
     const { canvasRef } = useContext(LayoutContext);
     const { mainCanvas } = useContext(AppContext);
-    const { scale } = mainCanvas.getActiveTool;
+    const scale = mainCanvas.getScale;
     const { currentScale } = scale;
     const history = mainCanvas.getHistory;
     const historySpec = mainCanvas.getHistorySpec;

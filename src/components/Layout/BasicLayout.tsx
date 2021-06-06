@@ -16,24 +16,27 @@ const BasicLayout: FC<Props> = observer(() => {
     const { mainCanvas } = useContext(AppContext);
     const { canvasRef } = useContext(LayoutContext);
     const activeTool = mainCanvas.getActiveTool;
+    const scale = mainCanvas.getScale;
     const auxData = mainCanvas.getAuxData;
     const history = mainCanvas.getHistory;
     const historySpec = mainCanvas.getHistorySpec;
     useCanvasDrawing(
-        toJS(activeTool), toJS(auxData), {
+        toJS(activeTool),
+        toJS(scale),
+        toJS(auxData),
+        {
             data: toJS(history),
             spec: toJS(historySpec),
         },
     );
 
-    // console.log('%c===>', 'color: red', mainCanvas.getHistory);
-    console.log('%c===>', 'color: red', activeTool.scale);
-    // console.log('%c===>', 'color: red', auxData.ctrlKey);
+    console.log('%c===>', 'color: red', activeTool);
+    console.log('%c===>', 'color: red', scale);
 
     return (
         <div>
             <div className="pt-drawing-block">
-                <div id="pt-canvas-container" className="pt-canvas-container">
+                <div className="pt-canvas-container">
                     <div className="pt-canvas-container-inner">
                         <canvas id="pt-main-canvas" ref={canvasRef} />
                     </div>

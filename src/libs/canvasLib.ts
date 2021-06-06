@@ -242,10 +242,8 @@ export function zoomer(
 ): void {
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
     const {
-        initScale, scaleStep, scaleHistory, canvasCache,
+        initScale, scaleStep, scaleHistory,
     } = scale;
-
-    if (!canvasCache) return;
 
     const ctrlKey = spec?.ctrlKey ?? false;
     const scaleHistoryCopy = [...scaleHistory];
@@ -284,13 +282,13 @@ export function zoomer(
     }
 
     // Set current zoom to store
-    mainCanvas.setActiveToolZoom(
+    mainCanvas.setScaleZoom(
         { type: scaleType },
         zoom,
         scaledPosRatio,
     );
 
-    console.log('After setActiveToolZoom');
+    console.log('After setScaleZoom');
 }
 
 /**
@@ -307,7 +305,7 @@ export function zoomOnReset(
     scaleCanvasWithRedrawChangeSize(ctx, zoom, history);
 
     // Reset 'scaledPosRatio'
-    mainCanvas.setScaledPosRatio([]);
+    mainCanvas.setScalePosRatio([]);
 
     console.log('After zoomOnReset');
 }

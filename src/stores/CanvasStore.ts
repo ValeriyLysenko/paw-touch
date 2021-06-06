@@ -13,19 +13,19 @@ class CanvasStore {
 
     mainCnavasSize: number[] = [0, 0];
 
+    scale: ScaleToolObject = {
+        initScale: 1,
+        currentScale: 1,
+        scaleStep: 0.1,
+        scaleHistory: [],
+        scaledPosRatio: [],
+    };
+
     activeTool: ActiveTool = {
         type: 'pencil',
         spec: {
             color: '#000',
             size: 10,
-        },
-        scale: {
-            initScale: 1,
-            currentScale: 1,
-            canvasCache: null,
-            scaleStep: 0.1,
-            scaleHistory: [],
-            scaledPosRatio: [],
         },
     };
 
@@ -36,13 +36,15 @@ class CanvasStore {
     constructor() {
         // makeAutoObservable(this);
         makeObservable(this, {
-            historySpec: observable,
             history: observable.shallow,
+            historySpec: observable,
             windowSize: observable,
             mainCnavasSize: observable,
+            scale: observable,
             activeTool: observable,
             auxData: observable,
 
+            getScale: computed,
             getAuxData: computed,
             getActiveTool: computed,
             getMainCanvasSize: computed,
@@ -50,19 +52,22 @@ class CanvasStore {
             getHistory: computed,
             getHistorySpec: computed,
 
-            setScaledPosRatio: action,
+            setScalePosRatio: action,
             resetScale: action,
             setAuxDataCtrlKey: action,
-            setActiveToolZoom: action,
+            setScaleZoom: action,
             setActiveToolColor: action,
             setActiveToolType: action,
             setActiveToolSize: action,
-            setMainCanvasSize: action,
             setWindowSize: action,
             setHistory: action,
             setHistoryItem: action,
             setHistorySpecPos: action,
         });
+    }
+
+    get getScale(): ScaleToolObject {
+        return this.scale;
     }
 
     get getAuxData(): AuxProps {
@@ -89,13 +94,13 @@ class CanvasStore {
         return this.historySpec;
     }
 
-    setScaledPosRatio(scaledPosRatio: number[]): void {
-        this.activeTool.scale.scaledPosRatio = scaledPosRatio;
+    setScalePosRatio(scaledPosRatio: number[]): void {
+        this.scale.scaledPosRatio = scaledPosRatio;
     }
 
     resetScale(): void {
-        const { scale } = this.activeTool;
-        this.activeTool.scale = {
+        const { scale } = this;
+        this.scale = {
             ...scale,
             currentScale: 1,
             scaleHistory: [],
@@ -106,20 +111,17 @@ class CanvasStore {
         this.auxData.ctrlKey = ctrlKey;
     }
 
-    setActiveToolZoom(
+    setScaleZoom(
         zoomObj: ScaleToolHistory,
         currentScale: number,
         scaledPosRatio: number[],
     ): void {
-        const { scale } = this.activeTool;
-        this.activeTool = {
-            ...this.activeTool,
-            scale: {
-                ...scale,
-                currentScale,
-                scaleHistory: [...scale.scaleHistory, zoomObj],
-                scaledPosRatio,
-            },
+        const { scale } = this;
+        this.scale = {
+            ...scale,
+            currentScale,
+            scaleHistory: [...scale.scaleHistory, zoomObj],
+            scaledPosRatio,
         };
     }
 
@@ -129,25 +131,15 @@ class CanvasStore {
 
     setActiveToolType(
         type: string,
-        canvasCache: ImageData | null,
     ): void {
         this.activeTool = {
             ...this.activeTool,
             type,
-            scale: {
-                ...this.activeTool.scale,
-                canvasCache,
-            },
-
         };
     }
 
     setActiveToolSize(size: number): void {
         this.activeTool.spec.size = size;
-    }
-
-    setMainCanvasSize(size: number[]): void {
-        this.mainCnavasSize = size;
     }
 
     setWindowSize(size: number[]): void {

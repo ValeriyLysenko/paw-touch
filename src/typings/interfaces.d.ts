@@ -37,7 +37,7 @@ interface ScaleToolHistory {
 
 interface ScaleToolObject {
     initScale: number;
-    canvasCache: ImageData | null;
+    // canvasCache: ImageData | null;
     currentScale: number;
     scaleStep: number;
     scaleHistory: ScaleToolHistory[];
@@ -67,7 +67,6 @@ interface CanvasSpec {
 interface ActiveTool {
     type: string;
     spec: ActiveToolSpec;
-    scale: ScaleToolObject;
 }
 
 interface DrawToolObject {

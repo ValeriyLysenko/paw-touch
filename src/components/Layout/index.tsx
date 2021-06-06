@@ -39,7 +39,7 @@ const Layout: FC = (props: Props) => {
                     <div className="pt-navbar pt-navbar-top">
                         <FullscreenControls />
                     </div>
-                    <div id="pt-canvas-container" className="pt-canvas-container"><canvas /></div>
+                    <div className="pt-canvas-container"><canvas /></div>
                     <div className="pt-navbar pt-navbar-bottom">
                         <StepControls />
                     </div>
