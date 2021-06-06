@@ -59,7 +59,7 @@ class CanvasStore {
             setWindowSize: action,
             setHistory: action,
             setHistoryItem: action,
-            setHistorySpec: action,
+            setHistorySpecPos: action,
         });
     }
 
@@ -146,7 +146,7 @@ class CanvasStore {
         this.windowSize = size;
     }
 
-    setHistorySpec(pos: number): void {
+    setHistorySpecPos(pos: number): void {
         this.historySpec.position = pos;
     }
 

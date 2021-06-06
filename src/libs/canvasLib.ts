@@ -56,7 +56,18 @@ export function createDrawTool(
                                     takeUntil(upStream$.pipe(
                                         tap((e) => {
                                             console.log('MOUSEUP', e);
-                                            mainCanvas.setHistoryItem(historySpan);
+                                            const {
+                                                data, spec: {
+                                                    position,
+                                                },
+                                            } = history;
+                                            if (position) {
+                                                const newHistory = [...data];
+                                                newHistory.splice(newHistory.length - position, position);
+                                                newHistory.push(historySpan);
+                                                mainCanvas.setHistory(newHistory);
+                                                mainCanvas.setHistorySpecPos(0);
+                                            } else mainCanvas.setHistoryItem(historySpan);
                                             // Clear temp history
                                             historySpan = [];
                                         }),
@@ -451,5 +462,5 @@ export function goThroughHistory(
     redrawCanvas(ctx, modHistory);
     ctx.restore();
 
-    mainCanvas.setHistorySpec(newHistoryPosition);
+    mainCanvas.setHistorySpecPos(newHistoryPosition);
 }
