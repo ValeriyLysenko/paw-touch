@@ -30,8 +30,9 @@ const BasicLayout: FC<Props> = observer(() => {
         },
     );
 
-    console.log('%c===>', 'color: red', activeTool);
-    console.log('%c===>', 'color: red', scale);
+    console.log('%cactiveTool ===>', 'color: red', activeTool);
+    console.log('%cscale ===>', 'color: red', scale);
+    console.log('%chistory ===>', 'color: red', history);
 
     return (
         <div>

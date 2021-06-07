@@ -1,37 +1,24 @@
 import {
     makeObservable, observable, action, computed,
 } from 'mobx';
+import {
+    historyDefaults, historySpecDefaults, scaleDefaults, activeToolDefaults, auxDataDefaults,
+} from './CanvasStoreDefaults';
 
 class CanvasStore {
-    history: HistoryObj[][] = [];
+    history: HistoryObj[][] = historyDefaults;
 
-    historySpec: HistorySpec = {
-        position: 0,
-    };
+    historySpec: HistorySpec = historySpecDefaults;
 
     windowSize: number[] = [0, 0];
 
     mainCnavasSize: number[] = [0, 0];
 
-    scale: ScaleToolObject = {
-        initScale: 1,
-        currentScale: 1,
-        scaleStep: 0.1,
-        scaleHistory: [],
-        scaledPosRatio: [],
-    };
+    scale: ScaleToolObject = scaleDefaults;
 
-    activeTool: ActiveTool = {
-        type: 'pencil',
-        spec: {
-            color: '#000',
-            size: 10,
-        },
-    };
+    activeTool: ActiveTool = activeToolDefaults;
 
-    auxData: AuxProps = {
-        ctrlKey: false,
-    };
+    auxData: AuxProps = auxDataDefaults;
 
     constructor() {
         // makeAutoObservable(this);
@@ -52,7 +39,6 @@ class CanvasStore {
             getHistory: computed,
             getHistorySpec: computed,
 
-            setScalePosRatio: action,
             resetScale: action,
             setAuxDataCtrlKey: action,
             setScaleZoom: action,
@@ -94,17 +80,8 @@ class CanvasStore {
         return this.historySpec;
     }
 
-    setScalePosRatio(scaledPosRatio: number[]): void {
-        this.scale.scaledPosRatio = scaledPosRatio;
-    }
-
     resetScale(): void {
-        const { scale } = this;
-        this.scale = {
-            ...scale,
-            currentScale: 1,
-            scaleHistory: [],
-        };
+        this.scale = scaleDefaults;
     }
 
     setAuxDataCtrlKey(ctrlKey: boolean): void {

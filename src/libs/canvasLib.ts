@@ -303,9 +303,6 @@ export function zoomOnReset(
     // scaleCanvasWithRedraw(ctx, zoom, history);
     scaleCanvasWithRedrawChangeSize(ctx, zoom, history);
 
-    // Reset 'scaledPosRatio'
-    mainCanvas.setScalePosRatio([]);
-
     console.log('After zoomOnReset');
 }
 

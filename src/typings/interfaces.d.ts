@@ -79,6 +79,14 @@ interface DrawToolObject {
     drawingSub: Subscription;
 }
 
+interface CanvasStoreDefaults {
+    historyDefaults: HistoryObj[][];
+    historySpecDefaults: HistorySpec;
+    scaleDefaults: ScaleToolObject;
+    activeToolDefaults: ActiveTool;
+    auxDataDefaults: AuxProps;
+}
+
 type CanvasInstanceCreator = (type: string, canvasSpec: ActiveToolSpec) => Subscription;
 type TypeToToolMapMappedFunc = (
     ctx: CanvasRenderingContext2D,
