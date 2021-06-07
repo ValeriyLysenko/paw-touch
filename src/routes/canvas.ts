@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-export default {
+const config: NavRouterObj = {
     id: nanoid(),
     name: 'Canvas',
     title: '',
@@ -29,6 +29,8 @@ export default {
             name: 'Clear',
             title: '',
             url: '',
+            dataType: 'clear',
+            handler: 'clearCanvas',
         },
         exit: {
             id: nanoid(),
@@ -38,3 +40,5 @@ export default {
         },
     },
 };
+
+export default config;

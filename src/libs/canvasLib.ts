@@ -58,7 +58,6 @@ export function createDrawTool(
                                 tap((e) => {
                                     // Clear temp history
                                     historySpan = updateHistory(history, historySpan);
-                                    console.log('historySpan', historySpan);
                                 }),
                             )),
                             map((e) => createRawDrawObject(e)),

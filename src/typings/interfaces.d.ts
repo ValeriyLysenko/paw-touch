@@ -57,6 +57,8 @@ interface NavRouterObj {
     sublevel?: {
         [route:string]: NavRouterObj;
     };
+    dataType?: string;
+    handler?: string;
 }
 
 interface CanvasSpec {
@@ -83,3 +85,4 @@ type TypeToToolMapMappedFunc = (
     spec: DrawingSpec,
     // spec: DrawingSpec | Omit<DrawingSpec, 'color'>,
 ) => void;
+type HandlerFunc = (e: React.MouseEvent) => void;

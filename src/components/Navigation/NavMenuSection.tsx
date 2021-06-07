@@ -4,22 +4,26 @@ import NavItemWithChildren from './NavItemWithChildren';
 
 interface Props {
     routes: NavRouterObj;
+    handlers?: {
+        [name:string]: HandlerFunc;
+    }
 }
 
 const NavMenuSection: FC<Props> = ({
     routes,
+    handlers,
 }) => {
     const {
-        id, name, title, url, sublevel,
+        id, name, title, url, sublevel, dataType,
     } = routes;
     const items = sublevel ? Object.values(sublevel) : [];
-
+    console.log('HANDLERS', handlers);
     if (!items.length) {
+        const navItemProps = {
+            id, name, title, url, dataType, handlers,
+        };
         return (
-            <NavItem {...{
-                id, name, title, url,
-            }}
-            />
+            <NavItem {...navItemProps} />
         );
     }
 
@@ -43,7 +47,9 @@ const NavMenuSection: FC<Props> = ({
             <div className="navbar-dropdown">
                 {
                     items.length && items.map((item: NavRouterObj) => (
-                        item.sublevel ? <NavItemWithChildren key={item.id} {...item} /> : <NavItem key={item.id} {...item} />
+                        item.sublevel
+                            ? <NavItemWithChildren key={item.id} {...item} handlers={handlers} />
+                            : <NavItem key={item.id} {...item} handlers={handlers} />
                     ))
                 }
             </div>

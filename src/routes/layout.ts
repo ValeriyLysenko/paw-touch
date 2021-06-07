@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-export default {
+const config: NavRouterObj = {
     id: nanoid(),
     name: 'Layout',
     title: '',
@@ -32,3 +32,5 @@ export default {
         },
     },
 };
+
+export default config;
