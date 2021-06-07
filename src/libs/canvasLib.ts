@@ -42,65 +42,32 @@ export function createDrawTool(
             history: HistoryData,
         ): Subscription => downStream$
             .pipe(
-                switchMap((_) => {
-                    switch (type) {
-                        case 'zoom': {
-                            return clickStream$
-                                .pipe(
-                                    map((e) => createRawDrawObject(e)),
-                                );
-                        }
-                        default: {
-                            return moveStream$
-                                .pipe(
-                                    takeUntil(upStream$.pipe(
-                                        tap((e) => {
-                                            console.log('MOUSEUP', e);
-                                            const {
-                                                data, spec: {
-                                                    position,
-                                                },
-                                            } = history;
-                                            if (position) {
-                                                const newHistory = [...data];
-                                                newHistory.splice(newHistory.length - position, position);
-                                                newHistory.push(historySpan);
-                                                mainCanvas.setHistory(newHistory);
-                                                mainCanvas.setHistorySpecPos(0);
-                                            } else mainCanvas.setHistoryItem(historySpan);
-                                            // Clear temp history
-                                            historySpan = [];
-                                        }),
-                                    )),
-                                    map((e) => createRawDrawObject(e)),
-                                );
-                        }
-
+                switchMap((ev) => {
+                    // Handle mousedown
+                    init(type, spec, scale, history, createRawDrawObject(ev), historySpan);
+                    // Switch streams
+                    if (type === 'zoom') {
+                        return clickStream$
+                            .pipe(
+                                map((e) => createRawDrawObject(e)),
+                            );
                     }
+                    return moveStream$
+                        .pipe(
+                            takeUntil(upStream$.pipe(
+                                tap((e) => {
+                                    // Clear temp history
+                                    historySpan = updateHistory(history, historySpan);
+                                    console.log('historySpan', historySpan);
+                                }),
+                            )),
+                            map((e) => createRawDrawObject(e)),
+                        );
                 }),
             )
             .subscribe({
                 next(drawObj) {
-                    console.log('HERE');
-                    const { currentScale, scaledPosRatio } = scale;
-                    let newDrawObj = drawObj;
-
-                    // !Use this correction with 'scaleCanvasWithRedrawChangeSize' only
-                    if (currentScale !== 1) {
-                        const { x, y } = drawObj;
-                        newDrawObj = {
-                            ...drawObj,
-                            x: x * scaledPosRatio[0],
-                            y: y * scaledPosRatio[1],
-                        };
-
-                        console.log('translation', scaledPosRatio);
-                    }
-
-                    // drawStrategy(type, drawObj, {
-                    drawStrategy(type, newDrawObj, {
-                        spec, scale, historySpan, history,
-                    });
+                    init(type, spec, scale, history, drawObj, historySpan);
                 },
                 error(err) {
                     console.log('%cERROR', 'color: red', err);
@@ -108,6 +75,39 @@ export function createDrawTool(
             }),
     };
 
+}
+
+/**
+ * Start drawing.
+ */
+export function init(
+    type: string,
+    spec: ActiveToolSpec,
+    scale: ScaleToolObject,
+    history: HistoryData,
+    drawObj: RawDrawingSpec,
+    historySpan: HistoryObj[],
+) {
+    console.log('HERE');
+    const { currentScale, scaledPosRatio } = scale;
+    let newDrawObj = drawObj;
+
+    // !Use this correction with 'scaleCanvasWithRedrawChangeSize' only
+    if (currentScale !== 1) {
+        const { x, y } = drawObj;
+        newDrawObj = {
+            ...drawObj,
+            x: x * scaledPosRatio[0],
+            y: y * scaledPosRatio[1],
+        };
+
+        console.log('translation', scaledPosRatio);
+    }
+
+    // drawStrategy(type, drawObj, {
+    drawStrategy(type, newDrawObj, {
+        spec, scale, historySpan, history,
+    });
 }
 
 /**
@@ -510,4 +510,27 @@ export function getTranslation(
     const newWidth = size[0] * zoom;
     const newHeight = size[1] * zoom;
     return [-((newWidth - size[0]) / 2), -((newHeight - size[1]) / 2)];
+}
+
+/**
+ * Update history on 'mouseup' event.
+ */
+export function updateHistory(
+    history: HistoryData,
+    historySpan: HistoryObj[],
+): [] {
+    const {
+        data, spec: {
+            position,
+        },
+    } = history;
+    if (position) {
+        const newHistory = [...data];
+        newHistory.splice(newHistory.length - position, position);
+        newHistory.push(historySpan);
+        mainCanvas.setHistory(newHistory);
+        mainCanvas.setHistorySpecPos(0);
+    } else mainCanvas.setHistoryItem(historySpan);
+
+    return [];
 }
