@@ -5,10 +5,13 @@ import LayoutContext from 'aux/LayoutContext';
 import {
     createDrawTool,
     cursorManager,
+
+    setCanvasBg,
 } from 'libs/canvasLib';
 import {
     resizeCanvasToDisplaySize,
 } from 'libs/lib';
+
 import useDrawingTools from './useDrawingTools';
 // import useResizeCanvas from './useResizeCanvas';
 
@@ -31,6 +34,8 @@ const useCanvasDrawing = (
 
         // Accord drawingBuffer / display pixels
         resizeCanvasToDisplaySize(canvasEl);
+        // Set default background color
+        setCanvasBg(canvasEl);
 
         console.log('%cBefore createDrawTool', 'color: tomato');
         canvasDrawingRef.current = createDrawTool(canvasEl) as DrawToolObject;

@@ -1,6 +1,8 @@
-import { fromEvent, Subscription } from 'rxjs';
 import {
-    map, switchMap, takeUntil, tap,
+    fromEvent, Subscription,
+} from 'rxjs';
+import {
+    map, switchMap, takeUntil, tap, filter,
 } from 'rxjs/operators';
 import { mainCanvas } from 'aux/init';
 
@@ -42,6 +44,8 @@ export function createDrawTool(
             history: HistoryData,
         ): Subscription => downStream$
             .pipe(
+                // Let click for left mouse button only
+                filter((ev) => ev.button === 0),
                 switchMap((ev) => {
                     // Handle mousedown
                     init(type, spec, scale, history, createRawDrawObject(ev), historySpan);
@@ -70,6 +74,9 @@ export function createDrawTool(
                 },
                 error(err) {
                     console.log('%cERROR', 'color: red', err);
+                },
+                complete() {
+                    console.log('%cCOMPLETED', 'color: blue');
                 },
             }),
     };
@@ -445,18 +452,18 @@ export function zoomManager(
  */
 export function cursorManager(
     type: string,
-    el: HTMLCanvasElement,
+    canvas: HTMLCanvasElement,
     ctrlKey: boolean,
 ): void {
     switch (type) {
         case 'pencil':
         case 'brush':
         case 'eraser': {
-            el.style.cursor = 'crosshair'; // eslint-disable-line
+            canvas.style.cursor = 'crosshair'; // eslint-disable-line
             break;
         }
         case 'zoom':
-            el.style.cursor = !ctrlKey ? 'zoom-in' : 'zoom-out'; // eslint-disable-line
+            canvas.style.cursor = !ctrlKey ? 'zoom-in' : 'zoom-out'; // eslint-disable-line
             break;
         default: {
             break;
@@ -529,4 +536,17 @@ export function updateHistory(
     } else mainCanvas.setHistoryItem(historySpan);
 
     return [];
+}
+
+/**
+ * Just set canvas background.
+ */
+export function setCanvasBg(
+    canvas: HTMLCanvasElement,
+): void {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
