@@ -75,9 +75,6 @@ export function createDrawTool(
                 error(err) {
                     console.log('%cERROR', 'color: red', err);
                 },
-                complete() {
-                    console.log('%cCOMPLETED', 'color: blue');
-                },
             }),
     };
 
@@ -351,6 +348,8 @@ export function scaleCanvasWithRedraw(
     ctx.translate(translation[0], translation[1]);
     ctx.scale(zoom, zoom);
     ctx.clearRect(0, 0, width, height);
+    // Set default background color
+    setCanvasBg(ctx);
     redrawCanvas(ctx, history.data);
     ctx.restore();
 }
@@ -396,6 +395,8 @@ export function scaleCanvas(
     ctx.translate(translation[0], translation[1]);
     ctx.scale(zoom, zoom);
     ctx.clearRect(0, 0, width, height);
+    // Set default background color
+    setCanvasBg(ctx);
     ctx.drawImage(tempCanvas, 0, 0);
     ctx.restore();
 }
@@ -497,6 +498,8 @@ export function goThroughHistory(
 
     ctx.save();
     ctx.clearRect(0, 0, width, height);
+    // Set default background color
+    setCanvasBg(ctx);
     redrawCanvas(ctx, modHistory);
     ctx.restore();
 
@@ -542,11 +545,9 @@ export function updateHistory(
  * Just set canvas background.
  */
 export function setCanvasBg(
-    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D,
 ): void {
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    ctx.fillStyle = '#fff';
+    const { canvas } = ctx;
+    ctx.fillStyle = '#fff'; /* eslint-disable-line */
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }

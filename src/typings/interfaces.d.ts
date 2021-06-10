@@ -87,6 +87,15 @@ interface CanvasStoreDefaults {
     auxDataDefaults: AuxProps;
 }
 
+interface HttpResponse<T> {
+    parsedBody?: T;
+}
+
+interface ToBlobSpec {
+    imageType: string;
+    imageQuality: number;
+}
+
 type CanvasInstanceCreator = (type: string, canvasSpec: ActiveToolSpec) => Subscription;
 type TypeToToolMapMappedFunc = (
     ctx: CanvasRenderingContext2D,

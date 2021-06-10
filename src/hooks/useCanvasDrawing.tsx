@@ -34,8 +34,10 @@ const useCanvasDrawing = (
 
         // Accord drawingBuffer / display pixels
         resizeCanvasToDisplaySize(canvasEl);
+        const ctx = canvasEl.getContext('2d');
+        if (!ctx) return;
         // Set default background color
-        setCanvasBg(canvasEl);
+        setCanvasBg(ctx);
 
         console.log('%cBefore createDrawTool', 'color: tomato');
         canvasDrawingRef.current = createDrawTool(canvasEl) as DrawToolObject;
