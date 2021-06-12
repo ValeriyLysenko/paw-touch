@@ -85,10 +85,13 @@ export async function sendBlobToServer<T>(
     spec: ToBlobSpec,
 ): Promise<HttpResponse<T>> {
     const imageBlob = await canvasToBlob(canvas, spec);
+
+    if (!imageBlob) {
+        throw Error('Image to blob conversion is failed!!!');
+    }
+
     const formData = new FormData();
-    // @ts-ignore
     formData.append('canvasImage', imageBlob, 'blob-image-name.png');
-    console.log('formData', formData);
 
     // const response = await http<any>('http://localhost:8081/api/get-data', {
     // const response = await http<any>('http://localhost:8081/api/post-data', {
@@ -102,4 +105,39 @@ export async function sendBlobToServer<T>(
     });
 
     return response;
+}
+
+/**
+ * Resize image.
+ * You can return canvas or image.
+ */
+export async function resizeImage(
+    source: HTMLImageElement,
+    spec: {
+        width: number,
+        height: number,
+    },
+    isImage: boolean = false,
+    useBitmap: boolean = false,
+): Promise<HTMLImageElement | HTMLCanvasElement> {
+    const {
+        width, height,
+    } = spec;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+
+    if (useBitmap) {
+        const imageBitmap = await createImageBitmap(source);
+        ctx!.drawImage(imageBitmap, 0, 0, width, width);
+    } else ctx!.drawImage(source, 0, 0, width, width);
+
+    if (isImage) {
+        const image = document.createElement('img');
+        image.src = canvas.toDataURL();
+        return image;
+    }
+
+    return canvas;
 }
