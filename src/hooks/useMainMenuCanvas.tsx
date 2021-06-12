@@ -13,6 +13,7 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
     const { historyDefaults } = canvasStoreDefaults;
     const history = mainCanvas.getHistory;
     const historySpec = mainCanvas.getHistorySpec;
+
     const clickNewCanvasHandler = async (e: MouseEvent) => {
         e.stopPropagation();
         const { current: canvas } = canvasRef;
@@ -27,6 +28,21 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
         });
 
         console.log('RESPONSE', response);
+
+        /* canvas.toBlob((blob) => {
+            // const img = document.createElement('img');
+            // const url = URL.createObjectURL(blob);
+
+            // img.onload = () => {
+            //     // No longer need to read the blob so it's revoked
+            //     URL.revokeObjectURL(url);
+            // };
+
+            // img.src = url;
+            // console.log(url);
+            // document.body.appendChild(img);
+
+        }, 'image/png', 1.0); */
 
         mainCanvas.resetScale();
         runInAction(() => {
@@ -43,6 +59,7 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
         mainCanvas.setHistory(historyDefaults);
         mainCanvas.setHistorySpecPos(0);
     };
+
     const clickClearCanvasHandler = (e: MouseEvent) => {
         e.stopPropagation();
         const { current: canvas } = canvasRef;
@@ -57,22 +74,23 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
         setCanvasBg(ctx);
         ctx.restore();
     };
-    return [clickNewCanvasHandler, clickClearCanvasHandler];
+
+    const clickDownloadCanvasHandler = async (e: MouseEvent) => {
+        e.stopPropagation();
+        const { current: canvas } = canvasRef;
+        if (!canvas) return;
+
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png', 1);
+        link.download = 'Your masterpiece.png';
+        link.click();
+    };
+
+    return [
+        clickNewCanvasHandler,
+        clickClearCanvasHandler,
+        clickDownloadCanvasHandler,
+    ];
 };
 
 export default useMainMenuCanvas;
-
-/* canvas.toBlob((blob) => {
-            // const img = document.createElement('img');
-            // const url = URL.createObjectURL(blob);
-
-            // img.onload = () => {
-            //     // No longer need to read the blob so it's revoked
-            //     URL.revokeObjectURL(url);
-            // };
-
-            // img.src = url;
-            // console.log(url);
-            // document.body.appendChild(img);
-
-        }, 'image/png', 1.0); */

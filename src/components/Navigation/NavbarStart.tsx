@@ -15,7 +15,11 @@ const NavbarStart: FC<Props> = observer(() => {
         layout,
         tools,
     } = routes;
-    const [clickNewCanvasHandler, clickClearCanvasHandler] = useMainMenuCanvas();
+    const [
+        clickNewCanvasHandler,
+        clickClearCanvasHandler,
+        clickDownloadCanvasHandler,
+    ] = useMainMenuCanvas();
     const clickToolsHandler = useMainMenuTools();
     return (
         <div className="navbar-start">
@@ -24,6 +28,7 @@ const NavbarStart: FC<Props> = observer(() => {
                 handlers={{
                     newCanvas: clickNewCanvasHandler,
                     clearCanvas: clickClearCanvasHandler,
+                    downloadCanvas: clickDownloadCanvasHandler,
                 }}
             />
             <NavMenuSection routes={layout} />

@@ -16,15 +16,19 @@ const config: NavRouterObj = {
         },
         save: {
             id: nanoid(),
-            name: 'Save',
+            name: 'Download',
             title: '',
             url: '',
+            dataType: 'download',
+            handler: 'downloadCanvas',
         },
         'save-as': {
             id: nanoid(),
-            name: 'Save as...',
+            name: 'Save to gallery',
             title: '',
             url: '',
+            dataType: 'save',
+            handler: 'saveToGallery',
         },
         clear: {
             id: nanoid(),
