@@ -9,7 +9,7 @@ import { zoomOnReset } from 'libs/canvasLib';
 
 interface Props {}
 
-const ZoomInfo: FC<Props> = observer(() => {
+const SimpleZoomInfo: FC<Props> = observer(() => {
     const { canvasRef } = useContext(LayoutContext);
     const { mainCanvas } = useContext(AppContext);
     const scale = mainCanvas.getScale;
@@ -49,4 +49,4 @@ const ZoomInfo: FC<Props> = observer(() => {
     );
 });
 
-export default ZoomInfo;
+export default SimpleZoomInfo;

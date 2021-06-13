@@ -10,12 +10,13 @@ interface Props {}
 
 const App: FC<Props> = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const modalsWrapperRef = useRef<HTMLDivElement | null>(null);
     return (
-        <LayoutContextProvider value={{ canvasRef }}>
+        <LayoutContextProvider value={{ canvasRef, modalsWrapperRef }}>
             <div id="pt-draggable-wrapper">
                 <ToolsPanel />
             </div>
-            <div id="pt-modals-wrapper" />
+            <div id="pt-modals-wrapper" ref={modalsWrapperRef} />
             <div id="pt-page-wrapper">
                 <header>
                     <Navigation />

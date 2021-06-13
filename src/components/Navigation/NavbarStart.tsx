@@ -1,10 +1,12 @@
 import {
-    FC,
+    FC, useRef,
 } from 'react';
 import { observer } from 'mobx-react';
 import routes from 'routes';
 import useMainMenuTools from 'hooks/useMainMenuTools';
 import useMainMenuCanvas from 'hooks/useMainMenuCanvas';
+import ModalPortal from 'atomicComponents/Modal/ModalPortal';
+import SaveToGallery from 'components/Modals/SaveToGallery';
 import NavMenuSection from './NavMenuSection';
 
 interface Props {}
@@ -15,12 +17,15 @@ const NavbarStart: FC<Props> = observer(() => {
         layout,
         tools,
     } = routes;
+    const saveToGalleryModalRef = useRef(null);
     const [
         clickNewCanvasHandler,
         clickClearCanvasHandler,
         clickDownloadCanvasHandler,
-    ] = useMainMenuCanvas();
+        clickSaveToGalleryCanvasHandler,
+    ] = useMainMenuCanvas(saveToGalleryModalRef);
     const clickToolsHandler = useMainMenuTools();
+
     return (
         <div className="navbar-start">
             <NavMenuSection
@@ -29,10 +34,14 @@ const NavbarStart: FC<Props> = observer(() => {
                     newCanvas: clickNewCanvasHandler,
                     clearCanvas: clickClearCanvasHandler,
                     downloadCanvas: clickDownloadCanvasHandler,
+                    saveToGallery: clickSaveToGalleryCanvasHandler,
                 }}
             />
             <NavMenuSection routes={layout} />
             <NavMenuSection handlers={{ tools: clickToolsHandler }} routes={tools} />
+            <ModalPortal ref={saveToGalleryModalRef}>
+                <SaveToGallery />
+            </ModalPortal>
         </div>
     );
 });

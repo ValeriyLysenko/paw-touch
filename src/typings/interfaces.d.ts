@@ -96,6 +96,20 @@ interface ToBlobSpec {
     imageQuality: number;
 }
 
+interface SimpleModalSpec {
+    children?: ReactNode | string;
+}
+
+interface BasicModalSpec extends SimpleModalSpec {
+    title: string;
+    controls: ComponentType<any>;
+}
+
+interface ModalOpts<T> {
+    type: string;
+    modalSpec: T;
+}
+
 type CanvasInstanceCreator = (type: string, canvasSpec: ActiveToolSpec) => Subscription;
 type TypeToToolMapMappedFunc = (
     ctx: CanvasRenderingContext2D,

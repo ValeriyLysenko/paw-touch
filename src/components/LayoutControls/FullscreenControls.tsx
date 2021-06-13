@@ -4,7 +4,7 @@ import {
 import {
     useHistory,
 } from 'react-router-dom';
-import SimpleControl from 'atomicComponents/SimpleControl';
+import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
 interface Props {}
 

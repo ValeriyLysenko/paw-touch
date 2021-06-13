@@ -5,7 +5,7 @@ import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
-import SimpleControl from 'atomicComponents/SimpleControl';
+import SimpleControl from 'atomicComponents/Control/SimpleControl';
 import { goThroughHistory } from 'libs/canvasLib';
 
 interface Props {}

@@ -1,5 +1,5 @@
 import {
-    useContext, MouseEvent,
+    useContext, MouseEvent, MutableRefObject,
 } from 'react';
 import { runInAction } from 'mobx';
 import AppContext from 'aux/AppContext';
@@ -7,7 +7,9 @@ import LayoutContext from 'aux/LayoutContext';
 import { sendBlobToServer } from 'libs/lib';
 import { zoomOnReset, setCanvasBg } from 'libs/canvasLib';
 
-const useMainMenuCanvas = (): HandlerFunc[] => {
+const useMainMenuCanvas = (
+    saveToGalleryModalRef: MutableRefObject<HTMLDialogElement | null>,
+): HandlerFunc[] => {
     const { canvasRef } = useContext(LayoutContext);
     const { mainCanvas, canvasStoreDefaults } = useContext(AppContext);
     const { historyDefaults } = canvasStoreDefaults;
@@ -79,17 +81,27 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
         e.stopPropagation();
         const { current: canvas } = canvasRef;
         if (!canvas) return;
-
         const link = document.createElement('a');
         link.href = canvas.toDataURL('image/png', 1);
         link.download = 'Your masterpiece.png';
         link.click();
     };
 
+    const clickSaveToGalleryCanvasHandler = async (e: MouseEvent) => {
+        e.stopPropagation();
+        const { current: saveToGalleryModal } = saveToGalleryModalRef;
+        if (!saveToGalleryModal) return;
+        console.log(saveToGalleryModal);
+        console.log(saveToGalleryModal.firstChild);
+        const modal = saveToGalleryModal.firstChild as HTMLDivElement;
+        modal.classList.add('is-active');
+    };
+
     return [
         clickNewCanvasHandler,
         clickClearCanvasHandler,
         clickDownloadCanvasHandler,
+        clickSaveToGalleryCanvasHandler,
     ];
 };
 

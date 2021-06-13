@@ -17,7 +17,6 @@ const NavMenuSection: FC<Props> = ({
         id, name, title, url, sublevel, dataType,
     } = routes;
     const items = sublevel ? Object.values(sublevel) : [];
-    console.log('HANDLERS', handlers);
     if (!items.length) {
         const navItemProps = {
             id, name, title, url, dataType, handlers,

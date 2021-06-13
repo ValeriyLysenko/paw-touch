@@ -21,6 +21,7 @@ const BasicLayout: FC<Props> = observer(() => {
     const auxData = mainCanvas.getAuxData;
     const history = mainCanvas.getHistory;
     const historySpec = mainCanvas.getHistorySpec;
+
     useCanvasDrawing(
         toJS(activeTool),
         toJS(scale),

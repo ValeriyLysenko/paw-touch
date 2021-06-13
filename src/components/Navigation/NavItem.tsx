@@ -25,7 +25,6 @@ const NavItem: FC<Props> = ({
                     if (closest) closest.style.display = 'none';
                 }
                 // Handle link click
-                console.log('INSIDE CLICK', dataType, handlerFunc);
                 if (handlerFunc) handlerFunc(e);
             }}
             {...(dataType && { 'data-type': dataType })}
