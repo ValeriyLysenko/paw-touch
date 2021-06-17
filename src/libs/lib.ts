@@ -1,3 +1,5 @@
+import { MutableRefObject } from 'react';
+
 /**
  * Capitalize first letter of given string.
  */
@@ -145,13 +147,24 @@ export async function resizeImage(
 /**
  * Universal function for closing of modal.
  */
-export function uniOnClickHandler(e: React.MouseEvent) {
+export function uniOnCloseHandler(e: React.MouseEvent) {
     e.stopPropagation();
     const target = e.target as HTMLButtonElement;
     if (!target) return;
     const closest = target.closest('.modal.is-active');
     if (!closest) return;
     closest.classList.remove('is-active');
+}
+
+/**
+ * Universal function for opening of modal.
+ */
+export function uniOnOpenHandler(
+    modalRef: MutableRefObject<HTMLDivElement | null>,
+) {
+    const { current: modal } = modalRef;
+    if (!modal) return;
+    modal.classList.add('is-active');
 }
 
 /**

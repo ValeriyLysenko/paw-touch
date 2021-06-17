@@ -1,21 +1,23 @@
 import {
-    MouseEvent, ChangeEvent, forwardRef, MutableRefObject, useContext, useState, useRef, useReducer,
+    MouseEvent, ChangeEvent, useContext, useState, useRef, useReducer, FC,
 } from 'react';
-import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
+import NavigationContext from 'aux/NavigationContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 import { sendBlobToServer } from 'libs/lib';
 
-interface Ref extends HTMLDivElement {}
+interface Props {
+    callback?: Function;
+}
 
-interface Props {}
-
-const SaveToGallery = observer(forwardRef<Ref, Props>((props, ref) => {
-    console.log('Basic modal');
+const SaveToGallery: FC<Props> = ({
+    callback,
+}) => {
+    console.log('Save to gallery modal');
     const { mainCanvas } = useContext(AppContext);
     const { canvasRef } = useContext(LayoutContext);
-    const gallery = mainCanvas.getGallery;
+    const { saveToGalleryModalRef } = useContext(NavigationContext);
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const formDataRef = useRef({
         pristineForm: true,
@@ -38,7 +40,10 @@ const SaveToGallery = observer(forwardRef<Ref, Props>((props, ref) => {
     const onClose = (e: MouseEvent) => {
         e.stopPropagation();
 
-        const { current: modalEl } = ref as MutableRefObject<HTMLDivElement>;
+        // Prevent closing while server communication is on process
+        if (pending) return;
+
+        const { current: modalEl } = saveToGalleryModalRef;
         if (!modalEl) return;
         modalEl.classList.remove('is-active');
 
@@ -50,7 +55,7 @@ const SaveToGallery = observer(forwardRef<Ref, Props>((props, ref) => {
     const onSubmit = (e: MouseEvent) => {
         e.stopPropagation();
 
-        const { current: modalEl } = ref as MutableRefObject<HTMLDivElement>;
+        const { current: modalEl } = saveToGalleryModalRef;
         if (!modalEl) return;
 
         const { current: canvas } = canvasRef;
@@ -82,6 +87,10 @@ const SaveToGallery = observer(forwardRef<Ref, Props>((props, ref) => {
                     image: response.name || '',
                 };
                 mainCanvas.setGalleryItem(data);
+
+                // Call outside callback if any
+                if (callback) callback();
+
                 setTimeout(() => {
                     onClose(e);
                 }, 1500);
@@ -93,10 +102,8 @@ const SaveToGallery = observer(forwardRef<Ref, Props>((props, ref) => {
 
     };
 
-    console.log('%cgallery ===>', 'color: red', gallery);
-
     return (
-        <div ref={ref} className="modal">
+        <div ref={saveToGalleryModalRef} className="modal">
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -152,6 +159,7 @@ const SaveToGallery = observer(forwardRef<Ref, Props>((props, ref) => {
                         callback: onSubmit,
                         text: 'Save',
                         type: 'submit',
+                        disabled: pending,
                     }}
                     />
                     <SimpleControl {...{
@@ -160,14 +168,13 @@ const SaveToGallery = observer(forwardRef<Ref, Props>((props, ref) => {
                         ariaLabel: 'Close modal',
                         callback: onClose,
                         text: 'Cancel',
+                        disabled: pending,
                     }}
                     />
-                    {/* <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button> */}
                 </footer>
             </div>
         </div>
     );
-}));
+};
 
 export default SaveToGallery;

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { uniOnClickHandler } from 'libs/lib';
+import { uniOnCloseHandler } from 'libs/lib';
 
 interface Props extends BasicModalSpec {}
 
@@ -25,7 +25,7 @@ const BasicModal: FC<Props> = ({
                     <button
                         className="delete"
                         aria-label="Close modal"
-                        onClick={uniOnClickHandler}
+                        onClick={uniOnCloseHandler}
                     />
                 </header>
                 <section className="modal-card-body">

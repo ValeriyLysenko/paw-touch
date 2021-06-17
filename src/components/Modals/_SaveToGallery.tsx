@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import modalComponent from 'hocs/modalComponent';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
-import { uniOnClickHandler } from 'libs/lib';
+import { uniOnCloseHandler } from 'libs/lib';
 
 interface Props {}
 
@@ -21,7 +21,7 @@ const Controls = () => (
         <SimpleControl {...{
             cssClass: 'is-warning',
             ariaLabel: 'Close modal',
-            callback: uniOnClickHandler,
+            callback: uniOnCloseHandler,
             text: 'Cancel',
         }}
         />
