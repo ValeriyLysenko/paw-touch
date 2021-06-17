@@ -4,7 +4,7 @@ import {
 import {
     useHistory,
 } from 'react-router-dom';
-import SimpleControl from 'atomicComponents/SimpleControl';
+import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
 interface Props {}
 
@@ -16,7 +16,7 @@ const FullscreenControls: FC<Props> = () => {
     }, [history]);
 
     return (
-        <div className="columns is-fullwidth">
+        <div className="columns">
             <div className="column is-narrow">
                 <SimpleControl {...{
                     cssClass: 'is-warning is-outlined',

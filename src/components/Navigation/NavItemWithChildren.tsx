@@ -1,10 +1,14 @@
 import { FC } from 'react';
 import NavItem from './NavItem';
 
-interface Props extends NavRouterObj {}
+interface Props extends NavRouterObj {
+    handlers?: {
+        [name:string]: HandlerFunc;
+    };
+}
 
 const NavItemWithsublevel: FC<Props> = ({
-    name, title, url, sublevel,
+    name, sublevel, handlers,
 }) => {
     const items = sublevel ? Object.values(sublevel) : [];
     return (
@@ -22,7 +26,9 @@ const NavItemWithsublevel: FC<Props> = ({
                 <div className="dropdown-content">
                     {
                             items.length && items.map((item: NavRouterObj) => (
-                                item.sublevel ? <NavItemWithsublevel key={item.id} {...item} /> : <NavItem key={item.id} {...item} />
+                                item.sublevel
+                                    ? <NavItemWithsublevel key={item.id} {...item} handlers={handlers} />
+                                    : <NavItem key={item.id} {...item} handlers={handlers} />
                             ))
                         }
                 </div>

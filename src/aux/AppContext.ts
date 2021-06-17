@@ -3,6 +3,7 @@ import CanvasStore from 'stores/CanvasStore';
 
 export interface AppContextProps {
     mainCanvas: CanvasStore;
+    canvasStoreDefaults: CanvasStoreDefaults;
     auxCanvas: CanvasStore;
 }
 

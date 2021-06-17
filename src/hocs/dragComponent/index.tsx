@@ -1,34 +1,28 @@
 import { ComponentType } from 'react';
 import Draggable from './Draggable';
-import Droppable from './__Droppable';
 
-const dragComponent = (
-    ComponentToWrap: ComponentType<any>,
+function dragComponent<T>(
+    ComponentToWrap: ComponentType<T>,
     opts?: {
-        drop?: boolean,
         dragHandle?: string,
     },
-) => {
+) {
+    const displayName = ComponentToWrap.displayName || ComponentToWrap.name || '';
     const spec = opts || {};
+    const { dragHandle } = spec;
+    const wrappedProps = {
+        dragHandle: dragHandle || '',
+    };
 
-    if (!spec.drop) {
-        const { dragHandle = '' } = spec;
-        const finalProps = {
-            dragHandle: dragHandle || '',
-        };
-        return ({ ...props }) => (
-            <Draggable {...finalProps}>
-                <ComponentToWrap {...props} />
-            </Draggable>
-        );
-    }
-
-    return () => (
-        <div>DROPPABLE</div>
-        // <Droppable opts={{}}>
-        //     <ComponentToWrap />
-        // </Droppable>
+    const WrappedComponent = (props: T) => (
+        <Draggable {...wrappedProps}>
+            <ComponentToWrap {...props} />
+        </Draggable>
     );
-};
+
+    WrappedComponent.displayName = `dragComponent(${displayName})`;
+
+    return WrappedComponent;
+}
 
 export default dragComponent;

@@ -1,3 +1,8 @@
+interface GalleryObj {
+    title: string;
+    descr: string;
+    image: string;
+}
 interface AuxProps {
     ctrlKey: boolean;
 }
@@ -57,6 +62,8 @@ interface NavRouterObj {
     sublevel?: {
         [route:string]: NavRouterObj;
     };
+    dataType?: string;
+    handler?: string;
 }
 
 interface CanvasSpec {
@@ -77,9 +84,37 @@ interface DrawToolObject {
     drawingSub: Subscription;
 }
 
+interface CanvasStoreDefaults {
+    historyDefaults: HistoryObj[][];
+    historySpecDefaults: HistorySpec;
+    scaleDefaults: ScaleToolObject;
+    activeToolDefaults: ActiveTool;
+    auxDataDefaults: AuxProps;
+}
+
+interface ToBlobSpec {
+    imageType: string;
+    imageQuality: number;
+}
+
+interface SimpleModalSpec {
+    children?: ReactNode | string;
+}
+
+interface BasicModalSpec extends SimpleModalSpec {
+    title: string;
+    Controls: ComponentType<any>;
+}
+
+interface ModalOpts<T> {
+    type: string;
+    modalSpec: T;
+}
+
 type CanvasInstanceCreator = (type: string, canvasSpec: ActiveToolSpec) => Subscription;
 type TypeToToolMapMappedFunc = (
     ctx: CanvasRenderingContext2D,
     spec: DrawingSpec,
     // spec: DrawingSpec | Omit<DrawingSpec, 'color'>,
 ) => void;
+type HandlerFunc = (e: React.MouseEvent) => void;

@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-export default {
+const config: NavRouterObj = {
     id: nanoid(),
     name: 'Tools',
     title: '',
@@ -17,18 +17,24 @@ export default {
                     name: 'Pencil',
                     title: '',
                     url: '',
+                    dataType: 'pencil',
+                    handler: 'tools',
                 },
                 paintbrush: {
                     id: nanoid(),
                     name: 'Paintbrush',
                     title: '',
                     url: '',
+                    dataType: 'brush',
+                    handler: 'tools',
                 },
                 eraser: {
                     id: nanoid(),
                     name: 'Eraser',
                     title: '',
                     url: '',
+                    dataType: 'eraser',
+                    handler: 'tools',
                 },
             },
         },
@@ -37,6 +43,10 @@ export default {
             name: 'Zoom',
             title: '',
             url: '',
+            dataType: 'zoom',
+            handler: 'tools',
         },
     },
 };
+
+export default config;

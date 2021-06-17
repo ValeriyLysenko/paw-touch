@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-export default {
+const config: NavRouterObj = {
     id: nanoid(),
     name: 'Canvas',
     title: '',
@@ -11,24 +11,32 @@ export default {
             name: 'New canvas',
             title: '',
             url: 'new-canvas',
+            dataType: 'new-canvas',
+            handler: 'newCanvas',
         },
         save: {
             id: nanoid(),
-            name: 'Save',
+            name: 'Download',
             title: '',
             url: '',
+            dataType: 'download',
+            handler: 'downloadCanvas',
         },
         'save-as': {
             id: nanoid(),
-            name: 'Save as...',
+            name: 'Save to gallery',
             title: '',
             url: '',
+            dataType: 'save',
+            handler: 'saveToGallery',
         },
         clear: {
             id: nanoid(),
             name: 'Clear',
             title: '',
             url: '',
+            dataType: 'clear',
+            handler: 'clearCanvas',
         },
         exit: {
             id: nanoid(),
@@ -38,3 +46,5 @@ export default {
         },
     },
 };
+
+export default config;
