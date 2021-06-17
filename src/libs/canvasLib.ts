@@ -1,6 +1,8 @@
-import { fromEvent, Subscription } from 'rxjs';
 import {
-    map, switchMap, takeUntil, tap,
+    fromEvent, Subscription,
+} from 'rxjs';
+import {
+    map, switchMap, takeUntil, tap, filter,
 } from 'rxjs/operators';
 import { mainCanvas } from 'aux/init';
 
@@ -42,65 +44,33 @@ export function createDrawTool(
             history: HistoryData,
         ): Subscription => downStream$
             .pipe(
-                switchMap((_) => {
-                    switch (type) {
-                        case 'zoom': {
-                            return clickStream$
-                                .pipe(
-                                    map((e) => createRawDrawObject(e)),
-                                );
-                        }
-                        default: {
-                            return moveStream$
-                                .pipe(
-                                    takeUntil(upStream$.pipe(
-                                        tap((e) => {
-                                            console.log('MOUSEUP', e);
-                                            const {
-                                                data, spec: {
-                                                    position,
-                                                },
-                                            } = history;
-                                            if (position) {
-                                                const newHistory = [...data];
-                                                newHistory.splice(newHistory.length - position, position);
-                                                newHistory.push(historySpan);
-                                                mainCanvas.setHistory(newHistory);
-                                                mainCanvas.setHistorySpecPos(0);
-                                            } else mainCanvas.setHistoryItem(historySpan);
-                                            // Clear temp history
-                                            historySpan = [];
-                                        }),
-                                    )),
-                                    map((e) => createRawDrawObject(e)),
-                                );
-                        }
-
+                // Let click for left mouse button only
+                filter((ev) => ev.button === 0),
+                switchMap((ev) => {
+                    // Handle mousedown
+                    init(type, spec, scale, history, createRawDrawObject(ev), historySpan);
+                    // Switch streams
+                    if (type === 'zoom') {
+                        return clickStream$
+                            .pipe(
+                                map((e) => createRawDrawObject(e)),
+                            );
                     }
+                    return moveStream$
+                        .pipe(
+                            takeUntil(upStream$.pipe(
+                                tap((e) => {
+                                    // Clear temp history
+                                    historySpan = updateHistory(history, historySpan);
+                                }),
+                            )),
+                            map((e) => createRawDrawObject(e)),
+                        );
                 }),
             )
             .subscribe({
                 next(drawObj) {
-                    console.log('HERE');
-                    const { currentScale, scaledPosRatio } = scale;
-                    let newDrawObj = drawObj;
-
-                    // !Use this correction with 'scaleCanvasWithRedrawChangeSize' only
-                    if (currentScale !== 1) {
-                        const { x, y } = drawObj;
-                        newDrawObj = {
-                            ...drawObj,
-                            x: x * scaledPosRatio[0],
-                            y: y * scaledPosRatio[1],
-                        };
-
-                        console.log('translation', scaledPosRatio);
-                    }
-
-                    // drawStrategy(type, drawObj, {
-                    drawStrategy(type, newDrawObj, {
-                        spec, scale, historySpan, history,
-                    });
+                    init(type, spec, scale, history, drawObj, historySpan);
                 },
                 error(err) {
                     console.log('%cERROR', 'color: red', err);
@@ -108,6 +78,39 @@ export function createDrawTool(
             }),
     };
 
+}
+
+/**
+ * Start drawing.
+ */
+export function init(
+    type: string,
+    spec: ActiveToolSpec,
+    scale: ScaleToolObject,
+    history: HistoryData,
+    drawObj: RawDrawingSpec,
+    historySpan: HistoryObj[],
+) {
+    console.log('HERE');
+    const { currentScale, scaledPosRatio } = scale;
+    let newDrawObj = drawObj;
+
+    // !Use this correction with 'scaleCanvasWithRedrawChangeSize' only
+    if (currentScale !== 1) {
+        const { x, y } = drawObj;
+        newDrawObj = {
+            ...drawObj,
+            x: x * scaledPosRatio[0],
+            y: y * scaledPosRatio[1],
+        };
+
+        console.log('translation', scaledPosRatio);
+    }
+
+    // drawStrategy(type, drawObj, {
+    drawStrategy(type, newDrawObj, {
+        spec, scale, historySpan, history,
+    });
 }
 
 /**
@@ -304,9 +307,6 @@ export function zoomOnReset(
     // scaleCanvasWithRedraw(ctx, zoom, history);
     scaleCanvasWithRedrawChangeSize(ctx, zoom, history);
 
-    // Reset 'scaledPosRatio'
-    mainCanvas.setScalePosRatio([]);
-
     console.log('After zoomOnReset');
 }
 
@@ -318,7 +318,7 @@ export function redrawCanvas(
     data: HistoryObj[][],
 ): void {
     const typeToToolMap: {
-        [name:string]: TypeToToolMapMappedFunc
+        [name:string]: TypeToToolMapMappedFunc;
     } = {
         pencil: pencilDraw,
         brush: brushDraw,
@@ -348,6 +348,8 @@ export function scaleCanvasWithRedraw(
     ctx.translate(translation[0], translation[1]);
     ctx.scale(zoom, zoom);
     ctx.clearRect(0, 0, width, height);
+    // Set default background color
+    setCanvasBg(ctx);
     redrawCanvas(ctx, history.data);
     ctx.restore();
 }
@@ -393,6 +395,8 @@ export function scaleCanvas(
     ctx.translate(translation[0], translation[1]);
     ctx.scale(zoom, zoom);
     ctx.clearRect(0, 0, width, height);
+    // Set default background color
+    setCanvasBg(ctx);
     ctx.drawImage(tempCanvas, 0, 0);
     ctx.restore();
 }
@@ -449,18 +453,18 @@ export function zoomManager(
  */
 export function cursorManager(
     type: string,
-    el: HTMLCanvasElement,
+    canvas: HTMLCanvasElement,
     ctrlKey: boolean,
 ): void {
     switch (type) {
         case 'pencil':
         case 'brush':
         case 'eraser': {
-            el.style.cursor = 'crosshair'; // eslint-disable-line
+            canvas.style.cursor = 'crosshair'; // eslint-disable-line
             break;
         }
         case 'zoom':
-            el.style.cursor = !ctrlKey ? 'zoom-in' : 'zoom-out'; // eslint-disable-line
+            canvas.style.cursor = !ctrlKey ? 'zoom-in' : 'zoom-out'; // eslint-disable-line
             break;
         default: {
             break;
@@ -494,6 +498,8 @@ export function goThroughHistory(
 
     ctx.save();
     ctx.clearRect(0, 0, width, height);
+    // Set default background color
+    setCanvasBg(ctx);
     redrawCanvas(ctx, modHistory);
     ctx.restore();
 
@@ -510,4 +516,38 @@ export function getTranslation(
     const newWidth = size[0] * zoom;
     const newHeight = size[1] * zoom;
     return [-((newWidth - size[0]) / 2), -((newHeight - size[1]) / 2)];
+}
+
+/**
+ * Update history on 'mouseup' event.
+ */
+export function updateHistory(
+    history: HistoryData,
+    historySpan: HistoryObj[],
+): [] {
+    const {
+        data, spec: {
+            position,
+        },
+    } = history;
+    if (position) {
+        const newHistory = [...data];
+        newHistory.splice(newHistory.length - position, position);
+        newHistory.push(historySpan);
+        mainCanvas.setHistory(newHistory);
+        mainCanvas.setHistorySpecPos(0);
+    } else mainCanvas.setHistoryItem(historySpan);
+
+    return [];
+}
+
+/**
+ * Just set canvas background.
+ */
+export function setCanvasBg(
+    ctx: CanvasRenderingContext2D,
+): void {
+    const { canvas } = ctx;
+    ctx.fillStyle = '#fff'; /* eslint-disable-line */
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }

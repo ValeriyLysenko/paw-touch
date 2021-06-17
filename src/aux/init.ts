@@ -1,4 +1,11 @@
 import CanvasStore from 'stores/CanvasStore';
+import * as canvasStoreDefaults from 'stores/CanvasStoreDefaults';
 
-export const mainCanvas = new CanvasStore();
-export const auxCanvas = new CanvasStore();
+const mainCanvas = new CanvasStore();
+const auxCanvas = new CanvasStore();
+
+export {
+    mainCanvas,
+    canvasStoreDefaults,
+    auxCanvas,
+};

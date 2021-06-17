@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+/*=============================================
+=                Modals block                =
+=============================================*/
+
+.#{$pt-prefix}modal-title {
+    display: flex;
+    align-items: center;
+
+    button {
+        width: 1em;
+        height: 1em;
+        background-color: transparent;
+        border-color: transparent;
+
+        &.is-loading {
+            &::after {
+                border-color: #e91e63;
+                border-right-color: transparent;
+                border-top-color: transparent;
+            }
+        }
+    }
+
+    .tag {
+        margin-left: 10px;
+    }
+}
+
+/*=====      End of Modals block      ======*/

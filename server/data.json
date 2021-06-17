@@ -1,0 +1,20 @@
+{
+    "date": "2012-04-23T01:06:43.511Z",
+    "widgets": [
+        {
+            "name": "Weather",
+            "city": "Southe Mariane",
+            "status": "active"
+        },
+        {
+            "name": "Races",
+            "city": "Monserratmouth",
+            "status": "suspend"
+        },
+        {
+            "name": "News",
+            "city": "Monserratmouth",
+            "status": "obsolete"
+        }
+    ]
+}

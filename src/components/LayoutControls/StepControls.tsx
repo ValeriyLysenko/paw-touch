@@ -5,7 +5,7 @@ import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
-import SimpleControl from 'atomicComponents/SimpleControl';
+import SimpleControl from 'atomicComponents/Control/SimpleControl';
 import { goThroughHistory } from 'libs/canvasLib';
 
 interface Props {}
@@ -38,7 +38,7 @@ const StepControls: FC<Props> = observer(() => {
     console.log('%chistory.length', 'color: red', position);
 
     return (
-        <div className="columns is-fullwidth">
+        <div className="columns">
             <div className="column is-narrow">
                 <SimpleControl {...{
                     cssClass: 'is-warning is-outlined',

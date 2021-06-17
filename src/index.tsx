@@ -6,7 +6,7 @@ import {
     BrowserRouter as Router,
 } from 'react-router-dom';
 import 'aux/listeners';
-import { mainCanvas, auxCanvas } from 'aux/init';
+import { mainCanvas, canvasStoreDefaults, auxCanvas } from 'aux/init';
 import { AppContextProvider } from 'aux/AppContext';
 import App from 'components/App';
 
@@ -19,7 +19,7 @@ import 'assets/styles/main.scss';
 
 ReactDOM.render(
     <AppContextProvider value={{
-        mainCanvas, auxCanvas,
+        mainCanvas, canvasStoreDefaults, auxCanvas,
     }}
     >
         <StrictMode>

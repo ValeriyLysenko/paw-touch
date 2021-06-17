@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import SimpleSlider from 'atomicComponents/Slider/SimpleSlider';
 import SimpleColorPicker from 'atomicComponents/ColorPicker/SimpleColorPicker';
-import ZoomInfo from 'atomicComponents/ZoomInfo';
+import SimpleZoomInfo from 'atomicComponents/ZoomInfo/SimpleZoomInfo';
 
 interface Props {}
 
@@ -29,7 +29,7 @@ const ToolSettings: FC<Props> = observer(() => {
 
     return (
         <div className="pt-tool-settings-block">
-            <ZoomInfo />
+            <SimpleZoomInfo />
             {
                 sliderShowArr.includes(type) && <SimpleSlider {...sliderSpec} />
             }

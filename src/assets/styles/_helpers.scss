@@ -4,10 +4,6 @@
 =               Helpers block                 =
 =============================================*/
 
-// .#{$pt-prefix}helper-uni-indent-1 {
-//     padding: 1.5rem 0;
-// }
-
 .#{$pt-prefix}helper-no-bg {
     background: none !important;
     &:hover {
@@ -17,6 +13,10 @@
 
 .#{$pt-prefix}helper-pos-rel {
     position: relative;
+}
+
+.#{$pt-prefix}helper-space-between {
+    justify-content: space-between;
 }
 
 /*=====      End of Helpers block      ======*/

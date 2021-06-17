@@ -3,17 +3,13 @@ import {
 } from 'react';
 
 interface Props {
-    children: ReactNode,
+    children?: ReactNode,
     dragHandle?: string,
-    drag?: boolean,
-    drop?: boolean,
 }
 
 const Draggable: FC<Props> = ({
     children,
     dragHandle,
-    drag,
-    drop,
 }) => {
     // console.log('%cDraggable', 'color: red', children);
     const draggableRef = useRef<HTMLDivElement>(null);
