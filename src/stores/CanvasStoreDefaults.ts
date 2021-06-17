@@ -1,3 +1,5 @@
+export const galleryDefaults: GalleryObj[] = [];
+
 export const historyDefaults: HistoryObj[][] = [];
 
 export const historySpecDefaults: HistorySpec = {

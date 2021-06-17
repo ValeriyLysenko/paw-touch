@@ -53,7 +53,7 @@ export function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement): boolean {
 export async function http<T>(
     url: string,
     spec: RequestInit,
-): Promise<HttpResponse<T>> {
+): Promise<T> {
     const response = await fetch(url, spec);
     let parsedBody = null;
 
@@ -83,7 +83,7 @@ export async function canvasToBlob(
 export async function sendBlobToServer<T>(
     canvas: HTMLCanvasElement,
     spec: ToBlobSpec,
-): Promise<HttpResponse<T>> {
+): Promise<T> {
     const imageBlob = await canvasToBlob(canvas, spec);
 
     if (!imageBlob) {
@@ -140,4 +140,36 @@ export async function resizeImage(
     }
 
     return canvas;
+}
+
+/**
+ * Universal function for closing of modal.
+ */
+export function uniOnClickHandler(e: React.MouseEvent) {
+    e.stopPropagation();
+    const target = e.target as HTMLButtonElement;
+    if (!target) return;
+    const closest = target.closest('.modal.is-active');
+    if (!closest) return;
+    closest.classList.remove('is-active');
+}
+
+/**
+ * Get form data.
+ */
+export function getFormData(
+    form: HTMLFormElement,
+): {
+    [name:string]: string | number | boolean;
+} {
+    const { elements } = form;
+    if (!elements) {}; /* eslint-disable-line */
+    const entries = Object.entries(elements) as [string, HTMLFormElement][];
+    const fields: {
+        [name:string]: string | number | boolean;
+    } = {};
+    for (const entry of entries) {
+        if (Number.isNaN(parseInt(entry[0], 10))) fields[entry[0]] = entry[1].value.trim();
+    }
+    return fields;
 }

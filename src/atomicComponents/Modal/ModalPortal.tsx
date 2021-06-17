@@ -1,18 +1,16 @@
 import {
-    ReactNode, useContext, useEffect, useRef, forwardRef,
+    FC, ReactNode, useContext, useEffect, useRef,
 } from 'react';
 import { createPortal } from 'react-dom';
 import LayoutContext from 'aux/LayoutContext';
-
-interface Ref extends HTMLDivElement {}
 
 interface Props {
     children?: ReactNode;
 }
 
-const ModalPortal = forwardRef<Ref, Props>(({
+const ModalPortal: FC<Props> = ({
     children,
-}, ref) => {
+}) => {
     const { modalsWrapperRef } = useContext(LayoutContext);
     const modalRef = useRef<HTMLDivElement>(document.createElement('div'));
 
@@ -26,9 +24,9 @@ const ModalPortal = forwardRef<Ref, Props>(({
         modalsWrapper.appendChild(modal);
 
         return () => void modalsWrapper.removeChild(modal); /* eslint-disable-line */
-    }, [modalsWrapperRef, children, ref]);
+    }, [modalsWrapperRef]);
 
-    return createPortal(<div ref={ref}>{children}</div>, modalRef.current);
-});
+    return createPortal(<div>{children}</div>, modalRef.current);
+};
 
 export default ModalPortal;

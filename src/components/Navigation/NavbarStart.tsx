@@ -39,8 +39,8 @@ const NavbarStart: FC<Props> = observer(() => {
             />
             <NavMenuSection routes={layout} />
             <NavMenuSection handlers={{ tools: clickToolsHandler }} routes={tools} />
-            <ModalPortal ref={saveToGalleryModalRef}>
-                <SaveToGallery />
+            <ModalPortal>
+                <SaveToGallery ref={saveToGalleryModalRef} />
             </ModalPortal>
         </div>
     );

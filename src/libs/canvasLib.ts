@@ -318,7 +318,7 @@ export function redrawCanvas(
     data: HistoryObj[][],
 ): void {
     const typeToToolMap: {
-        [name:string]: TypeToToolMapMappedFunc
+        [name:string]: TypeToToolMapMappedFunc;
     } = {
         pencil: pencilDraw,
         brush: brushDraw,

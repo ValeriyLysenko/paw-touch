@@ -16,7 +16,7 @@ const FullscreenControls: FC<Props> = () => {
     }, [history]);
 
     return (
-        <div className="columns is-fullwidth">
+        <div className="columns">
             <div className="column is-narrow">
                 <SimpleControl {...{
                     cssClass: 'is-warning is-outlined',

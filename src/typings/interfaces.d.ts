@@ -1,3 +1,8 @@
+interface GalleryObj {
+    title: string;
+    descr: string;
+    image: string;
+}
 interface AuxProps {
     ctrlKey: boolean;
 }
@@ -87,10 +92,6 @@ interface CanvasStoreDefaults {
     auxDataDefaults: AuxProps;
 }
 
-interface HttpResponse<T> {
-    parsedBody?: T;
-}
-
 interface ToBlobSpec {
     imageType: string;
     imageQuality: number;
@@ -102,7 +103,7 @@ interface SimpleModalSpec {
 
 interface BasicModalSpec extends SimpleModalSpec {
     title: string;
-    controls: ComponentType<any>;
+    Controls: ComponentType<any>;
 }
 
 interface ModalOpts<T> {

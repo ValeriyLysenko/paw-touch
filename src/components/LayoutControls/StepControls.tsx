@@ -38,7 +38,7 @@ const StepControls: FC<Props> = observer(() => {
     console.log('%chistory.length', 'color: red', position);
 
     return (
-        <div className="columns is-fullwidth">
+        <div className="columns">
             <div className="column is-narrow">
                 <SimpleControl {...{
                     cssClass: 'is-warning is-outlined',

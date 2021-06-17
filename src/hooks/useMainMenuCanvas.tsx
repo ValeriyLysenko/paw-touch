@@ -91,10 +91,7 @@ const useMainMenuCanvas = (
         e.stopPropagation();
         const { current: saveToGalleryModal } = saveToGalleryModalRef;
         if (!saveToGalleryModal) return;
-        console.log(saveToGalleryModal);
-        console.log(saveToGalleryModal.firstChild);
-        const modal = saveToGalleryModal.firstChild as HTMLDivElement;
-        modal.classList.add('is-active');
+        saveToGalleryModal.classList.add('is-active');
     };
 
     return [
