@@ -110,6 +110,9 @@ export async function sendBlobToServer<T>(
 }
 
 /**
+ * !There is a serious bug when sometimes function returns
+ * !transparent image. It's because of 'canvas.toDataURL()' method
+ * !@link https://github.com/iddan/react-native-canvas/issues/29
  * Resize image.
  * You can return canvas or image.
  */
@@ -126,13 +129,15 @@ export async function resizeImage(
         width, height,
     } = spec;
     const canvas = document.createElement('canvas');
+
+    // source.onload = async () => { /* eslint-disable-line */
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
 
     if (useBitmap) {
         const imageBitmap = await createImageBitmap(source);
-        ctx!.drawImage(imageBitmap, 0, 0, width, width);
+            ctx!.drawImage(imageBitmap, 0, 0, width, width);
     } else ctx!.drawImage(source, 0, 0, width, width);
 
     if (isImage) {
@@ -140,14 +145,44 @@ export async function resizeImage(
         image.src = canvas.toDataURL();
         return image;
     }
+    // };
 
     return canvas;
 }
 
 /**
+ * Resize image and return base64 string.
+ */
+export async function resizeImageToString(
+    source: HTMLImageElement,
+    spec: {
+        width: number,
+        height: number,
+    },
+    useBitmap: boolean = false,
+): Promise<string> {
+    const {
+        width, height,
+    } = spec;
+    const canvas = document.createElement('canvas');
+
+    // source.onload = async () => { /* eslint-disable-line */
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (useBitmap) {
+        const imageBitmap = await createImageBitmap(source);
+            ctx!.drawImage(imageBitmap, 0, 0, width, width);
+    } else ctx!.drawImage(source, 0, 0, width, width);
+    // };
+
+    return await canvas.toDataURL();
+}
+
+/**
  * Universal function for closing of modal.
  */
-export function uniOnCloseHandler(e: React.MouseEvent) {
+export function uniCloseHandler(e: React.MouseEvent) {
     e.stopPropagation();
     const target = e.target as HTMLButtonElement;
     if (!target) return;

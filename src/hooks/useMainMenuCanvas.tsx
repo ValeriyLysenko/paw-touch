@@ -4,17 +4,19 @@ import {
 import { runInAction } from 'mobx';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
-import NavigationContext from 'aux/NavigationContext';
-import { sendBlobToServer, uniOnOpenHandler } from 'libs/lib';
+
+import { uniOnOpenHandler } from 'libs/lib';
 import { zoomOnReset, setCanvasBg } from 'libs/canvasLib';
 
 const useMainMenuCanvas = (): HandlerFunc[] => {
     const { canvasRef } = useContext(LayoutContext);
     const { mainCanvas, canvasStoreDefaults } = useContext(AppContext);
     const {
-        saveToGalleryModalRef,
-        saveToGalleryPropmptModalRef,
-    } = useContext(NavigationContext);
+        modals: {
+            saveToGalleryModalRef,
+            saveToGalleryPropmptModalRef,
+        },
+    } = useContext(LayoutContext);
 
     const clickNewCanvasHandler = (e: MouseEvent) => {
         e.stopPropagation();
@@ -51,37 +53,17 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
         uniOnOpenHandler(saveToGalleryModalRef);
     };
 
-    const resetCanvasToDefaults = async () => {
+    const resetCanvasToDefaults = () => {
         const { historyDefaults } = canvasStoreDefaults;
         const history = mainCanvas.getHistory;
         const historySpec = mainCanvas.getHistorySpec;
+
         const { current: canvas } = canvasRef;
         if (!canvas) return;
         const { width, height } = canvas;
+
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
-
-        /* const response = await sendBlobToServer(canvas, {
-            imageType: 'image/png',
-            imageQuality: 1,
-        });
-
-        console.log('RESPONSE', response); */
-
-        /* canvas.toBlob((blob) => {
-            // const img = document.createElement('img');
-            // const url = URL.createObjectURL(blob);
-
-            // img.onload = () => {
-            //     // No longer need to read the blob so it's revoked
-            //     URL.revokeObjectURL(url);
-            // };
-
-            // img.src = url;
-            // console.log(url);
-            // document.body.appendChild(img);
-
-        }, 'image/png', 1.0); */
 
         runInAction(() => {
             mainCanvas.resetScale();
@@ -98,8 +80,6 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
             mainCanvas.setHistory(historyDefaults);
             mainCanvas.setHistorySpecPos(0);
         });
-
-        console.log('--> resetCanvasToDefaults');
     };
 
     return [

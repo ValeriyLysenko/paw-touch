@@ -11,8 +11,16 @@ interface Props {}
 const App: FC<Props> = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const modalsWrapperRef = useRef<HTMLDivElement | null>(null);
+    const modals = {
+        saveToGalleryModalRef: useRef<HTMLDivElement | null>(null),
+        saveToGalleryPropmptModalRef: useRef<HTMLDivElement | null>(null),
+        galleryPopupModalRef: useRef<HTMLDivElement | null>(null),
+    };
     return (
-        <LayoutContextProvider value={{ canvasRef, modalsWrapperRef }}>
+        <LayoutContextProvider value={{
+            canvasRef, modalsWrapperRef, modals,
+        }}
+        >
             <div id="pt-draggable-wrapper">
                 <ToolsPanel />
             </div>

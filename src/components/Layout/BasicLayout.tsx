@@ -38,7 +38,7 @@ const BasicLayout: FC<Props> = observer(() => {
 
     return (
         <div>
-            <img id="imageBitmap" src="./f01223034d216d98d582c5557a3c1406.png" alt="" />
+            <img id="imageBitmap" src="./uploads/48e8fc29d0dac5d9e5fb1f5ff6705a25.png" alt="" />
             <div id="previewImage" />
             <button onClick={async (e) => {
                 e.stopPropagation();

@@ -7,7 +7,7 @@ interface Props {
     text: string;
     role?: string;
     ariaLabel: string;
-    cssClass?: string;
+    cssClass: string;
     type?: 'submit' | 'reset' | 'button';
     dataType?: string;
     disabled?: boolean;
@@ -17,7 +17,7 @@ interface BtnProps {
     onClick?: MouseEventHandler<HTMLButtonElement>,
     role?: string;
     'aria-label': string;
-    className?: string;
+    className: string;
     type?: 'submit' | 'reset' | 'button';
     'data-type'?: string;
     disabled?: boolean;
@@ -36,7 +36,7 @@ const SimpleControl: FC<Props> = ({
     const btnProps: BtnProps = {
         onClick: callback || ((e) => console.log(e)),
         'aria-label': ariaLabel || 'Default text',
-        className: `button ${cssClass}`,
+        className: cssClass,
         type: type || 'button',
     };
     if (role) btnProps.role = role;

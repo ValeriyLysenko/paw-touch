@@ -1,9 +1,10 @@
 import {
     MouseEvent, ChangeEvent, useContext, useState, useRef, useReducer, FC,
 } from 'react';
+import { nanoid } from 'nanoid';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
-import NavigationContext from 'aux/NavigationContext';
+
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 import { sendBlobToServer } from 'libs/lib';
 
@@ -17,7 +18,7 @@ const SaveToGallery: FC<Props> = ({
     console.log('Save to gallery modal');
     const { mainCanvas } = useContext(AppContext);
     const { canvasRef } = useContext(LayoutContext);
-    const { saveToGalleryModalRef } = useContext(NavigationContext);
+    const { modals: { saveToGalleryModalRef } } = useContext(LayoutContext);
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const formDataRef = useRef({
         pristineForm: true,
@@ -37,7 +38,7 @@ const SaveToGallery: FC<Props> = ({
         const target = e.target as HTMLTextAreaElement;
         setDescr(target.value);
     };
-    const onClose = (e: MouseEvent) => {
+    const closeHandler = (e: MouseEvent) => {
         e.stopPropagation();
 
         // Prevent closing while server communication is on process
@@ -82,6 +83,7 @@ const SaveToGallery: FC<Props> = ({
             if (response) {
                 setResponseStatus('success');
                 const data = {
+                    id: nanoid(),
                     title,
                     descr,
                     image: response.name || '',
@@ -92,7 +94,7 @@ const SaveToGallery: FC<Props> = ({
                 if (callback) callback();
 
                 setTimeout(() => {
-                    onClose(e);
+                    closeHandler(e);
                 }, 1500);
             } else {
                 setResponseStatus('error');
@@ -124,7 +126,7 @@ const SaveToGallery: FC<Props> = ({
                     <button
                         className="delete"
                         aria-label="Close modal"
-                        onClick={onClose}
+                        onClick={closeHandler}
                     />
                 </header>
                 <section className="modal-card-body">
@@ -154,7 +156,7 @@ const SaveToGallery: FC<Props> = ({
                 </section>
                 <footer className="modal-card-foot pt-helper-space-between">
                     <SimpleControl {...{
-                        cssClass: 'is-success',
+                        cssClass: 'button is-success',
                         ariaLabel: 'Save modal',
                         callback: onSubmit,
                         text: 'Save',
@@ -164,9 +166,9 @@ const SaveToGallery: FC<Props> = ({
                     />
                     <SimpleControl {...{
                         type: 'submit',
-                        cssClass: 'is-warning',
+                        cssClass: 'button is-warning',
                         ariaLabel: 'Close modal',
-                        callback: onClose,
+                        callback: closeHandler,
                         text: 'Cancel',
                         disabled: pending,
                     }}

@@ -41,7 +41,7 @@ const StepControls: FC<Props> = observer(() => {
         <div className="columns">
             <div className="column is-narrow">
                 <SimpleControl {...{
-                    cssClass: 'is-warning is-outlined',
+                    cssClass: 'button is-warning is-outlined',
                     ariaLabel: 'Previous',
                     callback: onClick,
                     text: 'Previous step',
@@ -53,7 +53,7 @@ const StepControls: FC<Props> = observer(() => {
             <div className="column">&nbsp;</div>
             <div className="column is-narrow">
                 <SimpleControl {...{
-                    cssClass: 'is-warning is-outlined',
+                    cssClass: 'button is-warning is-outlined',
                     ariaLabel: 'Next',
                     callback: onClick,
                     text: 'Next step',

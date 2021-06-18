@@ -19,7 +19,7 @@ const FullscreenControls: FC<Props> = () => {
         <div className="columns">
             <div className="column is-narrow">
                 <SimpleControl {...{
-                    cssClass: 'is-warning is-outlined',
+                    cssClass: 'button is-warning is-outlined',
                     ariaLabel: 'Go back',
                     callback: onGoBack,
                     text: 'Go back',

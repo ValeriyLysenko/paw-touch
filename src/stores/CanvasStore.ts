@@ -8,7 +8,20 @@ import {
 } from './CanvasStoreDefaults';
 
 class CanvasStore {
-    gallery: GalleryObj[] = galleryDefaults;
+    // gallery: GalleryObj[] = galleryDefaults;
+    gallery: GalleryObj[] = [{
+        id: 'w_quF9g7rOFwxthXF9CH6',
+        title: 'Title',
+        descr: 'Description',
+        image: '48e8fc29d0dac5d9e5fb1f5ff6705a25.png',
+    },
+    /* {
+        id: 'w_quF9g7rOFwxthXF9CH3',
+        title: 'Title 2',
+        descr: 'Description 2',
+        image: '48e8fc29d0dac5d9e5fb1f5ff6705a25.png',
+    }, */
+    ];
 
     history: HistoryObj[][] = historyDefaults;
 
@@ -159,8 +172,8 @@ class CanvasStore {
             imageType: 'image/png',
             imageQuality: 1,
         });
-        console.log('RESPONSE', response);
         this.gallery.push({
+            id: '',
             title: '',
             descr: '',
             image: response.name,

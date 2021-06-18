@@ -45,7 +45,7 @@ app.post('/api/post-data', (req, res) => {
  * Simpler way to upload an image (but without the extension).
  *
 const upload = multer({
-  dest: 'uploads/', // Omit to keep files in memory
+  dest: 'public/uploads/', // Omit to keep files in memory
 });
 
 app.post('/upload', upload.single('myImage'), function (req, res) {
@@ -55,7 +55,7 @@ app.post('/upload', upload.single('myImage'), function (req, res) {
 
 let imageName = '';
 const storage = multer.diskStorage({
-    destination: 'uploads/',
+    destination: 'public/uploads/',
     filename(req, file, cb) {
         crypto.pseudoRandomBytes(16, (err, raw) => {
             if (err) return cb(err);

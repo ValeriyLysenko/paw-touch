@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { uniOnCloseHandler } from 'libs/lib';
+import { uniCloseHandler } from 'libs/lib';
 import BasicModal from 'atomicComponents/Modal/BasicModal';
 import SimpleModal from 'atomicComponents/Modal/SimpleModal';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
@@ -11,9 +11,9 @@ const modalOptsDefaults: ModalOpts<BasicModalSpec> = {
         Controls: () => (
             <>
                 <SimpleControl {...{
-                    cssClass: 'is-warning',
+                    cssClass: 'button is-warning',
                     ariaLabel: 'Close modal',
-                    callback: uniOnCloseHandler,
+                    callback: uniCloseHandler,
                     text: 'Cancel',
                 }}
                 />

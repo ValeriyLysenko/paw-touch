@@ -1,19 +1,21 @@
 import {
     MouseEvent, useContext, FC,
 } from 'react';
-import NavigationContext from 'aux/NavigationContext';
+import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
 interface Props {
-        callback?: Function;
+    callback?: Function;
 }
 
 const SaveToGalleryPrompt: FC<Props> = ({
     callback,
 }) => {
     console.log('Save to gallery prompt modal');
-    const { saveToGalleryModalRef, saveToGalleryPropmptModalRef } = useContext(NavigationContext);
-    const onClose = (e: MouseEvent) => {
+    const {
+        modals: { saveToGalleryModalRef, saveToGalleryPropmptModalRef },
+    } = useContext(LayoutContext);
+    const closeHandler = (e: MouseEvent) => {
         e.stopPropagation();
         const { current: modalEl } = saveToGalleryPropmptModalRef;
         if (!modalEl) return;
@@ -23,7 +25,7 @@ const SaveToGalleryPrompt: FC<Props> = ({
 
         modalEl.classList.remove('is-active');
     };
-    const onYes = (e: MouseEvent) => {
+    const yesHandler = (e: MouseEvent) => {
         e.stopPropagation();
         const { current: modalEl } = saveToGalleryPropmptModalRef;
         if (!modalEl) return;
@@ -45,7 +47,7 @@ const SaveToGalleryPrompt: FC<Props> = ({
                     <button
                         className="delete"
                         aria-label="Close modal"
-                        onClick={onClose}
+                        onClick={closeHandler}
                     />
                 </header>
                 <section className="modal-card-body">
@@ -55,17 +57,17 @@ const SaveToGalleryPrompt: FC<Props> = ({
                 </section>
                 <footer className="modal-card-foot pt-helper-space-between">
                     <SimpleControl {...{
-                        cssClass: 'is-success',
+                        cssClass: 'button is-success',
                         ariaLabel: 'Affirmative answer',
-                        callback: onYes,
+                        callback: yesHandler,
                         text: 'Yes',
                     }}
                     />
                     <SimpleControl {...{
                         type: 'submit',
-                        cssClass: 'is-warning',
+                        cssClass: 'button is-warning',
                         ariaLabel: 'Negative answer',
-                        callback: onClose,
+                        callback: closeHandler,
                         text: 'No',
                     }}
                     />
