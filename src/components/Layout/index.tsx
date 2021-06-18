@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import StepControls from 'components/LayoutControls/StepControls';
 import FullscreenControls from 'components/LayoutControls/FullscreenControls';
+import GalleryControls from 'components/LayoutControls/GalleryControls';
 import BasicLayout from './BasicLayout';
 import AuxLayout from './AuxLayout';
 import GalleryLayout from './GalleryLayout';
@@ -36,7 +37,14 @@ const Layout: FC = (props: Props) => {
                 />
             </Route>
             <Route path="/gallery">
-                <GalleryLayout />
+                <div className="pt-on-top pt-on-top-canvas">
+                    <div className="pt-navbar pt-navbar-top">
+                        <GalleryControls />
+                    </div>
+                    <div className="pt-canvas-container">
+                        <GalleryLayout />
+                    </div>
+                </div>
             </Route>
             <Route path="/fullscreen">
                 <div className="pt-on-top pt-on-top-canvas">

@@ -27,8 +27,9 @@ const GalleryLayout: FC<Props> = observer(() => {
 
     return (
         <div className="pt-gallery-wrapper">
-            <div className="pt-gallery">
-                {
+            <form>
+                <div className="pt-gallery">
+                    {
                     gallery.map((item) => {
                         const {
                             id, title, descr, image,
@@ -44,10 +45,10 @@ const GalleryLayout: FC<Props> = observer(() => {
 
                     })
                 }
-            </div>
+                </div>
+            </form>
         </div>
     );
-
 });
 
 export default GalleryLayout;

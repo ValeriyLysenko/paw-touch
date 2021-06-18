@@ -15,12 +15,12 @@ class CanvasStore {
         descr: 'Description',
         image: '48e8fc29d0dac5d9e5fb1f5ff6705a25.png',
     },
-    /* {
+    {
         id: 'w_quF9g7rOFwxthXF9CH3',
         title: 'Title 2',
         descr: 'Description 2',
         image: '48e8fc29d0dac5d9e5fb1f5ff6705a25.png',
-    }, */
+    },
     ];
 
     history: HistoryObj[][] = historyDefaults;

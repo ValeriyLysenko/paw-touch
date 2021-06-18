@@ -55,7 +55,7 @@ const SaveToGalleryPrompt: FC<Props> = ({
                         Do you want to save your masterpiece in the gallery?
                     </div>
                 </section>
-                <footer className="modal-card-foot pt-helper-space-between">
+                <footer className="modal-card-foot is-justify-content-space-between">
                     <SimpleControl {...{
                         cssClass: 'button is-success',
                         ariaLabel: 'Affirmative answer',

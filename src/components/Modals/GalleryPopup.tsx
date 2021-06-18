@@ -25,10 +25,8 @@ const GalleryPopup: FC<Props> = ({ url }) => {
     return (
         <div ref={galleryPopupModalRef} className="modal" role="dialog">
             <div className="modal-background" />
-            <div className="modal-content">
-                {/* <p className="image is-4by3"> */}
+            <div className="modal-content pt-helper-width-auto">
                 <img src={url} alt="" />
-                {/* </p> */}
             </div>
             <SimpleControl {...{
                 cssClass: 'modal-close is-large',
@@ -37,7 +35,6 @@ const GalleryPopup: FC<Props> = ({ url }) => {
                 text: '',
             }}
             />
-            {/* <button className="modal-close is-large" aria-label="close" /> */}
         </div>
     );
 };

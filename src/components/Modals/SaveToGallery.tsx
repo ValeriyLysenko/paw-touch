@@ -154,7 +154,7 @@ const SaveToGallery: FC<Props> = ({
                         </div>
                     </form>
                 </section>
-                <footer className="modal-card-foot pt-helper-space-between">
+                <footer className="modal-card-foot is-justify-content-space-between">
                     <SimpleControl {...{
                         cssClass: 'button is-success',
                         ariaLabel: 'Save modal',

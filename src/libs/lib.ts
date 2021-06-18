@@ -110,9 +110,12 @@ export async function sendBlobToServer<T>(
 }
 
 /**
- * !There is a serious bug when sometimes function returns
+ * !There is a possible serious bug when sometimes function returns
  * !transparent image. It's because of 'canvas.toDataURL()' method
  * !@link https://github.com/iddan/react-native-canvas/issues/29
+ *
+ * !But it may everything is ok. You just need to use 'img.onload = async () => {}'
+ * !before this function use.
  * Resize image.
  * You can return canvas or image.
  */
@@ -129,8 +132,6 @@ export async function resizeImage(
         width, height,
     } = spec;
     const canvas = document.createElement('canvas');
-
-    // source.onload = async () => { /* eslint-disable-line */
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
@@ -145,7 +146,6 @@ export async function resizeImage(
         image.src = canvas.toDataURL();
         return image;
     }
-    // };
 
     return canvas;
 }
@@ -165,18 +165,16 @@ export async function resizeImageToString(
         width, height,
     } = spec;
     const canvas = document.createElement('canvas');
-
-    // source.onload = async () => { /* eslint-disable-line */
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
+
     if (useBitmap) {
         const imageBitmap = await createImageBitmap(source);
             ctx!.drawImage(imageBitmap, 0, 0, width, width);
     } else ctx!.drawImage(source, 0, 0, width, width);
-    // };
 
-    return await canvas.toDataURL();
+    return canvas.toDataURL();
 }
 
 /**

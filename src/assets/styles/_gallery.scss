@@ -5,11 +5,13 @@
 =============================================*/
 
 .#{$pt-prefix}gallery-wrapper {
+    height: 100%;
 }
 
 .#{$pt-prefix}gallery {
     display: flex;
     flex-wrap: wrap;
+    height: 100%;
 
     & > * {
         margin-bottom: 20px;
@@ -21,14 +23,6 @@
     .card-image {
         width: 400px;
         height: 400px;
-    }
-
-    .media-content {
-        img[id^="popup-"] {
-            display: none;
-            // position: relative;
-            // left: 1400px;
-        }
     }
 }
 
