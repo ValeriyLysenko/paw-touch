@@ -30,15 +30,21 @@ const GalleryCard: FC<Props> = ({
     useEffect(() => {
         console.log('%cRESIZE - first effect', 'color: purple; font-weight: bold;');
         (async () => {
-            const img = document.createElement('img');
-            img.src = popupImageUrl;
-            img.addEventListener('load', async () => {
-                const preview = await resizeImageToString(img, {
+            const resizer = async (imgage: HTMLImageElement) => {
+                const preview = await resizeImageToString(imgage, {
                     width: 400,
                     height: 235,
                 });
                 setResizedImage(preview);
-            });
+            };
+            const img = document.createElement('img');
+            const boundResizer = resizer.bind(null, img);
+            img.src = popupImageUrl;
+            img.addEventListener('load', boundResizer);
+
+            return () => {
+                img.removeEventListener('load', boundResizer);
+            };
         })();
     }, [popupImageUrl]);
 

@@ -34,9 +34,6 @@ const StepControls: FC<Props> = observer(() => {
         console.log('AFTER REDAW');
     };
 
-    console.log('%cposition', 'color: red', position);
-    console.log('%chistory.length', 'color: red', position);
-
     return (
         <div className="columns">
             <div className="column is-narrow">

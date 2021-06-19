@@ -37,8 +37,6 @@ app.get('/api/get-data', (req, res) => {
  * POST endpoints
  */
 app.delete('/api/gallery-data', (req, res) => {
-    // console.log('POST::/api/gallery-data');
-    console.log(req.body);
     const { body } = req;
     if (body.length) {
         body.forEach((item) => {
@@ -48,7 +46,6 @@ app.delete('/api/gallery-data', (req, res) => {
             // });
         });
     }
-
     res.send({ result: 'ok' });
 });
 

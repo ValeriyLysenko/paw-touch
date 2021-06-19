@@ -16,7 +16,7 @@ interface Props {}
 
 const Layout: FC = (props: Props) => {
     console.log('%cLayout', 'color: green;');
-    const basicLayoutPath = ['/', '/layout', '/tools', '/new-canvas', '/canvas'];
+    const basicLayoutPath = ['/'];
     return (
         <Switch>
             <Route exact path={basicLayoutPath}>

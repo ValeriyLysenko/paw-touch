@@ -7,24 +7,27 @@ import {
     scaleDefaults, activeToolDefaults, auxDataDefaults, modalsDefaults,
 } from './CanvasStoreDefaults';
 
+const pawTouchItems = localStorage.getItem('paw-touch') || '{}';
+const thisItems = JSON.parse(pawTouchItems);
+
 class CanvasStore {
-    modals: ModalsObj = modalsDefaults;
+    modals: ModalsObj = thisItems.modals || modalsDefaults;
 
-    gallery: GalleryObj[] = galleryDefaults;
+    gallery: GalleryObj[] = thisItems.gallery || galleryDefaults;
 
-    history: HistoryObj[][] = historyDefaults;
+    history: HistoryObj[][] = thisItems.history || historyDefaults;
 
-    historySpec: HistorySpec = historySpecDefaults;
+    historySpec: HistorySpec = thisItems.historySpec || historySpecDefaults;
 
     windowSize: number[] = [0, 0];
 
     mainCnavasSize: number[] = [0, 0];
 
-    scale: ScaleToolObject = scaleDefaults;
+    scale: ScaleToolObject = thisItems.scale || scaleDefaults;
 
-    activeTool: ActiveTool = activeToolDefaults;
+    activeTool: ActiveTool = thisItems.activeTool || activeToolDefaults;
 
-    auxData: AuxProps = auxDataDefaults;
+    auxData: AuxProps = thisItems.auxData || auxDataDefaults;
 
     constructor() {
         // makeAutoObservable(this);
@@ -39,6 +42,7 @@ class CanvasStore {
             activeTool: observable,
             auxData: observable,
 
+            getThis: computed,
             getModals: computed,
             getGallery: computed,
             getScale: computed,
@@ -65,6 +69,26 @@ class CanvasStore {
 
             uploadImage: flow,
         });
+    }
+
+    get getThis(): {
+            modals: ModalsObj,
+            gallery: GalleryObj[],
+            history: HistoryObj[][],
+            historySpec: HistorySpec,
+            scale: ScaleToolObject,
+            activeTool: ActiveTool,
+            auxData: AuxProps,
+            } {
+        return {
+            modals: this.modals,
+            gallery: this.gallery,
+            history: this.history,
+            historySpec: this.historySpec,
+            scale: this.scale,
+            activeTool: this.activeTool,
+            auxData: this.auxData,
+        };
     }
 
     get getModals(): ModalsObj {

@@ -35,6 +35,7 @@ const BasicLayout: FC<Props> = observer(() => {
     console.log('%cactiveTool ===>', 'color: red', activeTool);
     console.log('%cscale ===>', 'color: red', scale);
     console.log('%chistory ===>', 'color: red', history);
+    console.log('%chistorySpec ===>', 'color: red', historySpec);
     console.log('%cmodals ===>', 'color: violet', modals);
 
     return (
