@@ -1,7 +1,7 @@
 import {
     FC, useContext, MouseEvent,
 } from 'react';
-import { runInAction } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
@@ -15,7 +15,7 @@ const StepControls: FC<Props> = observer(() => {
     const { canvasRef } = useContext(LayoutContext);
     const history = mainCanvas.getHistory;
     const { position } = mainCanvas.getHistorySpec;
-    const onClick = (e: MouseEvent): void => {
+    const onClick = action('goThroughHistoryAction', (e: MouseEvent): void => {
         e.stopPropagation();
         const target = e.target as HTMLButtonElement;
         const { type } = target.dataset;
@@ -24,15 +24,13 @@ const StepControls: FC<Props> = observer(() => {
         if (!type) return;
         if (!canvas) return;
 
-        runInAction(() => {
-            goThroughHistory(canvas, type, {
-                position,
-                history,
-            });
+        goThroughHistory(canvas, type, {
+            position,
+            history,
         });
 
         console.log('AFTER REDAW');
-    };
+    });
 
     return (
         <div className="columns">

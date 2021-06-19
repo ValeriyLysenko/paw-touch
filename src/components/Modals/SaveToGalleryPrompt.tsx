@@ -1,15 +1,17 @@
 import {
     MouseEvent, useContext, FC,
 } from 'react';
-import { runInAction } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
-interface Props {}
+interface Props extends ModalsProps {}
 
-const SaveToGalleryPrompt: FC<Props> = observer(() => {
+const SaveToGalleryPrompt: FC<Props> = observer(({
+    callback,
+}) => {
     console.log('Save to gallery prompt modal');
     const { mainCanvas } = useContext(AppContext);
     const modals = mainCanvas.getModals;
@@ -17,26 +19,29 @@ const SaveToGalleryPrompt: FC<Props> = observer(() => {
     const {
         modals: { saveToGalleryPropmptModalRef },
     } = useContext(LayoutContext);
-    const closeHandler = (e: MouseEvent) => {
+
+    const closeHandler = action('closeSaveToGalleryPromptAction', (e: MouseEvent) => {
         e.stopPropagation();
-        runInAction(() => {
-            mainCanvas.setModals({
-                type: '',
-                parent: '',
-                child: '',
-            });
+
+        mainCanvas.setModals({
+            type: '',
+            parent: '',
+            child: '',
         });
-    };
-    const yesHandler = (e: MouseEvent) => {
+
+        // Call outside callback if any
+        if (callback) callback();
+    });
+
+    const yesHandler = action('openSaveToGalleryFromParentAction', (e: MouseEvent) => {
         e.stopPropagation();
-        runInAction(() => {
-            mainCanvas.setModals({
-                type: 'save-to-gallery',
-                parent: 'new-canvas',
-                child: '',
-            });
+
+        mainCanvas.setModals({
+            type: 'save-to-gallery',
+            parent: 'new-canvas',
+            child: '',
         });
-    };
+    });
 
     return (
         <div

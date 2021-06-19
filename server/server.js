@@ -46,7 +46,7 @@ app.delete('/api/gallery-data', (req, res) => {
             // });
         });
     }
-    res.send({ result: 'ok' });
+    res.send({ result: true });
 });
 
 /**

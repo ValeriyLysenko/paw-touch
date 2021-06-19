@@ -1,7 +1,7 @@
 import {
     MouseEvent, useContext, FC,
 } from 'react';
-import { runInAction } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
@@ -21,16 +21,14 @@ const GalleryPopup: FC<Props> = observer(({ url }) => {
             galleryPopupModalRef,
         },
     } = useContext(LayoutContext);
-    const closeHandler = (e: MouseEvent) => {
+    const closeHandler = action('closeGalleryPopupAction', (e: MouseEvent) => {
         e.stopPropagation();
-        runInAction(() => {
-            mainCanvas.setModals({
-                type: '',
-                parent: '',
-                child: '',
-            });
+        mainCanvas.setModals({
+            type: '',
+            parent: '',
+            child: '',
         });
-    };
+    });
 
     return (
         <div

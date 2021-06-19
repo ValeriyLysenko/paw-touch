@@ -1,4 +1,4 @@
-import { runInAction } from 'mobx';
+import { action } from 'mobx';
 import CanvasStore from 'stores/CanvasStore';
 
 /**
@@ -193,14 +193,12 @@ export function uniCloseHandler(e: React.MouseEvent) {
 /**
  * Universal function for opening of modal.
  */
-export function uniOnOpenHandler(
+export const uniOnOpenHandler = action('uniOnOpenHandlerAction', (
     canvasInst: CanvasStore,
     spec: ModalsObj,
-) {
-    runInAction(() => {
-        canvasInst.setModals(spec);
-    });
-}
+) => {
+    canvasInst.setModals(spec);
+});
 
 /**
  * Get form data.

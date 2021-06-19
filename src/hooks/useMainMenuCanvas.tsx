@@ -1,7 +1,7 @@
 import {
     useContext, MouseEvent,
 } from 'react';
-import { runInAction } from 'mobx';
+import { action } from 'mobx';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
 import { uniOnOpenHandler } from 'libs/lib';
@@ -53,7 +53,7 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
         });
     };
 
-    const resetCanvasToDefaults = () => {
+    const resetCanvasToDefaults = action('resetCanvasToDefaultsAction', () => {
         const { historyDefaults } = canvasStoreDefaults;
         const history = mainCanvas.getHistory;
         const historySpec = mainCanvas.getHistorySpec;
@@ -65,22 +65,20 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        runInAction(() => {
-            mainCanvas.resetScale();
-            zoomOnReset(ctx, {
-                data: history,
-                spec: historySpec,
-            });
-
-            ctx.save();
-            ctx.clearRect(0, 0, width, height);
-            // Set default background color
-            setCanvasBg(ctx);
-            ctx.restore();
-            mainCanvas.setHistory(historyDefaults);
-            mainCanvas.setHistorySpecPos(0);
+        mainCanvas.resetScale();
+        zoomOnReset(ctx, {
+            data: history,
+            spec: historySpec,
         });
-    };
+
+        ctx.save();
+        ctx.clearRect(0, 0, width, height);
+        // Set default background color
+        setCanvasBg(ctx);
+        ctx.restore();
+        mainCanvas.setHistory(historyDefaults);
+        mainCanvas.setHistorySpecPos(0);
+    });
 
     return [
         clickNewCanvasHandler,

@@ -61,7 +61,7 @@ const NavbarStart: FC<Props> = observer(() => {
                 <SaveToGallery {...saveToGalleryProps} />
             </ModalPortal>
             <ModalPortal>
-                <SaveToGalleryPrompt />
+                <SaveToGalleryPrompt callback={resetCanvasToDefaults} />
             </ModalPortal>
         </div>
     );

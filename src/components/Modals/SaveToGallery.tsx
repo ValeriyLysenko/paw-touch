@@ -1,7 +1,7 @@
 import {
     MouseEvent, ChangeEvent, useContext, useState, useRef, useReducer, FC,
 } from 'react';
-import { runInAction } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import { nanoid } from 'nanoid';
 import AppContext from 'aux/AppContext';
@@ -40,7 +40,7 @@ const SaveToGallery: FC<Props> = observer(({
         const target = e.target as HTMLTextAreaElement;
         setDescr(target.value);
     };
-    const closeHandler = (e: MouseEvent) => {
+    const closeHandler = action('closeSaveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
 
         // Prevent closing while server communication is on process
@@ -51,17 +51,15 @@ const SaveToGallery: FC<Props> = observer(({
         formDataRef.current.pristineForm = true;
         setResponseStatus('');
 
-        runInAction(() => {
-            mainCanvas.setModals({
-                type: '',
-                parent: '',
-                child: '',
-            });
+        mainCanvas.setModals({
+            type: '',
+            parent: '',
+            child: '',
         });
 
         // Call outside callback if any
         if (callback) callback();
-    };
+    });
     const onSubmit = (e: MouseEvent) => {
         e.stopPropagation();
 

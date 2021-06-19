@@ -4,7 +4,7 @@ import {
 import {
     useHistory,
 } from 'react-router-dom';
-import { runInAction, toJS } from 'mobx';
+import { toJS, action } from 'mobx';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
@@ -17,42 +17,30 @@ const GalleryControls: FC<Props> = () => {
     const { galleryFormRef } = useContext(LayoutContext);
     const history = useHistory();
     const goBackHandler = () => history.goBack();
-    const deleteItemsHandler = async () => {
+    const deleteItemsHandler = action('deleteGalleryItemsAction', async () => {
         const { current: galleryForm } = galleryFormRef;
         if (!galleryForm) return;
 
-        const items = galleryForm.querySelectorAll('input[type="checkbox"]');
-        console.log(items);
-
         const fields = getFormData(galleryForm);
-        console.log(fields);
-        // console.log(Object.entries(galleryForm.elements));
         const entries = Object.entries(fields);
         const keys = entries
             .filter((item) => item[1])
             .flat();
 
-        console.log('keys', keys);
         if (keys.length) {
             const gallery = toJS(mainCanvas.getGallery);
-            console.log(gallery);
             const toDeleteItems: string[] = [];
             const galleryMod: GalleryObj[] = [];
+
             gallery.forEach((item) => {
-                if (keys.includes(item.id)) toDeleteItems.includes(item.image);
+                if (keys.includes(item.id)) toDeleteItems.push(item.image);
                 else galleryMod.push(item);
             });
 
-            // keys.forEach((item) => {
-            //     const itemData = gallery.find((galleryItem) => galleryItem.id === item);
-            //     if (itemData) toDeleteItems.push(itemData.image);
-
-            // });
-            console.log('toDeleteItems', toDeleteItems);
             if (!toDeleteItems.length) return;
 
             const response = await http<{
-                result: 'ok',
+                result: true,
             }>('http://localhost:8081/api/gallery-data', {
                 headers: {
                     'Content-type': 'application/json',
@@ -60,12 +48,12 @@ const GalleryControls: FC<Props> = () => {
                 method: 'DELETE',
                 body: JSON.stringify(toDeleteItems),
             });
-            console.log('response', response);
-            runInAction(() => {
+
+            if (response.result) {
                 mainCanvas.setGallery(galleryMod);
-            });
+            }
         }
-    };
+    });
 
     return (
         <div className="columns">

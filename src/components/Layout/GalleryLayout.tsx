@@ -5,7 +5,7 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
-import StepControls from 'components/LayoutControls/StepControls';
+import GalleryControls from 'components/LayoutControls/GalleryControls';
 import GalleryCard from 'components/Gallery/GalleryCard';
 
 interface Props {}
@@ -13,40 +13,39 @@ interface Props {}
 const GalleryLayout: FC<Props> = observer(() => {
     console.log('%cBasicLayout', 'color: olive;');
     const { mainCanvas } = useContext(AppContext);
-    const { canvasRef, galleryFormRef } = useContext(LayoutContext);
+    const { galleryFormRef } = useContext(LayoutContext);
     const gallery = mainCanvas.getGallery;
 
-    console.log('%cgallery ===>', 'color: red', gallery);
-    console.log('%clocation ===>', 'color: red', window.location);
+    console.log('%cGalleryLayout ===>', 'color: tomato', gallery);
 
     if (!gallery.length) {
         return <div className="pt-gallery" />;
     }
 
-    console.log('XXX', gallery);
-
     return (
-        <div className="pt-gallery-wrapper">
-            <form ref={galleryFormRef}>
-                <div className="pt-gallery">
-                    {
-                    gallery.map((item) => {
-                        const {
-                            id, title, descr, image,
-                        } = item;
-                        return (
-                            <GalleryCard
-                                key={id}
-                                {...{
-                                    id, title, descr, image,
-                                }}
-                            />
-                        );
-
-                    })
-                }
+        <div className="pt-on-top pt-on-top-canvas">
+            <div className="pt-navbar pt-navbar-top">
+                <GalleryControls />
+            </div>
+            <div className="pt-canvas-container">
+                <div className="pt-gallery-wrapper">
+                    <form ref={galleryFormRef}>
+                        <div className="pt-gallery">
+                            {
+                                gallery.map((item) => {
+                                    const cleanItem = toJS(item);
+                                    return (
+                                        <GalleryCard
+                                            key={cleanItem.id}
+                                            {...cleanItem}
+                                        />
+                                    );
+                                })
+                            }
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     );
 });

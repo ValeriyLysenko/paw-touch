@@ -1,7 +1,7 @@
 import {
     FC, useContext, MouseEvent,
 } from 'react';
-import { runInAction } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
@@ -16,23 +16,25 @@ const SimpleZoomInfo: FC<Props> = observer(() => {
     const { currentScale } = scale;
     const history = mainCanvas.getHistory;
     const historySpec = mainCanvas.getHistorySpec;
-    const clickHandler = (e: MouseEvent) => {
+    const clickHandler = action('resetCanvasAction', (e: MouseEvent) => {
         e.stopPropagation();
         console.log('BEFORE RESET');
         const { current: canvasEl } = canvasRef;
         if (!canvasEl) return;
+
         const ctx = canvasEl.getContext('2d');
         if (!ctx) return;
+
         mainCanvas.resetScale();
-        runInAction(() => {
-            zoomOnReset(ctx, {
-                data: history,
-                spec: historySpec,
-            });
+
+        zoomOnReset(ctx, {
+            data: history,
+            spec: historySpec,
         });
 
         console.log('AFTER RESET');
-    };
+    });
+
     return (
         <div className="pt-tool-settings-block-line">
             <h4>Zoom size</h4>
