@@ -4,23 +4,19 @@ import {
 import { runInAction } from 'mobx';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
-
 import { uniOnOpenHandler } from 'libs/lib';
 import { zoomOnReset, setCanvasBg } from 'libs/canvasLib';
 
 const useMainMenuCanvas = (): HandlerFunc[] => {
     const { canvasRef } = useContext(LayoutContext);
     const { mainCanvas, canvasStoreDefaults } = useContext(AppContext);
-    const {
-        modals: {
-            saveToGalleryModalRef,
-            saveToGalleryPropmptModalRef,
-        },
-    } = useContext(LayoutContext);
-
     const clickNewCanvasHandler = (e: MouseEvent) => {
         e.stopPropagation();
-        uniOnOpenHandler(saveToGalleryPropmptModalRef);
+        uniOnOpenHandler(mainCanvas, {
+            type: 'new-canvas',
+            parent: '',
+            child: 'save-to-gallery',
+        });
     };
 
     const clickClearCanvasHandler = (e: MouseEvent) => {
@@ -50,7 +46,11 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
 
     const clickSaveToGalleryCanvasHandler = (e: MouseEvent) => {
         e.stopPropagation();
-        uniOnOpenHandler(saveToGalleryModalRef);
+        uniOnOpenHandler(mainCanvas, {
+            type: 'save-to-gallery',
+            parent: '',
+            child: '',
+        });
     };
 
     const resetCanvasToDefaults = () => {

@@ -1,9 +1,20 @@
+interface ModalsProps {
+    callback?: Function;
+}
+
+interface ModalsObj {
+    type: string;
+    parent: string;
+    child: string;
+}
+
 interface GalleryObj {
     id: string;
     title: string;
     descr: string;
     image: string;
 }
+
 interface AuxProps {
     ctrlKey: boolean;
 }

@@ -2,10 +2,12 @@ const express = require('express'); /* eslint-disable-line */
 const cors = require('cors'); /* eslint-disable-line */
 const multer = require('multer'); /* eslint-disable-line */
 const crypto = require('crypto');
+const fs = require('fs');
 const path = require('path');
 
 const host = 'localhost';
 const port = 8081;
+const uploadsDir = 'public/uploads/';
 const app = express();
 
 const dataToSend = require('./data.json');
@@ -34,18 +36,27 @@ app.get('/api/get-data', (req, res) => {
 /**
  * POST endpoints
  */
-app.post('/api/post-data', (req, res) => {
-    // console.log('POST::/api/post-data');
+app.delete('/api/gallery-data', (req, res) => {
+    // console.log('POST::/api/gallery-data');
     console.log(req.body);
-    // res.end(JSON.stringify(dataToSend));
-    res.send(dataToSend);
+    const { body } = req;
+    if (body.length) {
+        body.forEach((item) => {
+            fs.unlinkSync(uploadsDir + item);
+            // fs.unlink(uploadsDir + item, (err) => {
+            //     if (err) throw err;
+            // });
+        });
+    }
+
+    res.send({ result: 'ok' });
 });
 
 /**
  * Simpler way to upload an image (but without the extension).
  *
 const upload = multer({
-  dest: 'public/uploads/', // Omit to keep files in memory
+  dest: uploadsDir, // Omit to keep files in memory
 });
 
 app.post('/upload', upload.single('myImage'), function (req, res) {
@@ -55,7 +66,7 @@ app.post('/upload', upload.single('myImage'), function (req, res) {
 
 let imageName = '';
 const storage = multer.diskStorage({
-    destination: 'public/uploads/',
+    destination: uploadsDir,
     filename(req, file, cb) {
         crypto.pseudoRandomBytes(16, (err, raw) => {
             if (err) return cb(err);

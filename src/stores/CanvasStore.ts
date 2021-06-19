@@ -4,24 +4,13 @@ import {
 import { sendBlobToServer } from 'libs/lib';
 import {
     galleryDefaults, historyDefaults, historySpecDefaults,
-    scaleDefaults, activeToolDefaults, auxDataDefaults,
+    scaleDefaults, activeToolDefaults, auxDataDefaults, modalsDefaults,
 } from './CanvasStoreDefaults';
 
 class CanvasStore {
-    // gallery: GalleryObj[] = galleryDefaults;
-    gallery: GalleryObj[] = [{
-        id: 'w_quF9g7rOFwxthXF9CH6',
-        title: 'Title',
-        descr: 'Description',
-        image: '48e8fc29d0dac5d9e5fb1f5ff6705a25.png',
-    },
-    {
-        id: 'w_quF9g7rOFwxthXF9CH3',
-        title: 'Title 2',
-        descr: 'Description 2',
-        image: '48e8fc29d0dac5d9e5fb1f5ff6705a25.png',
-    },
-    ];
+    modals: ModalsObj = modalsDefaults;
+
+    gallery: GalleryObj[] = galleryDefaults;
 
     history: HistoryObj[][] = historyDefaults;
 
@@ -40,6 +29,7 @@ class CanvasStore {
     constructor() {
         // makeAutoObservable(this);
         makeObservable(this, {
+            modals: observable,
             gallery: observable,
             history: observable.shallow,
             historySpec: observable,
@@ -49,6 +39,7 @@ class CanvasStore {
             activeTool: observable,
             auxData: observable,
 
+            getModals: computed,
             getGallery: computed,
             getScale: computed,
             getAuxData: computed,
@@ -58,6 +49,8 @@ class CanvasStore {
             getHistory: computed,
             getHistorySpec: computed,
 
+            setModals: action,
+            setGallery: action,
             setGalleryItem: action,
             resetScale: action,
             setAuxDataCtrlKey: action,
@@ -72,6 +65,10 @@ class CanvasStore {
 
             uploadImage: flow,
         });
+    }
+
+    get getModals(): ModalsObj {
+        return this.modals;
     }
 
     get getGallery(): GalleryObj[] {
@@ -104,6 +101,14 @@ class CanvasStore {
 
     get getHistorySpec(): HistorySpec {
         return this.historySpec;
+    }
+
+    setModals(spec: ModalsObj): void {
+        this.modals = spec;
+    }
+
+    setGallery(items: GalleryObj[]): void {
+        this.gallery = items;
     }
 
     setGalleryItem(item: GalleryObj): void {

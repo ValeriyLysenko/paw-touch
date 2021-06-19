@@ -1,43 +1,48 @@
 import {
     MouseEvent, useContext, FC,
 } from 'react';
+import { runInAction } from 'mobx';
+import { observer } from 'mobx-react';
+import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
-interface Props {
-    callback?: Function;
-}
+interface Props {}
 
-const SaveToGalleryPrompt: FC<Props> = ({
-    callback,
-}) => {
+const SaveToGalleryPrompt: FC<Props> = observer(() => {
     console.log('Save to gallery prompt modal');
+    const { mainCanvas } = useContext(AppContext);
+    const modals = mainCanvas.getModals;
+    const typesToOpen = ['new-canvas'];
     const {
-        modals: { saveToGalleryModalRef, saveToGalleryPropmptModalRef },
+        modals: { saveToGalleryPropmptModalRef },
     } = useContext(LayoutContext);
     const closeHandler = (e: MouseEvent) => {
         e.stopPropagation();
-        const { current: modalEl } = saveToGalleryPropmptModalRef;
-        if (!modalEl) return;
-
-        // Call outside callback if any
-        if (callback) callback();
-
-        modalEl.classList.remove('is-active');
+        runInAction(() => {
+            mainCanvas.setModals({
+                type: '',
+                parent: '',
+                child: '',
+            });
+        });
     };
     const yesHandler = (e: MouseEvent) => {
         e.stopPropagation();
-        const { current: modalEl } = saveToGalleryPropmptModalRef;
-        if (!modalEl) return;
-        modalEl.classList.remove('is-active');
-
-        const { current: modalToOpenEl } = saveToGalleryModalRef;
-        if (!modalToOpenEl) return;
-        modalToOpenEl.classList.add('is-active');
+        runInAction(() => {
+            mainCanvas.setModals({
+                type: 'save-to-gallery',
+                parent: 'new-canvas',
+                child: '',
+            });
+        });
     };
 
     return (
-        <div ref={saveToGalleryPropmptModalRef} className="modal">
+        <div
+            ref={saveToGalleryPropmptModalRef}
+            className={`modal${typesToOpen.includes(modals.type) ? ' is-active' : ''}`}
+        >
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -75,6 +80,6 @@ const SaveToGalleryPrompt: FC<Props> = ({
             </div>
         </div>
     );
-};
+});
 
 export default SaveToGalleryPrompt;

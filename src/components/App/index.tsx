@@ -11,6 +11,7 @@ interface Props {}
 const App: FC<Props> = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const modalsWrapperRef = useRef<HTMLDivElement | null>(null);
+    const galleryFormRef = useRef<HTMLFormElement | null>(null);
     const modals = {
         saveToGalleryModalRef: useRef<HTMLDivElement | null>(null),
         saveToGalleryPropmptModalRef: useRef<HTMLDivElement | null>(null),
@@ -18,7 +19,7 @@ const App: FC<Props> = () => {
     };
     return (
         <LayoutContextProvider value={{
-            canvasRef, modalsWrapperRef, modals,
+            canvasRef, modalsWrapperRef, galleryFormRef, modals,
         }}
         >
             <div id="pt-draggable-wrapper">

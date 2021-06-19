@@ -1,8 +1,8 @@
 import {
-    FC, useEffect, useRef, useState, useContext, MouseEvent,
+    FC, useEffect, useState, useContext, MouseEvent,
 } from 'react';
-import LayoutContext from 'aux/LayoutContext';
-import { resizeImageToString } from 'libs/lib';
+import AppContext from 'aux/AppContext';
+import { uniOnOpenHandler, resizeImageToString } from 'libs/lib';
 import ModalPortal from 'atomicComponents/Modal/ModalPortal';
 import GalleryPopup from 'components/Modals/GalleryPopup';
 
@@ -17,16 +17,14 @@ const GalleryCard: FC<Props> = ({
     console.log('%cGalleryCard ===>', 'color: red');
     const popupImageUrl = `./uploads/${image}`;
     const [resizedImage, setResizedImage] = useState('');
-    const {
-        modals: {
-            galleryPopupModalRef,
-        },
-    } = useContext(LayoutContext);
+    const { mainCanvas } = useContext(AppContext);
     const clickHandler = (e: MouseEvent) => {
         e.stopPropagation();
-        const { current: modalEl } = galleryPopupModalRef;
-        if (!modalEl) return;
-        modalEl.classList.add('is-active');
+        uniOnOpenHandler(mainCanvas, {
+            type: 'gallery-popup',
+            parent: '',
+            child: '',
+        });
     };
 
     useEffect(() => {
@@ -37,7 +35,7 @@ const GalleryCard: FC<Props> = ({
             img.addEventListener('load', async () => {
                 const preview = await resizeImageToString(img, {
                     width: 400,
-                    height: 400,
+                    height: 235,
                 });
                 setResizedImage(preview);
             });
@@ -47,7 +45,7 @@ const GalleryCard: FC<Props> = ({
     return (
         <div className="card">
             <div className="card-image">
-                <figure className="image is-4by3">
+                <figure className="image">
                     <a onClick={clickHandler} role="presentation">
                         <img src={resizedImage} alt="" />
                     </a>
@@ -61,8 +59,8 @@ const GalleryCard: FC<Props> = ({
                     <div className="media-content">
                         <p className="title is-4">{title}</p>
                         <p className="subtitle is-6">
-                            <label className="checkbox" htmlFor={`del-${id}`}>
-                                <input id={`del-${id}`} type="checkbox" />
+                            <label className="checkbox" htmlFor={id}>
+                                <input id={id} type="checkbox" />
                                     &nbsp;Delete
                             </label>
                         </p>

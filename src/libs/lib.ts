@@ -1,4 +1,5 @@
-import { MutableRefObject } from 'react';
+import { runInAction } from 'mobx';
+import CanvasStore from 'stores/CanvasStore';
 
 /**
  * Capitalize first letter of given string.
@@ -193,11 +194,12 @@ export function uniCloseHandler(e: React.MouseEvent) {
  * Universal function for opening of modal.
  */
 export function uniOnOpenHandler(
-    modalRef: MutableRefObject<HTMLDivElement | null>,
+    canvasInst: CanvasStore,
+    spec: ModalsObj,
 ) {
-    const { current: modal } = modalRef;
-    if (!modal) return;
-    modal.classList.add('is-active');
+    runInAction(() => {
+        canvasInst.setModals(spec);
+    });
 }
 
 /**
@@ -215,7 +217,21 @@ export function getFormData(
         [name:string]: string | number | boolean;
     } = {};
     for (const entry of entries) {
-        if (Number.isNaN(parseInt(entry[0], 10))) fields[entry[0]] = entry[1].value.trim();
+        const name = entry[0];
+        const elem = entry[1];
+        const { type } = elem;
+        if (Number.isNaN(parseInt(name, 10))) {
+            switch (type) {
+                case 'checkbox': {
+                    fields[name] = elem.checked;
+                    break;
+                }
+                default: {
+                    fields[name] = elem.value.trim();
+                    break;
+                }
+            }
+        }
     }
     return fields;
 }

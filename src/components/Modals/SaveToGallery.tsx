@@ -1,6 +1,8 @@
 import {
     MouseEvent, ChangeEvent, useContext, useState, useRef, useReducer, FC,
 } from 'react';
+import { runInAction } from 'mobx';
+import { observer } from 'mobx-react';
 import { nanoid } from 'nanoid';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
@@ -8,15 +10,15 @@ import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 import { sendBlobToServer } from 'libs/lib';
 
-interface Props {
-    callback?: Function;
-}
+interface Props extends ModalsProps {}
 
-const SaveToGallery: FC<Props> = ({
+const SaveToGallery: FC<Props> = observer(({
     callback,
 }) => {
     console.log('Save to gallery modal');
     const { mainCanvas } = useContext(AppContext);
+    const modals = mainCanvas.getModals;
+    const typesToOpen = ['save-to-gallery'];
     const { canvasRef } = useContext(LayoutContext);
     const { modals: { saveToGalleryModalRef } } = useContext(LayoutContext);
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -44,20 +46,24 @@ const SaveToGallery: FC<Props> = ({
         // Prevent closing while server communication is on process
         if (pending) return;
 
-        const { current: modalEl } = saveToGalleryModalRef;
-        if (!modalEl) return;
-        modalEl.classList.remove('is-active');
-
         setTitle('');
         setDescr('');
         formDataRef.current.pristineForm = true;
         setResponseStatus('');
+
+        runInAction(() => {
+            mainCanvas.setModals({
+                type: '',
+                parent: '',
+                child: '',
+            });
+        });
+
+        // Call outside callback if any
+        if (callback) callback();
     };
     const onSubmit = (e: MouseEvent) => {
         e.stopPropagation();
-
-        const { current: modalEl } = saveToGalleryModalRef;
-        if (!modalEl) return;
 
         const { current: canvas } = canvasRef;
         if (!canvas) return;
@@ -95,17 +101,20 @@ const SaveToGallery: FC<Props> = ({
 
                 setTimeout(() => {
                     closeHandler(e);
-                }, 1500);
+                }, 1000);
             } else {
                 setResponseStatus('error');
             }
 
-        }, 3500);
+        }, 2500);
 
     };
 
     return (
-        <div ref={saveToGalleryModalRef} className="modal">
+        <div
+            ref={saveToGalleryModalRef}
+            className={`modal${typesToOpen.includes(modals.type) ? ' is-active' : ''}`}
+        >
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -177,6 +186,6 @@ const SaveToGallery: FC<Props> = ({
             </div>
         </div>
     );
-};
+});
 
 export default SaveToGallery;

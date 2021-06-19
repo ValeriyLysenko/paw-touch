@@ -1,8 +1,11 @@
 import {
-    FC,
+    FC, useContext,
 } from 'react';
 import { observer } from 'mobx-react';
+// import { useRouteMatch, useHistory } from 'react-router-dom';
 import routes from 'routes';
+import AppContext from 'aux/AppContext';
+import enrichedModalComponent from 'hocs/modalComponent/enrichedModalComponent';
 import useMainMenuTools from 'hooks/useMainMenuTools';
 import useMainMenuCanvas from 'hooks/useMainMenuCanvas';
 import ModalPortal from 'atomicComponents/Modal/ModalPortal';
@@ -18,6 +21,11 @@ const NavbarStart: FC<Props> = observer(() => {
         layout,
         tools,
     } = routes;
+    // const routeMatchGallery = useRouteMatch('/gallery');
+    // const history = useHistory();
+    const { mainCanvas } = useContext(AppContext);
+    const modals = mainCanvas.getModals;
+    const { type, parent } = modals;
     const [
         clickNewCanvasHandler,
         clickClearCanvasHandler,
@@ -26,6 +34,22 @@ const NavbarStart: FC<Props> = observer(() => {
         resetCanvasToDefaults,
     ] = useMainMenuCanvas();
     const clickToolsHandler = useMainMenuTools();
+    // enrichedModalComponent();
+    const saveToGalleryProps: ModalsProps = {};
+
+    switch (type) {
+        case 'save-to-gallery': {
+            if (parent === 'new-canvas') saveToGalleryProps.callback = resetCanvasToDefaults;
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+
+    // console.log('%cZZZZZZZZZZ', 'color: green', history);
+    // console.log('%cZZZZZZZZZZ', 'color: blue', routeMatchGallery);
+    console.log('%cmodals', 'color: blue', modals);
 
     return (
         <div className="navbar-start">
@@ -41,10 +65,11 @@ const NavbarStart: FC<Props> = observer(() => {
             <NavMenuSection routes={layout} />
             <NavMenuSection handlers={{ tools: clickToolsHandler }} routes={tools} />
             <ModalPortal>
-                <SaveToGallery callback={resetCanvasToDefaults} />
+                {/* <SaveToGallery {...(routeMatchGallery && { callback: resetCanvasToDefaults })} /> */}
+                <SaveToGallery {...saveToGalleryProps} />
             </ModalPortal>
             <ModalPortal>
-                <SaveToGalleryPrompt callback={resetCanvasToDefaults} />
+                <SaveToGalleryPrompt />
             </ModalPortal>
         </div>
     );

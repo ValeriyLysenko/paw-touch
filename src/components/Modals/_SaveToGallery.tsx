@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import modalComponent from 'hocs/modalComponent';
+import modalComponent from 'hocs/modalComponent/_index';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 import { uniCloseHandler } from 'libs/lib';
 

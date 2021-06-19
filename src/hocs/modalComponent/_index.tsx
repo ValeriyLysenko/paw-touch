@@ -1,7 +1,7 @@
 import { ComponentType } from 'react';
 import { uniCloseHandler } from 'libs/lib';
-import BasicModal from 'atomicComponents/Modal/BasicModal';
-import SimpleModal from 'atomicComponents/Modal/SimpleModal';
+import BasicModal from 'atomicComponents/Modal/_BasicModal';
+import SimpleModal from 'atomicComponents/Modal/_SimpleModal';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
 const modalOptsDefaults: ModalOpts<BasicModalSpec> = {

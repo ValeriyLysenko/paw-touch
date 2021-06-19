@@ -13,7 +13,7 @@ interface Props {}
 const GalleryLayout: FC<Props> = observer(() => {
     console.log('%cBasicLayout', 'color: olive;');
     const { mainCanvas } = useContext(AppContext);
-    const { canvasRef } = useContext(LayoutContext);
+    const { canvasRef, galleryFormRef } = useContext(LayoutContext);
     const gallery = mainCanvas.getGallery;
 
     console.log('%cgallery ===>', 'color: red', gallery);
@@ -27,7 +27,7 @@ const GalleryLayout: FC<Props> = observer(() => {
 
     return (
         <div className="pt-gallery-wrapper">
-            <form>
+            <form ref={galleryFormRef}>
                 <div className="pt-gallery">
                     {
                     gallery.map((item) => {
