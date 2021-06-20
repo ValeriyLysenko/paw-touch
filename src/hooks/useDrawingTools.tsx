@@ -4,7 +4,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { Subscription } from 'rxjs';
 import LayoutContext from 'aux/LayoutContext';
-import { redrawCanvas } from 'libs/canvasLib';
+import { redrawCanvasWithHistory } from 'libs/canvasLib';
 
 const useDrawingTools = (
     canvasDrawingRef: MutableRefObject<DrawToolObject | null>,
@@ -48,7 +48,7 @@ const useDrawingTools = (
             if (!canvasEl) return;
             const ctx = canvasEl.getContext('2d');
             if (!ctx) return;
-            redrawCanvas(ctx, history.data);
+            redrawCanvasWithHistory(ctx, history);
             locationRef.current.pathname = pathname;
         }
 

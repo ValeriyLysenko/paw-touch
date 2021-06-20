@@ -334,6 +334,39 @@ export function redrawCanvas(
 }
 
 /**
+ * Basic redraw canvas functionality taking into account history position.
+ */
+export function redrawCanvasWithHistory(
+    ctx: CanvasRenderingContext2D,
+    history: HistoryData,
+): void {
+    const typeToToolMap: {
+        [name:string]: TypeToToolMapMappedFunc;
+    } = {
+        pencil: pencilDraw,
+        brush: brushDraw,
+        eraser,
+    };
+
+    const {
+        data, spec: {
+            position,
+        },
+    } = history;
+    const dataLen = data.length;
+    const modData = [...data];
+    modData.splice((dataLen - position), position);
+
+    modData.forEach((arr) => {
+        arr.forEach((item) => {
+            const args = item.spec as DrawingSpec;
+            typeToToolMap[item.type](ctx, args);
+        });
+    });
+
+}
+
+/**
  * Scale canvas with redraw functionality (using 'scale' method).
  */
 export function scaleCanvasWithRedraw(
@@ -371,7 +404,7 @@ export function scaleCanvasWithRedrawChangeSize(
     canvas.style.width = `${newWidth}px`;
     canvas.style.height = `${newHeight}px`;
 
-    redrawCanvas(ctx, history.data);
+    redrawCanvasWithHistory(ctx, history);
 }
 
 /**
@@ -491,8 +524,8 @@ export function goThroughHistory(
     if (!ctx) return;
     if (newHistoryPosition > historyLen) return;
 
-    const modHistory = [...history];
-    modHistory.splice((historyLen - newHistoryPosition), newHistoryPosition);
+    // const modHistory = [...history];
+    // modHistory.splice((historyLen - newHistoryPosition), newHistoryPosition);
 
     const { width, height } = ctx.canvas;
 
@@ -500,7 +533,13 @@ export function goThroughHistory(
     ctx.clearRect(0, 0, width, height);
     // Set default background color
     setCanvasBg(ctx);
-    redrawCanvas(ctx, modHistory);
+    // redrawCanvas(ctx, modHistory);
+    redrawCanvasWithHistory(ctx, {
+        data: history,
+        spec: {
+            position: newHistoryPosition,
+        },
+    });
     ctx.restore();
 
     mainCanvas.setHistorySpecPos(newHistoryPosition);

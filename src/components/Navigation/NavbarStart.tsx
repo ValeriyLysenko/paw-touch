@@ -42,8 +42,6 @@ const NavbarStart: FC<Props> = observer(() => {
         if (saveToGalleryParent === 'new-canvas') saveToGalleryProps.callback = resetCanvasToDefaults;
     }
 
-    console.log('%cmodals', 'color: blue', modals, newCanvasType);
-
     return (
         <div className="navbar-start">
             <NavMenuSection
