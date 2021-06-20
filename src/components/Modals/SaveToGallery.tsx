@@ -40,7 +40,7 @@ const SaveToGallery: FC<Props> = observer(({
         const target = e.target as HTMLTextAreaElement;
         setDescr(target.value);
     };
-    const closeHandler = action('closeSaveToGalleryAction', (e: MouseEvent) => {
+    const closeHandler = action('closePopupSaveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
 
         // Prevent closing while server communication is on process

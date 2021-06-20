@@ -1,12 +1,14 @@
 import {
-    FC, useContext,
+    FC, useContext, useState, MouseEvent,
 } from 'react';
-import { toJS } from 'mobx';
+import { action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
+import { uniOnOpenHandler } from 'libs/lib';
 import GalleryControls from 'components/LayoutControls/GalleryControls';
 import GalleryCard from 'components/Gallery/GalleryCard';
+import LazyPopup from 'components/Modals/LazyPopup';
 
 interface Props {}
 
@@ -15,6 +17,39 @@ const GalleryLayout: FC<Props> = observer(() => {
     const { mainCanvas } = useContext(AppContext);
     const { galleryFormRef } = useContext(LayoutContext);
     const gallery = mainCanvas.getGallery;
+    const [popupImage, setPopupImage] = useState('');
+
+    const openHandler = action(
+        'openPopupGalleryPopupAction',
+        (e: MouseEvent) => {
+            e.stopPropagation();
+            const target = e.currentTarget as HTMLHRElement;
+            const cleanId = target.id.replace('img-', '');
+            const popupObj = gallery.find((item) => item.id === cleanId);
+
+            if (!popupObj) return;
+
+            setPopupImage(`./uploads/${popupObj.image}`);
+            uniOnOpenHandler(mainCanvas, {
+                type: 'gallery-popup',
+                parent: '',
+                child: '',
+            });
+        },
+    );
+
+    const closeHandler = action(
+        'closePopupGalleryPopupAction',
+        (e: MouseEvent) => {
+            e.stopPropagation();
+            setPopupImage('');
+            mainCanvas.setModals({
+                type: '',
+                parent: '',
+                child: '',
+            });
+        },
+    );
 
     console.log('%cGalleryLayout ===>', 'color: tomato', gallery);
 
@@ -37,6 +72,7 @@ const GalleryLayout: FC<Props> = observer(() => {
                                     return (
                                         <GalleryCard
                                             key={cleanItem.id}
+                                            clickHandler={openHandler}
                                             {...cleanItem}
                                         />
                                     );
@@ -44,6 +80,7 @@ const GalleryLayout: FC<Props> = observer(() => {
                             }
                         </div>
                     </form>
+                    <LazyPopup url={popupImage} closeHandler={closeHandler} />
                 </div>
             </div>
         </div>

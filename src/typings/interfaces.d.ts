@@ -1,3 +1,7 @@
+interface PopupProps {
+    url: string;
+    closeHandler: (e: React.MouseEvent) => void;
+}
 interface ModalsProps {
     callback?: Function;
 }

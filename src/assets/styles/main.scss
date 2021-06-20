@@ -1,6 +1,5 @@
 @charset "utf-8";
 
-@import "~bulma/sass/utilities/derived-variables";
 @import "./_variables";
 @import "./_decorators";
 @import "./_animation";
@@ -9,6 +8,8 @@
 @import "./_helpers";
 @import "./_modals";
 @import "./_gallery";
+@import "./_drawing";
+@import "./_loading";
 
 /*=============================================
 =                Main block                   =
@@ -21,30 +22,6 @@ html {
 html,
 body {
     height: 100%;
-}
-
-.appLoaderWrapper {
-    position: fixed;
-    z-index: 999998;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 209, 178, 0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.5s;
-
-    .loader {
-        height: 60px;
-        width: 60px;
-        border-width: 4px;
-    }
-
-    &.is-active {
-        background-color: rgba(0, 209, 178, 0.35);
-    }
 }
 
 #paw-touch {
@@ -116,128 +93,6 @@ body {
         padding: 1.5rem 2.5em;
     }
 }
-
-/*=============================================
-=               Drawing block                 =
-=============================================*/
-
-.#{$pt-prefix}drawing-block {
-    display: flex;
-    background: $bg-color-1;
-    margin-bottom: 1.5rem;
-
-    & > * {
-        margin-left: 1px;
-    }
-
-    .#{$pt-prefix}canvas-container {
-        @extend %#{pt-prefix}decorated-outline;
-        width: 1602px;
-        height: 950px;
-        background-color: $bg-color-1;
-        padding: 10px;
-
-        .#{$pt-prefix}canvas-container-inner {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            background-color: red;
-            overflow: auto;
-            outline: 1px solid #260f33;
-        }
-
-        canvas {
-            // width: 1580px;
-            // height: 930px;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            outline: 1px solid #260f33;
-        }
-
-        &.#{$pt-prefix}vertical-split {
-            width: 795px;
-
-            canvas {
-                width: 773px;
-            }
-        }
-
-        &.#{$pt-prefix}horizontal-split {
-            height: 469px;
-
-            canvas {
-                height: 449px;
-            }
-        }
-    }
-
-    .#{$pt-prefix}drawing-canvas-block {
-        margin-top: -1px;
-
-        & > * {
-            margin-top: 1px;
-        }
-
-        .#{$pt-prefix}drawing-block-gap {
-            width: 100%;
-            height: 10px;
-        }
-    }
-
-    .#{$pt-prefix}tool-settings-block {
-        @extend %#{pt-prefix}decorated-outline;
-        @extend %#{pt-prefix}panel-decoration;
-        flex: 1;
-        color: rgba(0, 0, 0, 0.7);
-
-        input[type="range"] {
-            &.slider {
-                margin: 0;
-            }
-        }
-
-        & .label,
-        h4 {
-            font-size: 1.25rem;
-            font-weight: normal;
-            color: #4a4a4a;
-        }
-
-        .#{$pt-prefix}tool-settings-block-line {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.75rem;
-
-            & > *:not(last-child) {
-                margin-right: 7px;
-            }
-        }
-
-        // !Moving thumb
-        // !Don't remove
-        // input[type="range"] {
-        //     &.slider {
-        //         margin: 0;
-        //     }
-
-        //     &.has-output + output {
-        //         position: absolute;
-        //         top: -1.45rem;
-        //         left: -2.1rem;
-        //     }
-        // }
-    }
-
-    .#{$pt-prefix}drawing-block-gap {
-        @extend %#{pt-prefix}decorated-outline;
-        width: 10px;
-        transform: translate(0, 0);
-    }
-}
-
-/*=====       End of drawing block      ======*/
 
 .#{$pt-prefix}on-top {
     position: fixed;

@@ -1,4 +1,3 @@
-import { action } from 'mobx';
 import CanvasStore from 'stores/CanvasStore';
 
 /**
@@ -115,8 +114,8 @@ export async function sendBlobToServer<T>(
  * !transparent image. It's because of 'canvas.toDataURL()' method
  * !@link https://github.com/iddan/react-native-canvas/issues/29
  *
- * !But it may everything is ok. You just need to use 'img.onload = async () => {}'
- * !before this function use.
+ * !But may be everything is ok. You just need to use 'img.onload = async () => { ...any code you want }'
+ * !before this function call.
  * Resize image.
  * You can return canvas or image.
  */
@@ -139,8 +138,8 @@ export async function resizeImage(
 
     if (useBitmap) {
         const imageBitmap = await createImageBitmap(source);
-            ctx!.drawImage(imageBitmap, 0, 0, width, width);
-    } else ctx!.drawImage(source, 0, 0, width, width);
+            ctx!.drawImage(imageBitmap, 0, 0, width, height);
+    } else ctx!.drawImage(source, 0, 0, width, height);
 
     if (isImage) {
         const image = document.createElement('img');
@@ -172,8 +171,8 @@ export async function resizeImageToString(
 
     if (useBitmap) {
         const imageBitmap = await createImageBitmap(source);
-            ctx!.drawImage(imageBitmap, 0, 0, width, width);
-    } else ctx!.drawImage(source, 0, 0, width, width);
+            ctx!.drawImage(imageBitmap, 0, 0, width, height);
+    } else ctx!.drawImage(source, 0, 0, width, height);
 
     return canvas.toDataURL();
 }
@@ -193,12 +192,12 @@ export function uniCloseHandler(e: React.MouseEvent) {
 /**
  * Universal function for opening of modal.
  */
-export const uniOnOpenHandler = action('uniOnOpenHandlerAction', (
+export function uniOnOpenHandler(
     canvasInst: CanvasStore,
     spec: ModalsObj,
-) => {
+) {
     canvasInst.setModals(spec);
-});
+}
 
 /**
  * Get form data.

@@ -1,31 +1,22 @@
 import {
-    FC, useEffect, useState, useContext, MouseEvent,
+    FC, useEffect, useState, MouseEvent,
 } from 'react';
-import AppContext from 'aux/AppContext';
-import { uniOnOpenHandler, resizeImageToString } from 'libs/lib';
-import ModalPortal from 'atomicComponents/Modal/ModalPortal';
-import GalleryPopup from 'components/Modals/GalleryPopup';
+import { resizeImageToString } from 'libs/lib';
 
-interface Props extends GalleryObj {}
+interface Props extends GalleryObj {
+    clickHandler: (e: MouseEvent) => void ;
+}
 
 const GalleryCard: FC<Props> = ({
     id,
     title,
     descr,
     image,
+    clickHandler,
 }) => {
     console.log('%cGalleryCard ===>', 'color: red');
     const popupImageUrl = `./uploads/${image}`;
     const [resizedImage, setResizedImage] = useState('');
-    const { mainCanvas } = useContext(AppContext);
-    const clickHandler = (e: MouseEvent) => {
-        e.stopPropagation();
-        uniOnOpenHandler(mainCanvas, {
-            type: 'gallery-popup',
-            parent: '',
-            child: '',
-        });
-    };
 
     useEffect(() => {
         console.log('%cRESIZE - first effect', 'color: purple; font-weight: bold;');
@@ -34,7 +25,7 @@ const GalleryCard: FC<Props> = ({
                 const preview = await resizeImageToString(imgage, {
                     width: 400,
                     height: 235,
-                });
+                }, true);
                 setResizedImage(preview);
             };
             const img = document.createElement('img');
@@ -52,25 +43,25 @@ const GalleryCard: FC<Props> = ({
         <div className="card">
             <div className="card-image">
                 <figure className="image">
-                    <a onClick={clickHandler} role="presentation">
+                    <a
+                        onClick={clickHandler}
+                        role="presentation"
+                        id={`img-${id}`}
+                    >
                         <img src={resizedImage} alt="" />
                     </a>
                 </figure>
-                <ModalPortal>
-                    <GalleryPopup url={popupImageUrl} />
-                </ModalPortal>
             </div>
             <div className="card-content">
                 <div className="media">
                     <div className="media-content">
                         <p className="title is-4">{title}</p>
                         <p className="subtitle is-6">
-                            <label className="checkbox" htmlFor={id}>
-                                <input id={id} type="checkbox" />
+                            <label className="checkbox" htmlFor={`chbox-${id}`}>
+                                <input id={`chbox-${id}`} type="checkbox" />
                                     &nbsp;Delete
                             </label>
                         </p>
-                        {/* <p className="subtitle is-6">@johnsmith</p> */}
                     </div>
                 </div>
                 <div className="content">

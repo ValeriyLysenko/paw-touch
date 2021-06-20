@@ -1,18 +1,18 @@
 import {
-    MouseEvent, useContext, FC,
+    useContext, FC,
 } from 'react';
-import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
-interface Props {
-    url: string;
-}
+interface Props extends PopupProps {}
 
-const GalleryPopup: FC<Props> = observer(({ url }) => {
-    console.log('Save to gallery prompt modal');
+const GalleryPopup: FC<Props> = observer(({
+    url,
+    closeHandler,
+}) => {
+    console.log('%cGalleryPopup', 'color: gold');
     const { mainCanvas } = useContext(AppContext);
     const modals = mainCanvas.getModals;
     const typesToOpen = ['gallery-popup'];
@@ -21,14 +21,6 @@ const GalleryPopup: FC<Props> = observer(({ url }) => {
             galleryPopupModalRef,
         },
     } = useContext(LayoutContext);
-    const closeHandler = action('closeGalleryPopupAction', (e: MouseEvent) => {
-        e.stopPropagation();
-        mainCanvas.setModals({
-            type: '',
-            parent: '',
-            child: '',
-        });
-    });
 
     return (
         <div

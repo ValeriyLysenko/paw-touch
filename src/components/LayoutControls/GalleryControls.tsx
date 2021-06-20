@@ -23,9 +23,12 @@ const GalleryControls: FC<Props> = () => {
 
         const fields = getFormData(galleryForm);
         const entries = Object.entries(fields);
-        const keys = entries
-            .filter((item) => item[1])
-            .flat();
+        const keys: string[] = [];
+        entries.forEach((item) => {
+            if (item[1]) {
+                keys.push(item[0].replace('chbox-', ''));
+            }
+        });
 
         if (keys.length) {
             const gallery = toJS(mainCanvas.getGallery);

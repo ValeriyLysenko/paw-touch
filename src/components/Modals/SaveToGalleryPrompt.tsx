@@ -20,7 +20,7 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
         modals: { saveToGalleryPropmptModalRef },
     } = useContext(LayoutContext);
 
-    const closeHandler = action('closeSaveToGalleryPromptAction', (e: MouseEvent) => {
+    const closeHandler = action('closePopupSaveToGalleryPromptAction', (e: MouseEvent) => {
         e.stopPropagation();
 
         mainCanvas.setModals({
@@ -33,7 +33,7 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
         if (callback) callback();
     });
 
-    const yesHandler = action('openSaveToGalleryFromParentAction', (e: MouseEvent) => {
+    const yesHandler = action('openPopupSaveToGalleryFromParentAction', (e: MouseEvent) => {
         e.stopPropagation();
 
         mainCanvas.setModals({

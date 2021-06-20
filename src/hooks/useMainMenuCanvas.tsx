@@ -10,14 +10,14 @@ import { zoomOnReset, setCanvasBg } from 'libs/canvasLib';
 const useMainMenuCanvas = (): HandlerFunc[] => {
     const { canvasRef } = useContext(LayoutContext);
     const { mainCanvas, canvasStoreDefaults } = useContext(AppContext);
-    const clickNewCanvasHandler = (e: MouseEvent) => {
+    const clickNewCanvasHandler = action('openPopupNewCanvasAction', (e: MouseEvent) => {
         e.stopPropagation();
         uniOnOpenHandler(mainCanvas, {
             type: 'new-canvas',
             parent: '',
             child: 'save-to-gallery',
         });
-    };
+    });
 
     const clickClearCanvasHandler = (e: MouseEvent) => {
         e.stopPropagation();
@@ -44,14 +44,14 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
         link.click();
     };
 
-    const clickSaveToGalleryCanvasHandler = (e: MouseEvent) => {
+    const clickSaveToGalleryCanvasHandler = action('openPopupSaveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
         uniOnOpenHandler(mainCanvas, {
             type: 'save-to-gallery',
             parent: '',
             child: '',
         });
-    };
+    });
 
     const resetCanvasToDefaults = action('resetCanvasToDefaultsAction', () => {
         const { historyDefaults } = canvasStoreDefaults;
