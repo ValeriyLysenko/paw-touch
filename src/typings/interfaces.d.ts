@@ -6,10 +6,14 @@ interface ModalsProps {
     callback?: Function;
 }
 
-interface ModalsObj {
+interface ModalObj {
     type: string;
     parent: string;
     child: string;
+}
+
+interface Modals {
+    [name:string]: ModalObj;
 }
 
 interface GalleryObj {

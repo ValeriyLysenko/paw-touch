@@ -14,20 +14,16 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
 }) => {
     console.log('Save to gallery prompt modal');
     const { mainCanvas } = useContext(AppContext);
-    const modals = mainCanvas.getModals;
+    const currentModal = mainCanvas.getModals.newCanvas;
     const typesToOpen = ['new-canvas'];
     const {
-        modals: { saveToGalleryPropmptModalRef },
+        modals: { saveToGalleryPromptModalRef },
     } = useContext(LayoutContext);
 
     const closeHandler = action('closePopupSaveToGalleryPromptAction', (e: MouseEvent) => {
         e.stopPropagation();
 
-        mainCanvas.setModals({
-            type: '',
-            parent: '',
-            child: '',
-        });
+        mainCanvas.unsetModals('newCanvas');
 
         // Call outside callback if any
         if (callback) callback();
@@ -36,7 +32,7 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
     const yesHandler = action('openPopupSaveToGalleryFromParentAction', (e: MouseEvent) => {
         e.stopPropagation();
 
-        mainCanvas.setModals({
+        mainCanvas.setModals('saveToGallery', {
             type: 'save-to-gallery',
             parent: 'new-canvas',
             child: '',
@@ -45,8 +41,8 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
 
     return (
         <div
-            ref={saveToGalleryPropmptModalRef}
-            className={`modal${typesToOpen.includes(modals.type) ? ' is-active' : ''}`}
+            ref={saveToGalleryPromptModalRef}
+            className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
         >
             <div className="modal-background" />
             <div className="modal-card">

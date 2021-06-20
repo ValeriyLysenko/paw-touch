@@ -1,8 +1,4 @@
-export const modalsDefaults: ModalsObj = {
-    type: '',
-    parent: '',
-    child: '',
-};
+export const modalsDefaults: Modals = {};
 
 export const galleryDefaults: GalleryObj[] = [];
 

@@ -14,7 +14,7 @@ const GalleryPopup: FC<Props> = observer(({
 }) => {
     console.log('%cGalleryPopup', 'color: gold');
     const { mainCanvas } = useContext(AppContext);
-    const modals = mainCanvas.getModals;
+    const currentModal = mainCanvas.getModals.galleryPopup;
     const typesToOpen = ['gallery-popup'];
     const {
         modals: {
@@ -25,7 +25,7 @@ const GalleryPopup: FC<Props> = observer(({
     return (
         <div
             ref={galleryPopupModalRef}
-            className={`modal${typesToOpen.includes(modals.type) ? ' is-active' : ''}`}
+            className={`modal${typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
         >
             <div className="modal-background" />
             <div className="modal-content pt-helper-width-auto">

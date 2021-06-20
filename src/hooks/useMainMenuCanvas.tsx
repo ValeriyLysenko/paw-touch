@@ -12,7 +12,7 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
     const { mainCanvas, canvasStoreDefaults } = useContext(AppContext);
     const clickNewCanvasHandler = action('openPopupNewCanvasAction', (e: MouseEvent) => {
         e.stopPropagation();
-        uniOnOpenHandler(mainCanvas, {
+        uniOnOpenHandler(mainCanvas, 'newCanvas', {
             type: 'new-canvas',
             parent: '',
             child: 'save-to-gallery',
@@ -46,7 +46,7 @@ const useMainMenuCanvas = (): HandlerFunc[] => {
 
     const clickSaveToGalleryCanvasHandler = action('openPopupSaveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
-        uniOnOpenHandler(mainCanvas, {
+        uniOnOpenHandler(mainCanvas, 'saveToGallery', {
             type: 'save-to-gallery',
             parent: '',
             child: '',

@@ -11,7 +11,7 @@ const pawTouchItems = localStorage.getItem('paw-touch') || '{}';
 const thisItems = JSON.parse(pawTouchItems);
 
 class CanvasStore {
-    modals: ModalsObj = thisItems.modals || modalsDefaults;
+    modals: Modals = thisItems.modals || modalsDefaults;
 
     gallery: GalleryObj[] = thisItems.gallery || galleryDefaults;
 
@@ -54,6 +54,7 @@ class CanvasStore {
             getHistorySpec: computed,
 
             setModals: action,
+            unsetModals: action,
             setGallery: action,
             setGalleryItem: action,
             resetScale: action,
@@ -72,7 +73,7 @@ class CanvasStore {
     }
 
     get getThis(): {
-            modals: ModalsObj,
+            modals: Modals,
             gallery: GalleryObj[],
             history: HistoryObj[][],
             historySpec: HistorySpec,
@@ -91,7 +92,7 @@ class CanvasStore {
         };
     }
 
-    get getModals(): ModalsObj {
+    get getModals(): Modals {
         return this.modals;
     }
 
@@ -127,8 +128,12 @@ class CanvasStore {
         return this.historySpec;
     }
 
-    setModals(spec: ModalsObj): void {
-        this.modals = spec;
+    setModals(name: string, spec: ModalObj): void {
+        this.modals[name] = spec;
+    }
+
+    unsetModals(name: string): void {
+        delete this.modals[name];
     }
 
     setGallery(items: GalleryObj[]): void {

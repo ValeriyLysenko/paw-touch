@@ -21,7 +21,6 @@ const NavbarStart: FC<Props> = observer(() => {
     } = routes;
     const { mainCanvas } = useContext(AppContext);
     const modals = mainCanvas.getModals;
-    const { type, parent } = modals;
     const [
         clickNewCanvasHandler,
         clickClearCanvasHandler,
@@ -30,19 +29,20 @@ const NavbarStart: FC<Props> = observer(() => {
         resetCanvasToDefaults,
     ] = useMainMenuCanvas();
     const clickToolsHandler = useMainMenuTools();
+    const {
+        type: saveToGalleryType = '',
+        parent: saveToGalleryParent = '',
+    } = modals.saveToGallery || {};
+    const {
+        type: newCanvasType = '',
+    } = modals.newCanvas || {};
     const saveToGalleryProps: ModalsProps = {};
 
-    switch (type) {
-        case 'save-to-gallery': {
-            if (parent === 'new-canvas') saveToGalleryProps.callback = resetCanvasToDefaults;
-            break;
-        }
-        default: {
-            break;
-        }
+    if (saveToGalleryType) {
+        if (saveToGalleryParent === 'new-canvas') saveToGalleryProps.callback = resetCanvasToDefaults;
     }
 
-    console.log('%cmodals', 'color: blue', modals);
+    console.log('%cmodals', 'color: blue', modals, newCanvasType);
 
     return (
         <div className="navbar-start">
@@ -57,12 +57,20 @@ const NavbarStart: FC<Props> = observer(() => {
             />
             <NavMenuSection routes={layout} />
             <NavMenuSection handlers={{ tools: clickToolsHandler }} routes={tools} />
-            <ModalPortal>
-                <SaveToGallery {...saveToGalleryProps} />
-            </ModalPortal>
-            <ModalPortal>
-                <SaveToGalleryPrompt callback={resetCanvasToDefaults} />
-            </ModalPortal>
+            {
+                saveToGalleryType ? (
+                    <ModalPortal>
+                        <SaveToGallery {...saveToGalleryProps} />
+                    </ModalPortal>
+                ) : null
+            }
+            {
+                newCanvasType ? (
+                    <ModalPortal>
+                        <SaveToGalleryPrompt callback={resetCanvasToDefaults} />
+                    </ModalPortal>
+                ) : null
+            }
         </div>
     );
 });

@@ -30,7 +30,7 @@ const GalleryLayout: FC<Props> = observer(() => {
             if (!popupObj) return;
 
             setPopupImage(`./uploads/${popupObj.image}`);
-            uniOnOpenHandler(mainCanvas, {
+            uniOnOpenHandler(mainCanvas, 'galleryPopup', {
                 type: 'gallery-popup',
                 parent: '',
                 child: '',
@@ -43,11 +43,7 @@ const GalleryLayout: FC<Props> = observer(() => {
         (e: MouseEvent) => {
             e.stopPropagation();
             setPopupImage('');
-            mainCanvas.setModals({
-                type: '',
-                parent: '',
-                child: '',
-            });
+            mainCanvas.unsetModals('galleryPopup');
         },
     );
 

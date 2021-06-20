@@ -14,7 +14,7 @@ const App: FC<Props> = () => {
     const galleryFormRef = useRef<HTMLFormElement | null>(null);
     const modals = {
         saveToGalleryModalRef: useRef<HTMLDivElement | null>(null),
-        saveToGalleryPropmptModalRef: useRef<HTMLDivElement | null>(null),
+        saveToGalleryPromptModalRef: useRef<HTMLDivElement | null>(null),
         galleryPopupModalRef: useRef<HTMLDivElement | null>(null),
     };
     return (

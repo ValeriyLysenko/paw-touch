@@ -194,9 +194,10 @@ export function uniCloseHandler(e: React.MouseEvent) {
  */
 export function uniOnOpenHandler(
     canvasInst: CanvasStore,
-    spec: ModalsObj,
+    name: string,
+    spec: ModalObj,
 ) {
-    canvasInst.setModals(spec);
+    canvasInst.setModals(name, spec);
 }
 
 /**

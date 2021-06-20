@@ -17,7 +17,7 @@ const SaveToGallery: FC<Props> = observer(({
 }) => {
     console.log('Save to gallery modal');
     const { mainCanvas } = useContext(AppContext);
-    const modals = mainCanvas.getModals;
+    const currentModal = mainCanvas.getModals.saveToGallery;
     const typesToOpen = ['save-to-gallery'];
     const { canvasRef } = useContext(LayoutContext);
     const { modals: { saveToGalleryModalRef } } = useContext(LayoutContext);
@@ -51,11 +51,7 @@ const SaveToGallery: FC<Props> = observer(({
         formDataRef.current.pristineForm = true;
         setResponseStatus('');
 
-        mainCanvas.setModals({
-            type: '',
-            parent: '',
-            child: '',
-        });
+        mainCanvas.unsetModals('saveToGallery');
 
         // Call outside callback if any
         if (callback) callback();
@@ -111,7 +107,7 @@ const SaveToGallery: FC<Props> = observer(({
     return (
         <div
             ref={saveToGalleryModalRef}
-            className={`modal${typesToOpen.includes(modals.type) ? ' is-active' : ''}`}
+            className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
         >
             <div className="modal-background" />
             <div className="modal-card">
@@ -128,7 +124,7 @@ const SaveToGallery: FC<Props> = observer(({
                             ? <span className="tag is-success is-light">Success</span>
                             : responseStatus === 'error'
                                 ? <span className="tag is-danger is-light">Error</span>
-                                : ''}
+                                : null}
                     </div>
                     <button
                         className="delete"
