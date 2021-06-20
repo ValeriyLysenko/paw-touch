@@ -1,7 +1,7 @@
 import {
     FC, useContext, MouseEvent,
 } from 'react';
-import { runInAction } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
@@ -15,7 +15,7 @@ const StepControls: FC<Props> = observer(() => {
     const { canvasRef } = useContext(LayoutContext);
     const history = mainCanvas.getHistory;
     const { position } = mainCanvas.getHistorySpec;
-    const onClick = (e: MouseEvent): void => {
+    const onClick = action('goThroughHistoryAction', (e: MouseEvent): void => {
         e.stopPropagation();
         const target = e.target as HTMLButtonElement;
         const { type } = target.dataset;
@@ -24,24 +24,19 @@ const StepControls: FC<Props> = observer(() => {
         if (!type) return;
         if (!canvas) return;
 
-        runInAction(() => {
-            goThroughHistory(canvas, type, {
-                position,
-                history,
-            });
+        goThroughHistory(canvas, type, {
+            position,
+            history,
         });
 
         console.log('AFTER REDAW');
-    };
-
-    console.log('%cposition', 'color: red', position);
-    console.log('%chistory.length', 'color: red', position);
+    });
 
     return (
         <div className="columns">
             <div className="column is-narrow">
                 <SimpleControl {...{
-                    cssClass: 'is-warning is-outlined',
+                    cssClass: 'button is-warning is-outlined',
                     ariaLabel: 'Previous',
                     callback: onClick,
                     text: 'Previous step',
@@ -53,7 +48,7 @@ const StepControls: FC<Props> = observer(() => {
             <div className="column">&nbsp;</div>
             <div className="column is-narrow">
                 <SimpleControl {...{
-                    cssClass: 'is-warning is-outlined',
+                    cssClass: 'button is-warning is-outlined',
                     ariaLabel: 'Next',
                     callback: onClick,
                     text: 'Next step',

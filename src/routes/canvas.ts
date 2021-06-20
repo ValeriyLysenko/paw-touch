@@ -10,7 +10,7 @@ const config: NavRouterObj = {
             id: nanoid(),
             name: 'New canvas',
             title: '',
-            url: 'new-canvas',
+            url: '',
             dataType: 'new-canvas',
             handler: 'newCanvas',
         },

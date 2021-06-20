@@ -4,6 +4,12 @@
 =           Bulma styles correction           =
 =============================================*/
 
+##{$pt-prefix}modals-wrapper {
+    .modal-content {
+        background-color: #fff;
+    }
+}
+
 .#{$pt-prefix}main-navigation {
     .navbar-start {
         & > .navbar-item {

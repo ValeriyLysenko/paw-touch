@@ -9,12 +9,13 @@ import StepControls from 'components/LayoutControls/StepControls';
 import FullscreenControls from 'components/LayoutControls/FullscreenControls';
 import BasicLayout from './BasicLayout';
 import AuxLayout from './AuxLayout';
+import GalleryLayout from './GalleryLayout';
 
 interface Props {}
 
 const Layout: FC = (props: Props) => {
     console.log('%cLayout', 'color: green;');
-    const basicLayoutPath = ['/', '/layout', '/tools', '/new-canvas', '/canvas'];
+    const basicLayoutPath = ['/'];
     return (
         <Switch>
             <Route exact path={basicLayoutPath}>
@@ -33,6 +34,9 @@ const Layout: FC = (props: Props) => {
                         type: 'horizontal',
                     }}
                 />
+            </Route>
+            <Route path="/gallery">
+                <GalleryLayout />
             </Route>
             <Route path="/fullscreen">
                 <div className="pt-on-top pt-on-top-canvas">

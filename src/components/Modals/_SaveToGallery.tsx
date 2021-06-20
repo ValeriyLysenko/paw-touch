@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import modalComponent from 'hocs/modalComponent';
+import modalComponent from 'hocs/modalComponent/_index';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
-import { uniOnCloseHandler } from 'libs/lib';
+import { uniCloseHandler } from 'libs/lib';
 
 interface Props {}
 
@@ -19,9 +19,9 @@ const SaveToGallery: FC<Props> = () => (
 const Controls = () => (
     <>
         <SimpleControl {...{
-            cssClass: 'is-warning',
+            cssClass: 'button is-warning',
             ariaLabel: 'Close modal',
-            callback: uniOnCloseHandler,
+            callback: uniCloseHandler,
             text: 'Cancel',
         }}
         />

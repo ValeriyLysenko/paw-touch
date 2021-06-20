@@ -1,3 +1,5 @@
+export const modalsDefaults: Modals = {};
+
 export const galleryDefaults: GalleryObj[] = [];
 
 export const historyDefaults: HistoryObj[][] = [];

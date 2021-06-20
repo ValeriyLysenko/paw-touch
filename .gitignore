@@ -12,6 +12,7 @@ generated/*
 #public_html/*
 logs/*
 uploads/*
+public/uploads/*
 
 # VSCode
 .vscode

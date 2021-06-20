@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+/*=============================================
+=              Loading block                 =
+=============================================*/
+
+.#{$pt-prefix}loader-wrapper {
+    position: fixed;
+    z-index: $modal-z;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $modal-background-background-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s;
+
+    .loader {
+        height: 60px;
+        width: 60px;
+        border-width: 4px;
+    }
+
+    // &.is-active {
+    //     background-color: rgba(0, 209, 178, 0.35);
+    // }
+}
+
+/*=====     End of loading block     ======*/

@@ -59,7 +59,7 @@ const SimpleSliderWithMovingThumb: FC<Props> = ({
                 {' '}
                 size
             </p>
-            <div className="pt-helper-pos-rel">
+            <div className="is-relative">
                 <input
                     ref={sliderRef}
                     id="sliderWithValue"
