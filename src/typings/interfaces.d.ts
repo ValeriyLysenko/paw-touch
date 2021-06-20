@@ -1,8 +1,28 @@
+interface PopupProps {
+    url: string;
+    closeHandler: (e: React.MouseEvent) => void;
+}
+interface ModalsProps {
+    callback?: Function;
+}
+
+interface ModalObj {
+    type: string;
+    parent: string;
+    child: string;
+}
+
+interface Modals {
+    [name:string]: ModalObj;
+}
+
 interface GalleryObj {
+    id: string;
     title: string;
     descr: string;
     image: string;
 }
+
 interface AuxProps {
     ctrlKey: boolean;
 }

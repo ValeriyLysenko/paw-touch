@@ -4,29 +4,35 @@ import {
 import { sendBlobToServer } from 'libs/lib';
 import {
     galleryDefaults, historyDefaults, historySpecDefaults,
-    scaleDefaults, activeToolDefaults, auxDataDefaults,
+    scaleDefaults, activeToolDefaults, auxDataDefaults, modalsDefaults,
 } from './CanvasStoreDefaults';
 
+const pawTouchItems = localStorage.getItem('paw-touch') || '{}';
+const thisItems = JSON.parse(pawTouchItems);
+
 class CanvasStore {
-    gallery: GalleryObj[] = galleryDefaults;
+    modals: Modals = thisItems.modals || modalsDefaults;
 
-    history: HistoryObj[][] = historyDefaults;
+    gallery: GalleryObj[] = thisItems.gallery || galleryDefaults;
 
-    historySpec: HistorySpec = historySpecDefaults;
+    history: HistoryObj[][] = thisItems.history || historyDefaults;
+
+    historySpec: HistorySpec = thisItems.historySpec || historySpecDefaults;
 
     windowSize: number[] = [0, 0];
 
     mainCnavasSize: number[] = [0, 0];
 
-    scale: ScaleToolObject = scaleDefaults;
+    scale: ScaleToolObject = thisItems.scale || scaleDefaults;
 
-    activeTool: ActiveTool = activeToolDefaults;
+    activeTool: ActiveTool = thisItems.activeTool || activeToolDefaults;
 
-    auxData: AuxProps = auxDataDefaults;
+    auxData: AuxProps = thisItems.auxData || auxDataDefaults;
 
     constructor() {
         // makeAutoObservable(this);
         makeObservable(this, {
+            modals: observable,
             gallery: observable,
             history: observable.shallow,
             historySpec: observable,
@@ -36,6 +42,8 @@ class CanvasStore {
             activeTool: observable,
             auxData: observable,
 
+            getThis: computed,
+            getModals: computed,
             getGallery: computed,
             getScale: computed,
             getAuxData: computed,
@@ -45,6 +53,9 @@ class CanvasStore {
             getHistory: computed,
             getHistorySpec: computed,
 
+            setModals: action,
+            unsetModals: action,
+            setGallery: action,
             setGalleryItem: action,
             resetScale: action,
             setAuxDataCtrlKey: action,
@@ -59,6 +70,30 @@ class CanvasStore {
 
             uploadImage: flow,
         });
+    }
+
+    get getThis(): {
+            modals: Modals,
+            gallery: GalleryObj[],
+            history: HistoryObj[][],
+            historySpec: HistorySpec,
+            scale: ScaleToolObject,
+            activeTool: ActiveTool,
+            auxData: AuxProps,
+            } {
+        return {
+            modals: this.modals,
+            gallery: this.gallery,
+            history: this.history,
+            historySpec: this.historySpec,
+            scale: this.scale,
+            activeTool: this.activeTool,
+            auxData: this.auxData,
+        };
+    }
+
+    get getModals(): Modals {
+        return this.modals;
     }
 
     get getGallery(): GalleryObj[] {
@@ -91,6 +126,18 @@ class CanvasStore {
 
     get getHistorySpec(): HistorySpec {
         return this.historySpec;
+    }
+
+    setModals(name: string, spec: ModalObj): void {
+        this.modals[name] = spec;
+    }
+
+    unsetModals(name: string): void {
+        delete this.modals[name];
+    }
+
+    setGallery(items: GalleryObj[]): void {
+        this.gallery = items;
     }
 
     setGalleryItem(item: GalleryObj): void {
@@ -159,8 +206,8 @@ class CanvasStore {
             imageType: 'image/png',
             imageQuality: 1,
         });
-        console.log('RESPONSE', response);
         this.gallery.push({
+            id: '',
             title: '',
             descr: '',
             image: response.name,

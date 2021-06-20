@@ -11,12 +11,8 @@
     }
 }
 
-.#{$pt-prefix}helper-pos-rel {
-    position: relative;
-}
-
-.#{$pt-prefix}helper-space-between {
-    justify-content: space-between;
+.#{$pt-prefix}helper-width-auto {
+    width: auto !important;
 }
 
 /*=====      End of Helpers block      ======*/

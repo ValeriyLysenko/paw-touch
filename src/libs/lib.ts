@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react';
+import CanvasStore from 'stores/CanvasStore';
 
 /**
  * Capitalize first letter of given string.
@@ -110,6 +110,12 @@ export async function sendBlobToServer<T>(
 }
 
 /**
+ * !There is a possible serious bug when sometimes function returns
+ * !transparent image. It's because of 'canvas.toDataURL()' method
+ * !@link https://github.com/iddan/react-native-canvas/issues/29
+ *
+ * !But may be everything is ok. You just need to use 'img.onload = async () => { ...any code you want }'
+ * !before this function call.
  * Resize image.
  * You can return canvas or image.
  */
@@ -132,8 +138,8 @@ export async function resizeImage(
 
     if (useBitmap) {
         const imageBitmap = await createImageBitmap(source);
-        ctx!.drawImage(imageBitmap, 0, 0, width, width);
-    } else ctx!.drawImage(source, 0, 0, width, width);
+            ctx!.drawImage(imageBitmap, 0, 0, width, height);
+    } else ctx!.drawImage(source, 0, 0, width, height);
 
     if (isImage) {
         const image = document.createElement('img');
@@ -145,9 +151,36 @@ export async function resizeImage(
 }
 
 /**
+ * Resize image and return base64 string.
+ */
+export async function resizeImageToString(
+    source: HTMLImageElement,
+    spec: {
+        width: number,
+        height: number,
+    },
+    useBitmap: boolean = false,
+): Promise<string> {
+    const {
+        width, height,
+    } = spec;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+
+    if (useBitmap) {
+        const imageBitmap = await createImageBitmap(source);
+            ctx!.drawImage(imageBitmap, 0, 0, width, height);
+    } else ctx!.drawImage(source, 0, 0, width, height);
+
+    return canvas.toDataURL();
+}
+
+/**
  * Universal function for closing of modal.
  */
-export function uniOnCloseHandler(e: React.MouseEvent) {
+export function uniCloseHandler(e: React.MouseEvent) {
     e.stopPropagation();
     const target = e.target as HTMLButtonElement;
     if (!target) return;
@@ -160,11 +193,11 @@ export function uniOnCloseHandler(e: React.MouseEvent) {
  * Universal function for opening of modal.
  */
 export function uniOnOpenHandler(
-    modalRef: MutableRefObject<HTMLDivElement | null>,
+    canvasInst: CanvasStore,
+    name: string,
+    spec: ModalObj,
 ) {
-    const { current: modal } = modalRef;
-    if (!modal) return;
-    modal.classList.add('is-active');
+    canvasInst.setModals(name, spec);
 }
 
 /**
@@ -182,7 +215,21 @@ export function getFormData(
         [name:string]: string | number | boolean;
     } = {};
     for (const entry of entries) {
-        if (Number.isNaN(parseInt(entry[0], 10))) fields[entry[0]] = entry[1].value.trim();
+        const name = entry[0];
+        const elem = entry[1];
+        const { type } = elem;
+        if (Number.isNaN(parseInt(name, 10))) {
+            switch (type) {
+                case 'checkbox': {
+                    fields[name] = elem.checked;
+                    break;
+                }
+                default: {
+                    fields[name] = elem.value.trim();
+                    break;
+                }
+            }
+        }
     }
     return fields;
 }

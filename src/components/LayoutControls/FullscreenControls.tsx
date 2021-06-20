@@ -1,5 +1,5 @@
 import {
-    FC, useCallback,
+    FC,
 } from 'react';
 import {
     useHistory,
@@ -10,18 +10,17 @@ interface Props {}
 
 const FullscreenControls: FC<Props> = () => {
     const history = useHistory();
-    const onGoBack = useCallback((e) => {
-        console.log(e.target.textContent);
-        history.goBack();
-    }, [history]);
+    const goBackHandler = () => history.goBack();
+
+    console.log('~~', history);
 
     return (
         <div className="columns">
             <div className="column is-narrow">
                 <SimpleControl {...{
-                    cssClass: 'is-warning is-outlined',
+                    cssClass: 'button is-warning is-outlined',
                     ariaLabel: 'Go back',
-                    callback: onGoBack,
+                    callback: goBackHandler,
                     text: 'Go back',
                 }}
                 />

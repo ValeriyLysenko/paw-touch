@@ -1,41 +1,49 @@
 import {
     MouseEvent, useContext, FC,
 } from 'react';
-import NavigationContext from 'aux/NavigationContext';
+import { action } from 'mobx';
+import { observer } from 'mobx-react';
+import AppContext from 'aux/AppContext';
+import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
-interface Props {
-        callback?: Function;
-}
+interface Props extends ModalsProps {}
 
-const SaveToGalleryPrompt: FC<Props> = ({
+const SaveToGalleryPrompt: FC<Props> = observer(({
     callback,
 }) => {
     console.log('Save to gallery prompt modal');
-    const { saveToGalleryModalRef, saveToGalleryPropmptModalRef } = useContext(NavigationContext);
-    const onClose = (e: MouseEvent) => {
+    const { mainCanvas } = useContext(AppContext);
+    const currentModal = mainCanvas.getModals.newCanvas;
+    const typesToOpen = ['new-canvas'];
+    const {
+        modals: { saveToGalleryPromptModalRef },
+    } = useContext(LayoutContext);
+
+    const closeHandler = action('closePopupSaveToGalleryPromptAction', (e: MouseEvent) => {
         e.stopPropagation();
-        const { current: modalEl } = saveToGalleryPropmptModalRef;
-        if (!modalEl) return;
+
+        mainCanvas.unsetModals('newCanvas');
 
         // Call outside callback if any
         if (callback) callback();
+    });
 
-        modalEl.classList.remove('is-active');
-    };
-    const onYes = (e: MouseEvent) => {
+    const yesHandler = action('openPopupSaveToGalleryFromParentAction', (e: MouseEvent) => {
         e.stopPropagation();
-        const { current: modalEl } = saveToGalleryPropmptModalRef;
-        if (!modalEl) return;
-        modalEl.classList.remove('is-active');
 
-        const { current: modalToOpenEl } = saveToGalleryModalRef;
-        if (!modalToOpenEl) return;
-        modalToOpenEl.classList.add('is-active');
-    };
+        mainCanvas.setModals('saveToGallery', {
+            type: 'save-to-gallery',
+            parent: 'new-canvas',
+            child: '',
+        });
+    });
 
     return (
-        <div ref={saveToGalleryPropmptModalRef} className="modal">
+        <div
+            ref={saveToGalleryPromptModalRef}
+            className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
+        >
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -45,7 +53,7 @@ const SaveToGalleryPrompt: FC<Props> = ({
                     <button
                         className="delete"
                         aria-label="Close modal"
-                        onClick={onClose}
+                        onClick={closeHandler}
                     />
                 </header>
                 <section className="modal-card-body">
@@ -53,19 +61,19 @@ const SaveToGalleryPrompt: FC<Props> = ({
                         Do you want to save your masterpiece in the gallery?
                     </div>
                 </section>
-                <footer className="modal-card-foot pt-helper-space-between">
+                <footer className="modal-card-foot is-justify-content-space-between">
                     <SimpleControl {...{
-                        cssClass: 'is-success',
+                        cssClass: 'button is-success',
                         ariaLabel: 'Affirmative answer',
-                        callback: onYes,
+                        callback: yesHandler,
                         text: 'Yes',
                     }}
                     />
                     <SimpleControl {...{
                         type: 'submit',
-                        cssClass: 'is-warning',
+                        cssClass: 'button is-warning',
                         ariaLabel: 'Negative answer',
-                        callback: onClose,
+                        callback: closeHandler,
                         text: 'No',
                     }}
                     />
@@ -73,6 +81,6 @@ const SaveToGalleryPrompt: FC<Props> = ({
             </div>
         </div>
     );
-};
+});
 
 export default SaveToGalleryPrompt;

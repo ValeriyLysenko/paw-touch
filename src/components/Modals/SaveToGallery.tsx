@@ -1,23 +1,26 @@
 import {
     MouseEvent, ChangeEvent, useContext, useState, useRef, useReducer, FC,
 } from 'react';
+import { action } from 'mobx';
+import { observer } from 'mobx-react';
+import { nanoid } from 'nanoid';
 import AppContext from 'aux/AppContext';
 import LayoutContext from 'aux/LayoutContext';
-import NavigationContext from 'aux/NavigationContext';
+
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 import { sendBlobToServer } from 'libs/lib';
 
-interface Props {
-    callback?: Function;
-}
+interface Props extends ModalsProps {}
 
-const SaveToGallery: FC<Props> = ({
+const SaveToGallery: FC<Props> = observer(({
     callback,
 }) => {
     console.log('Save to gallery modal');
     const { mainCanvas } = useContext(AppContext);
+    const currentModal = mainCanvas.getModals.saveToGallery;
+    const typesToOpen = ['save-to-gallery'];
     const { canvasRef } = useContext(LayoutContext);
-    const { saveToGalleryModalRef } = useContext(NavigationContext);
+    const { modals: { saveToGalleryModalRef } } = useContext(LayoutContext);
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const formDataRef = useRef({
         pristineForm: true,
@@ -37,26 +40,24 @@ const SaveToGallery: FC<Props> = ({
         const target = e.target as HTMLTextAreaElement;
         setDescr(target.value);
     };
-    const onClose = (e: MouseEvent) => {
+    const closeHandler = action('closePopupSaveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
 
         // Prevent closing while server communication is on process
         if (pending) return;
 
-        const { current: modalEl } = saveToGalleryModalRef;
-        if (!modalEl) return;
-        modalEl.classList.remove('is-active');
-
         setTitle('');
         setDescr('');
         formDataRef.current.pristineForm = true;
         setResponseStatus('');
-    };
+
+        mainCanvas.unsetModals('saveToGallery');
+
+        // Call outside callback if any
+        if (callback) callback();
+    });
     const onSubmit = (e: MouseEvent) => {
         e.stopPropagation();
-
-        const { current: modalEl } = saveToGalleryModalRef;
-        if (!modalEl) return;
 
         const { current: canvas } = canvasRef;
         if (!canvas) return;
@@ -82,6 +83,7 @@ const SaveToGallery: FC<Props> = ({
             if (response) {
                 setResponseStatus('success');
                 const data = {
+                    id: nanoid(),
                     title,
                     descr,
                     image: response.name || '',
@@ -92,18 +94,21 @@ const SaveToGallery: FC<Props> = ({
                 if (callback) callback();
 
                 setTimeout(() => {
-                    onClose(e);
-                }, 1500);
+                    closeHandler(e);
+                }, 1000);
             } else {
                 setResponseStatus('error');
             }
 
-        }, 3500);
+        }, 2500);
 
     };
 
     return (
-        <div ref={saveToGalleryModalRef} className="modal">
+        <div
+            ref={saveToGalleryModalRef}
+            className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
+        >
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -119,12 +124,12 @@ const SaveToGallery: FC<Props> = ({
                             ? <span className="tag is-success is-light">Success</span>
                             : responseStatus === 'error'
                                 ? <span className="tag is-danger is-light">Error</span>
-                                : ''}
+                                : null}
                     </div>
                     <button
                         className="delete"
                         aria-label="Close modal"
-                        onClick={onClose}
+                        onClick={closeHandler}
                     />
                 </header>
                 <section className="modal-card-body">
@@ -152,9 +157,9 @@ const SaveToGallery: FC<Props> = ({
                         </div>
                     </form>
                 </section>
-                <footer className="modal-card-foot pt-helper-space-between">
+                <footer className="modal-card-foot is-justify-content-space-between">
                     <SimpleControl {...{
-                        cssClass: 'is-success',
+                        cssClass: 'button is-success',
                         ariaLabel: 'Save modal',
                         callback: onSubmit,
                         text: 'Save',
@@ -164,9 +169,9 @@ const SaveToGallery: FC<Props> = ({
                     />
                     <SimpleControl {...{
                         type: 'submit',
-                        cssClass: 'is-warning',
+                        cssClass: 'button is-warning',
                         ariaLabel: 'Close modal',
-                        callback: onClose,
+                        callback: closeHandler,
                         text: 'Cancel',
                         disabled: pending,
                     }}
@@ -175,6 +180,6 @@ const SaveToGallery: FC<Props> = ({
             </div>
         </div>
     );
-};
+});
 
 export default SaveToGallery;

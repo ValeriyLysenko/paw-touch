@@ -1,5 +1,5 @@
 import {
-    configure,
+    configure, autorun,
 } from 'mobx';
 import { mainCanvas } from 'aux/init';
 
@@ -28,10 +28,11 @@ const onKeyUp = (e: KeyboardEvent) => {
     if (e.key === 'Control') mainCanvas.setAuxDataCtrlKey(false);
 };
 
-// autorun(() => {
-//     console.log('autorun ==>', mainCanvas.getWindowSize);
-//     console.log('autorun ==>', mainCanvas.getActiveTool);
-// });
+autorun(() => {
+    const thisItems = mainCanvas.getThis;
+    console.log('autorun ==>', thisItems);
+    localStorage.setItem('paw-touch', JSON.stringify(thisItems));
+});
 
 // spy((e) => {
 //     // console.log('spy ==>', e);
@@ -43,7 +44,6 @@ const onKeyUp = (e: KeyboardEvent) => {
 
 document.addEventListener('keydown', onKeyDown);
 document.addEventListener('keyup', onKeyUp);
-
 window.addEventListener('resize', onResize);
 
 export default {};
