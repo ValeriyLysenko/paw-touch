@@ -20,9 +20,23 @@
         }
     }
 
-    .card-image {
+    .card {
         width: 400px;
+        height: 400px;
+    }
+    .card-image {
         height: 235px;
+    }
+
+    .card-content {
+        .media-content {
+            .title.is-4 {
+                width: 352px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
     }
 }
 

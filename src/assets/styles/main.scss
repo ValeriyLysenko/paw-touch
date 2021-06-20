@@ -102,6 +102,7 @@ body {
     height: 100%;
     background-color: #4f38a1;
     z-index: 100;
+    overflow: auto;
 }
 
 .#{$pt-prefix}on-top-canvas {

@@ -37,6 +37,8 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
             parent: 'new-canvas',
             child: '',
         });
+
+        mainCanvas.unsetModals('newCanvas');
     });
 
     return (
