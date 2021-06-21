@@ -50,7 +50,16 @@ const GalleryLayout: FC<Props> = observer(() => {
     console.log('%cGalleryLayout ===>', 'color: tomato', gallery);
 
     if (!gallery.length) {
-        return <div className="pt-gallery" />;
+        return (
+            <div className="pt-on-top pt-on-top-canvas">
+                <div className="pt-navbar pt-navbar-top">
+                    <GalleryControls />
+                </div>
+                <div className="pt-canvas-container">
+                    <div className="pt-gallery-wrapper" />
+                </div>
+            </div>
+        );
     }
 
     return (

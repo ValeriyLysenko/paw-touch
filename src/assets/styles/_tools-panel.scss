@@ -48,7 +48,7 @@
     }
 
     // & > .#{$pt-prefix}tools-panel-brush {
-    //     background: #fff url("../images/paint-brush-solid.svg") no-repeat 50%
+    //     background: $white url("../images/paint-brush-solid.svg") no-repeat 50%
     //         50%;
     //     background-size: 75%;
     //     filter: invert(27%) sepia(51%) saturate(2878%) brightness(104%)
@@ -78,7 +78,7 @@
     & > div {
         width: 90%;
         height: 1px;
-        background-color: #fff;
+        background-color: $white;
     }
 }
 
