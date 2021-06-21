@@ -4,7 +4,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { Subscription } from 'rxjs';
 import LayoutContext from 'aux/LayoutContext';
-import { redrawCanvasWithHistory } from 'libs/canvasLib';
+import { scaleCanvasWithRedrawChangeSize } from 'libs/canvasLib';
 
 const useDrawingTools = (
     canvasDrawingRef: MutableRefObject<DrawToolObject | null>,
@@ -48,7 +48,7 @@ const useDrawingTools = (
             if (!canvasEl) return;
             const ctx = canvasEl.getContext('2d');
             if (!ctx) return;
-            redrawCanvasWithHistory(ctx, history);
+            scaleCanvasWithRedrawChangeSize(ctx, scale.currentScale, history);
             locationRef.current.pathname = pathname;
         }
 
