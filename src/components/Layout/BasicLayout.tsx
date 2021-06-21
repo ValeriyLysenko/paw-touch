@@ -20,7 +20,6 @@ const BasicLayout: FC<Props> = observer(() => {
     const auxData = mainCanvas.getAuxData;
     const history = mainCanvas.getHistory;
     const historySpec = mainCanvas.getHistorySpec;
-    const modals = mainCanvas.getModals;
 
     useCanvasDrawing(
         toJS(activeTool),
@@ -33,10 +32,9 @@ const BasicLayout: FC<Props> = observer(() => {
     );
 
     console.log('%cactiveTool ===>', 'color: red', activeTool);
-    console.log('%cscale ===>', 'color: red', scale);
-    console.log('%chistory ===>', 'color: red', history);
-    console.log('%chistorySpec ===>', 'color: red', historySpec);
-    console.log('%cmodals ===>', 'color: violet', modals);
+    // console.log('%cscale ===>', 'color: red', scale);
+    // console.log('%chistory ===>', 'color: red', history);
+    // console.log('%chistorySpec ===>', 'color: red', historySpec);
 
     return (
         <div>

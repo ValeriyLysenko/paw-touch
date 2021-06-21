@@ -36,9 +36,7 @@ const useResizeCanvas = (): void => {
 
         // Restore canvas
         ctx.putImageData(canvasBackup, 0, 0);
-    // ?Everything is ok here
-    // ?We don't need to add 'canvasRef' to array
-    }, [canvasSize]);
+    }, [canvasSize, canvasRef]);
 };
 
 export default useResizeCanvas;

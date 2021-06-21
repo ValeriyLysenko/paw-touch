@@ -13,7 +13,7 @@ import LazyPopup from 'components/Modals/LazyPopup';
 interface Props {}
 
 const GalleryLayout: FC<Props> = observer(() => {
-    console.log('%cBasicLayout', 'color: olive;');
+    console.log('%cGalleryLayout', 'color: blue;');
     const { mainCanvas } = useContext(AppContext);
     const { galleryFormRef } = useContext(LayoutContext);
     const gallery = mainCanvas.getGallery;

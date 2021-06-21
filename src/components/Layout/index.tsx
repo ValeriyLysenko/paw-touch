@@ -5,11 +5,10 @@ import {
     Switch,
     Route,
 } from 'react-router-dom';
-import StepControls from 'components/LayoutControls/StepControls';
-import FullscreenControls from 'components/LayoutControls/FullscreenControls';
 import BasicLayout from './BasicLayout';
 import AuxLayout from './AuxLayout';
 import GalleryLayout from './GalleryLayout';
+import FullscreenLayout from './FullscreenLayout';
 
 interface Props {}
 
@@ -39,19 +38,10 @@ const Layout: FC = (props: Props) => {
                 <GalleryLayout />
             </Route>
             <Route path="/fullscreen">
-                <div className="pt-on-top pt-on-top-canvas">
-                    <div className="pt-navbar pt-navbar-top">
-                        <FullscreenControls />
-                    </div>
-                    <div className="pt-canvas-container"><canvas /></div>
-                    <div className="pt-navbar pt-navbar-bottom">
-                        <StepControls />
-                    </div>
-                </div>
+                <FullscreenLayout />
             </Route>
         </Switch>
     );
-
 };
 
 export default Layout;

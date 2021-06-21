@@ -40,19 +40,20 @@
         }
 
         &.#{$pt-prefix}vertical-split {
-            width: 795px;
+            // width: 795px;
+            width: 800px;
 
-            canvas {
-                width: 773px;
-            }
+            // canvas {
+            //     width: 773px;
+            // }
         }
 
         &.#{$pt-prefix}horizontal-split {
             height: 469px;
 
-            canvas {
-                height: 449px;
-            }
+            // canvas {
+            //     height: 449px;
+            // }
         }
     }
 
