@@ -6,13 +6,12 @@
 
 .#{$pt-prefix}tools-panel {
     position: absolute;
-    top: 124px;
-    left: 6px;
+    top: 108px;
+    left: 5px;
     width: 38px;
-    // height: 50%;
     display: flex;
     flex-direction: column;
-    background-color: #2e0875;
+    background-color: $color-2;
     @extend %#{pt-prefix}decorated-outline;
 
     & .#{$pt-prefix}tools-panel-plate {
@@ -23,7 +22,7 @@
         height: 38px;
         background-color: #f4af4f;
         margin-bottom: 1px;
-        color: #2e0875;
+        color: $color-2;
 
         &:last-child {
             margin-bottom: 0;
@@ -32,9 +31,10 @@
         & a {
             font-size: 1.75rem;
             line-height: 1;
+            color: $color-2;
 
             &:hover {
-                color: #db4404;
+                color: $color-4;
             }
         }
 
@@ -42,7 +42,7 @@
             width: 30px;
 
             &:hover {
-                color: #db4404;
+                color: $color-4;
             }
         }
     }
@@ -57,10 +57,11 @@
 }
 
 .#{$pt-prefix}tools-tab-hover {
-    background-color: $blue !important;
+    // background-color: $blue !important;
+    background-color: $color-2 !important;
 
     & a {
-        color: #db4404 !important;
+        color: $color-4 !important;
         cursor: default;
     }
 }

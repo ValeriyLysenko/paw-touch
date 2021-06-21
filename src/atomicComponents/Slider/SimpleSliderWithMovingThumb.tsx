@@ -63,7 +63,7 @@ const SimpleSliderWithMovingThumb: FC<Props> = ({
                 <input
                     ref={sliderRef}
                     id="sliderWithValue"
-                    className="slider has-output is-fullwidth is-info"
+                    className="slider has-output is-fullwidth is-link"
                     step={step}
                     min={min}
                     max={max}

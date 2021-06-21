@@ -29,13 +29,15 @@ const ToolSettings: FC<Props> = observer(() => {
 
     return (
         <div className="pt-tool-settings-block">
-            <SimpleZoomInfo />
-            {
+            <div className="pt-tool-settings-inner-block">
+                <SimpleZoomInfo />
+                {
                 sliderShowArr.includes(type) && <SimpleSlider {...sliderSpec} />
             }
-            {
+                {
                 colorShowArr.includes(type) && <SimpleColorPicker {...colorPickerSpec} />
             }
+            </div>
         </div>
     );
 });

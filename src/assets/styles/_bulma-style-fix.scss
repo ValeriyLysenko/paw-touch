@@ -16,6 +16,9 @@
             color: $white !important;
             .navbar-link {
                 color: $white !important;
+                &::after {
+                    border-color: inherit;
+                }
             }
             &:hover,
             &:focus,

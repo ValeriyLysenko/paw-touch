@@ -38,11 +38,11 @@ const SimpleZoomInfo: FC<Props> = observer(() => {
     return (
         <div className="pt-tool-settings-block-line">
             <h4>Zoom size</h4>
-            <span className="tag is-info">{`${(currentScale * 100).toFixed(0)} %`}</span>
+            <span className="tag is-link">{`${(currentScale * 100).toFixed(0)} %`}</span>
             <button
                 disabled={currentScale === 1}
                 aria-label="Reset zoom"
-                className="button is-info is-small"
+                className="button is-link is-small"
                 onClick={clickHandler}
             >
                 Reset

@@ -15,17 +15,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.5s;
+    // transition: background-color 0.5s;
 
     .loader {
         height: 60px;
         width: 60px;
         border-width: 4px;
-    }
 
-    // &.is-active {
-    //     background-color: rgba(0, 209, 178, 0.35);
-    // }
+        border-color: #e91e63;
+        border-right-color: transparent;
+        border-top-color: transparent;
+    }
 }
 
 /*=====     End of loading block     ======*/

@@ -7,7 +7,7 @@ const NavbarEnd: FC<Props> = () => (
     <div className="navbar-end">
         <div className="navbar-item">
             <div className="buttons">
-                <Link to="/gallery" className="button is-info">
+                <Link to="/gallery" className="button is-link">
                     Gallery
                 </Link>
                 <a className="button is-warning">

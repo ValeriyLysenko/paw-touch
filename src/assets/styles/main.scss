@@ -17,6 +17,8 @@
 
 html {
     overflow: initial;
+    // background-color: $body-background-color
+    background: $bg-1;
 }
 
 html,
@@ -43,12 +45,12 @@ body {
         top: -5px;
         left: -15px;
         width: 100px;
-        fill: #d8d8d8;
+        fill: $color-5;
         transform-origin: 50% 100%;
 
         // &:hover {
         //     // animation: logo-shake 10s timing-function delay iteration-count direction fill-mode;
-        //     animation: logo-shake 5s ease-in-out infinite alternate;
+        //     // animation: logo-shake 5s ease-in-out infinite alternate;
         // }
     }
 }
@@ -57,7 +59,7 @@ body {
     display: block;
     width: 60px;
     height: 60px;
-    background-color: $bg-color-1;
+    background-color: $color-1;
     border: 2px solid #fff;
 
     // transform-origin: 50% 100%;
@@ -121,7 +123,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #4f38a1;
+    // background-color: $body-background-color;
+    background: $bg-1;
     z-index: 100;
     overflow: auto;
 }

@@ -18,7 +18,7 @@ const SimpleColorPicker: FC<Props> = observer(({
             <input
                 id="toolColor"
                 name="toolColor"
-                className="input is-info"
+                className="input is-link"
                 type="color"
                 value={color}
                 onChange={(e) => {
