@@ -6,15 +6,14 @@ import Loading from 'atomicComponents/Loading/Loading';
 
 interface Props extends PopupProps {}
 
-const LazyGalleryPopup = lazy(() => new Promise((resolve) => {
-    setTimeout(() => resolve(import('components/Modals/GalleryPopup') as Promise<{default: never}>), 3000);
-}));
-
 const LazyPopup: FC<Props> = ({
     url,
     closeHandler,
 }) => {
     console.log('Lazy');
+    const LazyGalleryPopup = lazy(() => new Promise((resolve) => {
+        setTimeout(() => resolve(import('components/Modals/GalleryPopup') as Promise<{default: never}>), 3000);
+    }));
     return (
         <Suspense fallback={<Loading />}>
             {
