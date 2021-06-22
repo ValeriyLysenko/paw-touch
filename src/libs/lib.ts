@@ -62,10 +62,12 @@ export async function http<T>(
     try {
         parsedBody = await response.json();
     } catch (ex) {
-        throw new Error(ex);
+        // throw new Error(ex);
+        parsedBody.error = ex;
     }
     if (!response.ok) {
-        throw new Error(response.statusText);
+        // throw new Error(response.statusText);
+        parsedBody.error = response.statusText;
     }
 
     return parsedBody;
@@ -95,14 +97,8 @@ export async function sendBlobToServer<T>(
     const formData = new FormData();
     formData.append('canvasImage', imageBlob, 'blob-image-name.png');
 
-    // const response = await http<any>('http://localhost:8081/api/get-data', {
-    // const response = await http<any>('http://localhost:8081/api/post-data', {
     const response = await http<T>('http://localhost:8081/api/image-data', {
-        // headers: {
-        //     'Content-type': 'application/json',
-        // },
         method: 'POST',
-        // body: JSON.stringify({ doom: { go: false } }),
         body: formData,
     });
 

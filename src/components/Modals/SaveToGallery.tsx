@@ -74,22 +74,22 @@ const SaveToGallery: FC<Props> = observer(({
         setPending(true);
         setTimeout(async () => {
             // mainCanvas.uploadImage(canvas);
-            const response = await sendBlobToServer<{
+            const response = await sendBlobToServer<ServerResponse<{
                 name: string
-            }>(canvas, {
+            }>>(canvas, {
                 imageType: 'image/png',
                 imageQuality: 1,
             });
 
             setPending(false);
 
-            if (response) {
+            if (!response.error) {
                 setResponseStatus('success');
                 const data = {
                     id: nanoid(),
                     title,
                     descr,
-                    image: response.name || '',
+                    image: response.body.name || '',
                 };
                 mainCanvas.setGalleryItem(data);
 

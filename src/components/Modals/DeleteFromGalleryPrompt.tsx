@@ -66,19 +66,19 @@ const DeleteFromGalleryPrompt: FC<Props> = observer(({
 
         setPending(true);
         setTimeout(async () => {
-            const response = await http<{
-                result: true,
-            }>('http://localhost:8081/api/gallery-data', {
-                headers: {
-                    'Content-type': 'application/json',
+            const response = await http<ServerResponse<{}>>(
+                'http://localhost:8081/api/gallery-data', {
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    method: 'DELETE',
+                    body: JSON.stringify(toDeleteItems),
                 },
-                method: 'DELETE',
-                body: JSON.stringify(toDeleteItems),
-            });
+            );
 
             setPending(false);
 
-            if (response.result) {
+            if (!response.error) {
                 setResponseStatus('success');
                 mainCanvas.setGallery(galleryMod);
 
