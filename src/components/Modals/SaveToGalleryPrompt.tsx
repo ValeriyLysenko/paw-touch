@@ -4,7 +4,6 @@ import {
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
-import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
 interface Props extends ModalsProps {}
@@ -16,9 +15,6 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
     const { mainCanvas } = useContext(AppContext);
     const currentModal = mainCanvas.getModals.newCanvas;
     const typesToOpen = ['new-canvas'];
-    const {
-        modals: { saveToGalleryPromptModalRef },
-    } = useContext(LayoutContext);
 
     const closeHandler = action('closePopupSaveToGalleryPromptAction', (e: MouseEvent) => {
         e.stopPropagation();
@@ -42,10 +38,7 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
     });
 
     return (
-        <div
-            ref={saveToGalleryPromptModalRef}
-            className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
-        >
+        <div className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}>
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -72,7 +65,6 @@ const SaveToGalleryPrompt: FC<Props> = observer(({
                     }}
                     />
                     <SimpleControl {...{
-                        type: 'submit',
                         cssClass: 'button is-warning',
                         ariaLabel: 'Negative answer',
                         callback: closeHandler,

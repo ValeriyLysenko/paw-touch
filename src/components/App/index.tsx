@@ -12,11 +12,7 @@ const App: FC<Props> = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const modalsWrapperRef = useRef<HTMLDivElement | null>(null);
     const galleryFormRef = useRef<HTMLFormElement | null>(null);
-    const modals = {
-        saveToGalleryModalRef: useRef<HTMLDivElement | null>(null),
-        saveToGalleryPromptModalRef: useRef<HTMLDivElement | null>(null),
-        galleryPopupModalRef: useRef<HTMLDivElement | null>(null),
-    };
+    const modals = {};
     return (
         <LayoutContextProvider value={{
             canvasRef, modalsWrapperRef, galleryFormRef, modals,

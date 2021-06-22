@@ -20,7 +20,6 @@ const SaveToGallery: FC<Props> = observer(({
     const currentModal = mainCanvas.getModals.saveToGallery;
     const typesToOpen = ['save-to-gallery'];
     const { canvasRef } = useContext(LayoutContext);
-    const { modals: { saveToGalleryModalRef } } = useContext(LayoutContext);
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const formDataRef = useRef({
         pristineForm: true,
@@ -108,10 +107,7 @@ const SaveToGallery: FC<Props> = observer(({
     });
 
     return (
-        <div
-            ref={saveToGalleryModalRef}
-            className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
-        >
+        <div className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}>
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -166,12 +162,10 @@ const SaveToGallery: FC<Props> = observer(({
                         ariaLabel: 'Save modal',
                         callback: saveHandler,
                         text: 'Save',
-                        type: 'submit',
                         disabled: pending,
                     }}
                     />
                     <SimpleControl {...{
-                        type: 'submit',
                         cssClass: 'button is-warning',
                         ariaLabel: 'Close modal',
                         callback: closeHandler,

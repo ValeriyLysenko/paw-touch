@@ -13,7 +13,7 @@ interface Props extends ModalsProps {}
 const DeleteFromGalleryPrompt: FC<Props> = observer(({
     callback,
 }) => {
-    console.log('Save to gallery prompt modal');
+    console.log('DeleteFromGalleryPrompt modal');
     const [pending, setPending] = useState(false);
     const [responseStatus, setResponseStatus] = useState('');
     const { mainCanvas } = useContext(AppContext);
@@ -21,8 +21,52 @@ const DeleteFromGalleryPrompt: FC<Props> = observer(({
     const typesToOpen = ['delete-from-gallery'];
     const {
         galleryFormRef,
-        modals: { saveToGalleryPromptModalRef },
     } = useContext(LayoutContext);
+
+    const deleteObj = ((): {
+        toDelete: string[],
+        galleryMod: GalleryObj[],
+     } => {
+        const { current: galleryForm } = galleryFormRef;
+        const gallery = toJS(mainCanvas.getGallery);
+
+        if (!galleryForm) {
+            return {
+                toDelete: [],
+                galleryMod: gallery,
+            };
+        }
+
+        const fields = getFormData(galleryForm);
+        const entries = Object.entries(fields);
+        const keys: string[] = [];
+        entries.forEach((item) => {
+            if (item[1]) {
+                keys.push(item[0].replace('chbox-', ''));
+            }
+        });
+
+        if (!keys.length) {
+            return {
+                toDelete: [],
+                galleryMod: gallery,
+            };
+        }
+
+        const toDelete: string[] = [];
+        const galleryMod: GalleryObj[] = [];
+
+        gallery.forEach((item) => {
+            if (keys.includes(item.id)) toDelete.push(item.image);
+            else galleryMod.push(item);
+        });
+
+        return {
+            toDelete,
+            galleryMod,
+        };
+
+    })();
 
     const closeHandler = action('closePopupDeleteFromGalleryPromptAction', (e: MouseEvent) => {
         e.stopPropagation();
@@ -38,31 +82,9 @@ const DeleteFromGalleryPrompt: FC<Props> = observer(({
 
     const yesHandler = action('deleteItemsFromGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
+        const { toDelete, galleryMod } = deleteObj;
 
-        const { current: galleryForm } = galleryFormRef;
-        if (!galleryForm) return;
-
-        const fields = getFormData(galleryForm);
-        const entries = Object.entries(fields);
-        const keys: string[] = [];
-        entries.forEach((item) => {
-            if (item[1]) {
-                keys.push(item[0].replace('chbox-', ''));
-            }
-        });
-
-        if (!keys.length) return;
-
-        const gallery = toJS(mainCanvas.getGallery);
-        const toDeleteItems: string[] = [];
-        const galleryMod: GalleryObj[] = [];
-
-        gallery.forEach((item) => {
-            if (keys.includes(item.id)) toDeleteItems.push(item.image);
-            else galleryMod.push(item);
-        });
-
-        if (!toDeleteItems.length) return;
+        if (!toDelete.length) return;
 
         setPending(true);
         setTimeout(async () => {
@@ -72,7 +94,7 @@ const DeleteFromGalleryPrompt: FC<Props> = observer(({
                         'Content-type': 'application/json',
                     },
                     method: 'DELETE',
-                    body: JSON.stringify(toDeleteItems),
+                    body: JSON.stringify(toDelete),
                 },
             );
 
@@ -94,13 +116,8 @@ const DeleteFromGalleryPrompt: FC<Props> = observer(({
         }, 2000);
     });
 
-    console.log('%cDeleteFromGalleryPrompt', 'color: red', callback);
-
     return (
-        <div
-            ref={saveToGalleryPromptModalRef}
-            className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
-        >
+        <div className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}>
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -126,27 +143,49 @@ const DeleteFromGalleryPrompt: FC<Props> = observer(({
                 </header>
                 <section className="modal-card-body">
                     <div className="block">
-                        Are you sure you want to delete the selected items permanently?
+                        {
+                            deleteObj.toDelete.length
+                                ? 'Are you sure you want to delete the selected items permanently?'
+                                : 'You have to select at least one item.'
+                        }
+
                     </div>
                 </section>
-                <footer className="modal-card-foot is-justify-content-space-between">
-                    <SimpleControl {...{
-                        cssClass: 'button is-success',
-                        ariaLabel: 'Affirmative answer',
-                        callback: yesHandler,
-                        text: 'Yes',
-                        disabled: pending,
-                    }}
-                    />
-                    <SimpleControl {...{
-                        type: 'submit',
-                        cssClass: 'button is-warning',
-                        ariaLabel: 'Negative answer',
-                        callback: closeHandler,
-                        text: 'No',
-                        disabled: pending,
-                    }}
-                    />
+                <footer className={`modal-card-foot ${
+                    deleteObj.toDelete.length
+                        ? ' is-justify-content-space-between'
+                        : ' is-justify-content-flex-end'}`}
+                >
+                    { deleteObj.toDelete.length
+                        ? (
+                            <>
+                                <SimpleControl {...{
+                                    cssClass: 'button is-success',
+                                    ariaLabel: 'Affirmative answer',
+                                    callback: yesHandler,
+                                    text: 'Yes',
+                                    disabled: pending,
+                                }}
+                                />
+                                <SimpleControl {...{
+                                    cssClass: 'button is-warning',
+                                    ariaLabel: 'Negative answer',
+                                    callback: closeHandler,
+                                    text: 'No',
+                                    disabled: pending,
+                                }}
+                                />
+                            </>
+                        )
+                        : (
+                            <SimpleControl {...{
+                                cssClass: 'button is-warning',
+                                ariaLabel: 'Close modal',
+                                callback: closeHandler,
+                                text: 'Close',
+                            }}
+                            />
+                        )}
                 </footer>
             </div>
         </div>

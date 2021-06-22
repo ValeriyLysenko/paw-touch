@@ -11,18 +11,21 @@ const config: NavRouterObj = {
             name: 'Fullscreen',
             title: '',
             url: 'fullscreen',
+            handler: 'layout',
         },
         hsplit: {
             id: nanoid(),
             name: 'Horizontal split',
             title: '',
             url: 'horizontal-split',
+            handler: 'layout',
         },
         vsplit: {
             id: nanoid(),
             name: 'Vertical split',
             title: '',
             url: 'vertical-split',
+            handler: 'layout',
         },
         rsplit: {
             id: nanoid(),
