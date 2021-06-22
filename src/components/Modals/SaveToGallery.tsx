@@ -35,11 +35,13 @@ const SaveToGallery: FC<Props> = observer(({
         formDataRef.current.pristineForm = false;
         setTitle(target.value);
     };
+
     const onDescrChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         e.stopPropagation();
         const target = e.target as HTMLTextAreaElement;
         setDescr(target.value);
     };
+
     const closeHandler = action('closePopupSaveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
 
@@ -56,7 +58,8 @@ const SaveToGallery: FC<Props> = observer(({
         // Call outside callback if any
         if (callback) callback();
     });
-    const onSubmit = (e: MouseEvent) => {
+
+    const saveHandler = action('saveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
 
         const { current: canvas } = canvasRef;
@@ -100,9 +103,9 @@ const SaveToGallery: FC<Props> = observer(({
                 setResponseStatus('error');
             }
 
-        }, 2500);
+        }, 2000);
 
-    };
+    });
 
     return (
         <div
@@ -161,7 +164,7 @@ const SaveToGallery: FC<Props> = observer(({
                     <SimpleControl {...{
                         cssClass: 'button is-success',
                         ariaLabel: 'Save modal',
-                        callback: onSubmit,
+                        callback: saveHandler,
                         text: 'Save',
                         type: 'submit',
                         disabled: pending,
