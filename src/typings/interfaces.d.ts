@@ -1,6 +1,6 @@
 interface ServerResponse<T> {
-    error?: any;
-    body: T;
+    error: any;
+    body: T | null;
 }
 
 interface PopupProps {

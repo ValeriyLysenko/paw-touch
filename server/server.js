@@ -47,11 +47,9 @@ app.delete('/api/gallery-data', (req, res) => {
             // });
             });
         }
-        res.send({ body: {} });
+        res.send({});
     } catch (err) {
-        res.send({
-            error: err,
-        });
+        res.send(err);
     }
 });
 
@@ -79,13 +77,28 @@ const storage = multer.diskStorage({
         });
     },
 });
-const upload = multer({ storage });
+const upload = multer({ storage }).single('canvasImage');
 
-app.post('/api/image-data', upload.single('canvasImage'), (req, res) => {
-    res.status(200).send({
-        body: {
+app.post('/api/image-data', (req, res) => {
+    upload(req, res, (err) => {
+        let errorMessage = '';
+        if (err instanceof multer.MulterError) {
+            // A Multer error occurred when uploading.
+            errorMessage = err;
+        } else if (err) {
+            // An unknown error occurred when uploading.
+            errorMessage = err;
+        }
+
+        if (errorMessage) {
+            res.status(500).send(err);
+            return;
+        }
+
+        // Everything went fine.
+        res.status(200).send({
             name: imageName,
-        },
+        });
     });
 });
 

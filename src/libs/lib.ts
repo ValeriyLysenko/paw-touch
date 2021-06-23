@@ -55,19 +55,22 @@ export function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement): boolean {
 export async function http<T>(
     url: string,
     spec: RequestInit,
-): Promise<T> {
-    const response = await fetch(url, spec);
-    let parsedBody = null;
+): Promise<ServerResponse<T>> {
+    const parsedBody: ServerResponse<T> = {
+        body: null,
+        error: null,
+    };
 
     try {
-        parsedBody = await response.json();
+        const response = await fetch(url, spec);
+        parsedBody.body = await response.json();
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
     } catch (ex) {
         // throw new Error(ex);
         parsedBody.error = ex;
-    }
-    if (!response.ok) {
-        // throw new Error(response.statusText);
-        parsedBody.error = response.statusText;
     }
 
     return parsedBody;
@@ -87,7 +90,7 @@ export async function canvasToBlob(
 export async function sendBlobToServer<T>(
     canvas: HTMLCanvasElement,
     spec: ToBlobSpec,
-): Promise<T> {
+): Promise<ServerResponse<T>> {
     const imageBlob = await canvasToBlob(canvas, spec);
 
     if (!imageBlob) {

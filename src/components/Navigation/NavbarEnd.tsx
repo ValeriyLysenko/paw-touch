@@ -51,10 +51,11 @@ const NavbarEnd: FC<Props> = observer(() => {
                     <ModalPortal>
                         <BasicModal
                             title="Warning"
-                            content="This part of the application is currently under development."
                             closeHandler={closeHandler}
                             spec={{ type: 'settings', name: 'settings' }}
-                        />
+                        >
+                            <p>This part of the application is currently under development.</p>
+                        </BasicModal>
                     </ModalPortal>
                 ) : null
             }

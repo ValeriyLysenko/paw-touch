@@ -88,7 +88,7 @@ const DeleteFromGalleryPrompt: FC<Props> = observer(({
 
         setPending(true);
         setTimeout(async () => {
-            const response = await http<ServerResponse<{}>>(
+            const response = await http<{}>(
                 'http://localhost:8081/api/gallery-data', {
                     headers: {
                         'Content-type': 'application/json',

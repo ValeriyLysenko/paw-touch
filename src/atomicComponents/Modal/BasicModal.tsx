@@ -1,11 +1,11 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
 interface Props {
+    children?: ReactNode;
     title: string;
-    content: string;
     closeHandler: (e: React.MouseEvent) => void;
     spec: {
         type: string;
@@ -14,8 +14,8 @@ interface Props {
 }
 
 const BasicModal: FC<Props> = observer(({
+    children,
     title,
-    content,
     closeHandler,
     spec,
 }) => {
@@ -35,7 +35,7 @@ const BasicModal: FC<Props> = observer(({
                     />
                 </header>
                 <section className="modal-card-body">
-                    {content}
+                    {children}
                 </section>
                 <footer className="modal-card-foot is-justify-content-flex-end">
                     <SimpleControl {...{

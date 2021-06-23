@@ -13,16 +13,18 @@ const LazyPopup: FC<Props> = ({
     const LazyGalleryPopup = lazy(() => new Promise((resolve) => {
         setTimeout(() => resolve(import('atomicComponents/Modal/SimpleModal') as Promise<{default: never}>), 3000);
     }));
+
     return (
         <Suspense fallback={<Loading />}>
             {
             url ? (
                 <ModalPortal>
                     <LazyGalleryPopup
-                        content={<img src={url} alt="" />}
                         closeHandler={closeHandler}
                         spec={{ type: 'gallery-popup', name: 'galleryPopup' }}
-                    />
+                    >
+                        <img src={url} alt="" />
+                    </LazyGalleryPopup>
                 </ModalPortal>
             ) : null
         }

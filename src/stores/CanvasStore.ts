@@ -206,12 +206,14 @@ class CanvasStore {
             imageType: 'image/png',
             imageQuality: 1,
         });
-        if (!response.error) {
+        const { body, error } = response;
+
+        if (!error && body) {
             this.gallery.push({
                 id: '',
                 title: '',
                 descr: '',
-                image: response.body.name,
+                image: body.name,
             });
         }
     }

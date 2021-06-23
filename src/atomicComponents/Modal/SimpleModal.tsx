@@ -1,10 +1,10 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
 interface Props {
-    content: string;
+    children?: ReactNode;
     closeHandler: (e: React.MouseEvent) => void;
     spec: {
         type: string;
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const SimpleModal: FC<Props> = observer(({
-    content,
+    children,
     closeHandler,
     spec,
 }) => {
@@ -24,7 +24,7 @@ const SimpleModal: FC<Props> = observer(({
         <div className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}>
             <div className="modal-background" />
             <div className="modal-content pt-helper-width-auto">
-                {content}
+                {children}
             </div>
             <SimpleControl {...{
                 cssClass: 'modal-close is-large',
