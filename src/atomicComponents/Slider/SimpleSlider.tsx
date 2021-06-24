@@ -25,7 +25,7 @@ const SimpleSlider: FC<Props> = ({
             <input
                 id="toolSize"
                 name="toolSize"
-                className="slider has-output is-fullwidth is-info"
+                className="slider has-output is-fullwidth is-link"
                 step={step}
                 min={min}
                 max={max}

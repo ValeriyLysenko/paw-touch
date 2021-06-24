@@ -4,7 +4,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { Subscription } from 'rxjs';
 import LayoutContext from 'aux/LayoutContext';
-import { redrawCanvas } from 'libs/canvasLib';
+import { scaleCanvasWithRedrawChangeSize } from 'libs/canvasLib';
 
 const useDrawingTools = (
     canvasDrawingRef: MutableRefObject<DrawToolObject | null>,
@@ -24,9 +24,6 @@ const useDrawingTools = (
     const locationRef = useRef<{pathname: string}>({ pathname: '' });
     const location = useLocation();
     const { pathname } = location;
-
-    console.log('location', location);
-    console.log('locationRef', locationRef);
 
     useEffect(() => {
         console.log('%cuseDrawingTools useEffect', 'color: teal', type);
@@ -48,7 +45,7 @@ const useDrawingTools = (
             if (!canvasEl) return;
             const ctx = canvasEl.getContext('2d');
             if (!ctx) return;
-            redrawCanvas(ctx, history.data);
+            scaleCanvasWithRedrawChangeSize(ctx, scale.currentScale, history);
             locationRef.current.pathname = pathname;
         }
 
@@ -58,9 +55,7 @@ const useDrawingTools = (
                 canvasSub.unsubscribe();
             }
         };
-    // ?Everything is ok here
-    // ?We don't need to add 'canvasDrawingRef' to array
-    }, [type, color, size, scale, history, pathname]);
+    }, [type, color, size, scale, history, pathname, canvasRef, canvasDrawingRef]);
 };
 
 export default useDrawingTools;

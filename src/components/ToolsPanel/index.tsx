@@ -3,6 +3,7 @@ import {
     MouseEvent,
     useContext,
 } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
 import dragComponent from 'hocs/dragComponent';
@@ -14,6 +15,7 @@ const ToolsPanel: FC<Props> = observer(() => {
     console.log('%cToolsPanel', 'color: olive;');
     const { mainCanvas } = useContext(AppContext);
     const { type: active } = mainCanvas.getActiveTool;
+    const isGalleryRoute = useRouteMatch('/gallery');
     const clickHandler = (e: MouseEvent) => {
         e.stopPropagation();
         const target = e.currentTarget as HTMLDivElement;
@@ -26,7 +28,7 @@ const ToolsPanel: FC<Props> = observer(() => {
     const items = Object.values(toolsPanelConfig);
 
     return (
-        <div className="pt-tools-panel">
+        <div className={`pt-tools-panel${isGalleryRoute ? ' is-hidden' : ''}`}>
 
             <div className="pt-drag-plate">
                 <div />

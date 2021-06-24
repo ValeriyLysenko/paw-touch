@@ -20,9 +20,33 @@
         }
     }
 
-    .card-image {
+    .card {
         width: 400px;
+        height: 400px;
+        background-color: transparent;
+    }
+    .card-image {
         height: 235px;
+        background-color: $white;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+
+    .card-content {
+        position: relative;
+        background-color: #f5e7ef;
+        height: 165px;
+        // border-top: 2px solid #bf1b68;
+        box-shadow: 0 -1px 5px 0 #94377a;
+
+        .media-content {
+            .title.is-4 {
+                width: 352px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
     }
 }
 

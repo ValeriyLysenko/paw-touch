@@ -6,7 +6,7 @@
 
 ##{$pt-prefix}modals-wrapper {
     .modal-content {
-        background-color: #fff;
+        background-color: $white;
     }
 }
 
@@ -16,6 +16,9 @@
             color: $white !important;
             .navbar-link {
                 color: $white !important;
+                &::after {
+                    border-color: inherit;
+                }
             }
             &:hover,
             &:focus,

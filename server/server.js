@@ -10,7 +10,7 @@ const port = 8081;
 const uploadsDir = 'public/uploads/';
 const app = express();
 
-const dataToSend = require('./data.json');
+const testData = require('./data.json');
 
 // Prevent CORS problems (not safe)
 app.use(cors());
@@ -29,8 +29,8 @@ app.use(express.json());
 app.get('/api/get-data', (req, res) => {
     // console.log('GET::/api/get-data');
     console.log(req.query);
-    // res.end(JSON.stringify(dataToSend));
-    res.send(dataToSend);
+    // res.end(JSON.stringify(testData));
+    res.send(testData);
 });
 
 /**
@@ -38,15 +38,19 @@ app.get('/api/get-data', (req, res) => {
  */
 app.delete('/api/gallery-data', (req, res) => {
     const { body } = req;
-    if (body.length) {
-        body.forEach((item) => {
-            fs.unlinkSync(uploadsDir + item);
+    try {
+        if (body.length) {
+            body.forEach((item) => {
+                fs.unlinkSync(uploadsDir + item);
             // fs.unlink(uploadsDir + item, (err) => {
             //     if (err) throw err;
             // });
-        });
+            });
+        }
+        res.send({});
+    } catch (err) {
+        res.send(err);
     }
-    res.send({ result: true });
 });
 
 /**
@@ -73,11 +77,28 @@ const storage = multer.diskStorage({
         });
     },
 });
-const upload = multer({ storage });
+const upload = multer({ storage }).single('canvasImage');
 
-app.post('/api/image-data', upload.single('canvasImage'), (req, res) => {
-    res.status(200).send({
-        name: imageName,
+app.post('/api/image-data', (req, res) => {
+    upload(req, res, (err) => {
+        let errorMessage = '';
+        if (err instanceof multer.MulterError) {
+            // A Multer error occurred when uploading.
+            errorMessage = err;
+        } else if (err) {
+            // An unknown error occurred when uploading.
+            errorMessage = err;
+        }
+
+        if (errorMessage) {
+            res.status(500).send(err);
+            return;
+        }
+
+        // Everything went fine.
+        res.status(200).send({
+            name: imageName,
+        });
     });
 });
 

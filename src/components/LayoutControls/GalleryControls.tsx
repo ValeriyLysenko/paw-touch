@@ -1,61 +1,35 @@
 import {
-    FC, useContext,
+    FC, useContext, MouseEvent,
 } from 'react';
 import {
     useHistory,
 } from 'react-router-dom';
-import { toJS, action } from 'mobx';
+import { action } from 'mobx';
+import { observer } from 'mobx-react';
 import AppContext from 'aux/AppContext';
-import LayoutContext from 'aux/LayoutContext';
 import SimpleControl from 'atomicComponents/Control/SimpleControl';
-import { getFormData, http } from 'libs/lib';
+import ModalPortal from 'atomicComponents/Modal/ModalPortal';
+import DeleteFromGalleryPrompt from 'components/Modals/DeleteFromGalleryPrompt';
+import { uniOnOpenHandler } from 'libs/lib';
 
 interface Props {}
 
-const GalleryControls: FC<Props> = () => {
+const GalleryControls: FC<Props> = observer(() => {
     const { mainCanvas } = useContext(AppContext);
-    const { galleryFormRef } = useContext(LayoutContext);
+    const modals = mainCanvas.getModals;
+    const {
+        type: deleteFromGalleryType = '',
+    } = modals.deleteFromGallery || {};
     const history = useHistory();
     const goBackHandler = () => history.goBack();
-    const deleteItemsHandler = action('deleteGalleryItemsAction', async () => {
-        const { current: galleryForm } = galleryFormRef;
-        if (!galleryForm) return;
 
-        const fields = getFormData(galleryForm);
-        const entries = Object.entries(fields);
-        const keys: string[] = [];
-        entries.forEach((item) => {
-            if (item[1]) {
-                keys.push(item[0].replace('chbox-', ''));
-            }
+    const openHandler = action('openPopupDeleteFromGalleryPromptAction', (e: MouseEvent) => {
+        e.stopPropagation();
+        uniOnOpenHandler(mainCanvas, 'deleteFromGallery', {
+            type: 'delete-from-gallery',
+            parent: '',
+            child: '',
         });
-
-        if (keys.length) {
-            const gallery = toJS(mainCanvas.getGallery);
-            const toDeleteItems: string[] = [];
-            const galleryMod: GalleryObj[] = [];
-
-            gallery.forEach((item) => {
-                if (keys.includes(item.id)) toDeleteItems.push(item.image);
-                else galleryMod.push(item);
-            });
-
-            if (!toDeleteItems.length) return;
-
-            const response = await http<{
-                result: true,
-            }>('http://localhost:8081/api/gallery-data', {
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                method: 'DELETE',
-                body: JSON.stringify(toDeleteItems),
-            });
-
-            if (response.result) {
-                mainCanvas.setGallery(galleryMod);
-            }
-        }
     });
 
     return (
@@ -74,13 +48,20 @@ const GalleryControls: FC<Props> = () => {
                 <SimpleControl {...{
                     cssClass: 'button is-danger',
                     ariaLabel: 'Delete gallery items',
-                    callback: deleteItemsHandler,
+                    callback: openHandler,
                     text: 'Delete',
                 }}
                 />
             </div>
+            {
+                deleteFromGalleryType ? (
+                    <ModalPortal>
+                        <DeleteFromGalleryPrompt />
+                    </ModalPortal>
+                ) : null
+            }
         </div>
     );
-};
+});
 
 export default GalleryControls;

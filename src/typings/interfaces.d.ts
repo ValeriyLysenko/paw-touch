@@ -1,3 +1,8 @@
+interface ServerResponse<T> {
+    error: any;
+    body: T | null;
+}
+
 interface PopupProps {
     url: string;
     closeHandler: (e: React.MouseEvent) => void;
