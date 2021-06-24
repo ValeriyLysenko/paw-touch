@@ -20,7 +20,6 @@ const SaveToGallery: FC<Props> = observer(({
     const currentModal = mainCanvas.getModals.saveToGallery;
     const typesToOpen = ['save-to-gallery'];
     const { canvasRef } = useContext(LayoutContext);
-    const { modals: { saveToGalleryModalRef } } = useContext(LayoutContext);
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const formDataRef = useRef({
         pristineForm: true,
@@ -35,11 +34,13 @@ const SaveToGallery: FC<Props> = observer(({
         formDataRef.current.pristineForm = false;
         setTitle(target.value);
     };
+
     const onDescrChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         e.stopPropagation();
         const target = e.target as HTMLTextAreaElement;
         setDescr(target.value);
     };
+
     const closeHandler = action('closePopupSaveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
 
@@ -56,7 +57,8 @@ const SaveToGallery: FC<Props> = observer(({
         // Call outside callback if any
         if (callback) callback();
     });
-    const onSubmit = (e: MouseEvent) => {
+
+    const saveHandler = action('saveToGalleryAction', (e: MouseEvent) => {
         e.stopPropagation();
 
         const { current: canvas } = canvasRef;
@@ -77,16 +79,17 @@ const SaveToGallery: FC<Props> = observer(({
                 imageType: 'image/png',
                 imageQuality: 1,
             });
+            const { body, error } = response;
 
             setPending(false);
 
-            if (response) {
+            if (!error && body) {
                 setResponseStatus('success');
                 const data = {
                     id: nanoid(),
                     title,
                     descr,
-                    image: response.name || '',
+                    image: body.name || '',
                 };
                 mainCanvas.setGalleryItem(data);
 
@@ -100,15 +103,12 @@ const SaveToGallery: FC<Props> = observer(({
                 setResponseStatus('error');
             }
 
-        }, 2500);
+        }, 2000);
 
-    };
+    });
 
     return (
-        <div
-            ref={saveToGalleryModalRef}
-            className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}
-        >
+        <div className={`modal${currentModal && typesToOpen.includes(currentModal.type) ? ' is-active' : ''}`}>
             <div className="modal-background" />
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -161,14 +161,12 @@ const SaveToGallery: FC<Props> = observer(({
                     <SimpleControl {...{
                         cssClass: 'button is-success',
                         ariaLabel: 'Save modal',
-                        callback: onSubmit,
+                        callback: saveHandler,
                         text: 'Save',
-                        type: 'submit',
                         disabled: pending,
                     }}
                     />
                     <SimpleControl {...{
-                        type: 'submit',
                         cssClass: 'button is-warning',
                         ariaLabel: 'Close modal',
                         callback: closeHandler,

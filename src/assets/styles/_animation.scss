@@ -21,4 +21,60 @@
     }
 }
 
+@keyframes logo-shake {
+    // 0% {
+    //     transform: rotate(0deg);
+    // }
+    // 25% {
+    //     transform: rotate(20deg);
+    // }
+    // 50% {
+    //     transform: rotate(-20deg);
+    // }
+    // 75% {
+    //     transform: rotate(20deg);
+    // }
+    // 100% {
+    //     transform: rotate(-20deg);
+    // }
+
+    // 0% {
+    //     transform: rotate(0deg);
+    // }
+    // 50% {
+    //     transform: rotate(20deg);
+    // }
+    // 100% {
+    //     transform: rotate(-20deg);
+    // }
+
+    0% {
+        transform: rotate(0deg);
+    }
+    33% {
+        transform: rotate(20deg);
+    }
+    66% {
+        transform: rotate(-20deg);
+    }
+    100% {
+        transform: rotate(10deg);
+    }
+}
+
 /*=====     End of Animation block     ======*/
+
+/*=============================================
+=           Animation classes block           =
+=============================================*/
+
+.logo-anime {
+    // animation: logo-shake 10s timing-function delay iteration-count direction fill-mode;
+    animation: logo-shake 1.5s ease-in-out infinite alternate;
+}
+
+.opacity-1-0-anime {
+    animation: opacity-from-1-to-0 1.5s;
+}
+
+/*====  End of Animation classes block  ====*/

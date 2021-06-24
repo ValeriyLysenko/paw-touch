@@ -3,7 +3,6 @@ import {
     useContext,
     useRef,
 } from 'react';
-import { observer } from 'mobx-react';
 import ToolSettings from 'components/Tools/ToolSettings';
 import AppContext from 'aux/AppContext';
 
@@ -13,7 +12,7 @@ interface Props {
     };
 }
 
-const AuxLayout: FC<Props> = observer(({
+const AuxLayout: FC<Props> = ({
     spec,
 }) => {
     const {
@@ -23,8 +22,8 @@ const AuxLayout: FC<Props> = observer(({
     const { type } = spec;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const auxCanvasRef = useRef<HTMLCanvasElement | null>(null);
-    console.log('%cBasicLayout', 'color: green;', mainCanvas);
-    console.log('%cBasicLayout', 'color: blue;', auxCanvas);
+    console.log('%cAuxLayout', 'color: green;', mainCanvas);
+    console.log('%cAuxLayout', 'color: blue;', auxCanvas);
 
     if (type === 'vertical') {
         return (
@@ -58,6 +57,6 @@ const AuxLayout: FC<Props> = observer(({
         </div>
 
     );
-});
+};
 
 export default AuxLayout;

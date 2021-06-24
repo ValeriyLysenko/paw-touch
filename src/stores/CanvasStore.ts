@@ -200,18 +200,22 @@ class CanvasStore {
     }
 
     * uploadImage(canvas: HTMLCanvasElement) {
-        const response: {
-            name: string
-        } = yield sendBlobToServer(canvas, {
+        const response: ServerResponse<{
+            name: string;
+        }> = yield sendBlobToServer(canvas, {
             imageType: 'image/png',
             imageQuality: 1,
         });
-        this.gallery.push({
-            id: '',
-            title: '',
-            descr: '',
-            image: response.name,
-        });
+        const { body, error } = response;
+
+        if (!error && body) {
+            this.gallery.push({
+                id: '',
+                title: '',
+                descr: '',
+                image: body.name,
+            });
+        }
     }
 
 }

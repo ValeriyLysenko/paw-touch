@@ -12,8 +12,6 @@ const FullscreenControls: FC<Props> = () => {
     const history = useHistory();
     const goBackHandler = () => history.goBack();
 
-    console.log('~~', history);
-
     return (
         <div className="columns">
             <div className="column is-narrow">

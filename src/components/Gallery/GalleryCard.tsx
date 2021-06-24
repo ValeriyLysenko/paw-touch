@@ -55,7 +55,7 @@ const GalleryCard: FC<Props> = ({
             <div className="card-content">
                 <div className="media">
                     <div className="media-content">
-                        <p className="title is-4">{title}</p>
+                        <p className="title is-4" title={title}>{title}</p>
                         <p className="subtitle is-6">
                             <label className="checkbox" htmlFor={`chbox-${id}`}>
                                 <input id={`chbox-${id}`} type="checkbox" />
@@ -64,8 +64,8 @@ const GalleryCard: FC<Props> = ({
                         </p>
                     </div>
                 </div>
-                <div className="content">
-                    {descr}
+                <div className="content" title={descr}>
+                    {descr.length > 80 ? `${descr.substr(0, 80)}...` : descr}
                 </div>
             </div>
         </div>

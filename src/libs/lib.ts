@@ -55,17 +55,22 @@ export function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement): boolean {
 export async function http<T>(
     url: string,
     spec: RequestInit,
-): Promise<T> {
-    const response = await fetch(url, spec);
-    let parsedBody = null;
+): Promise<ServerResponse<T>> {
+    const parsedBody: ServerResponse<T> = {
+        body: null,
+        error: null,
+    };
 
     try {
-        parsedBody = await response.json();
+        const response = await fetch(url, spec);
+        parsedBody.body = await response.json();
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
     } catch (ex) {
-        throw new Error(ex);
-    }
-    if (!response.ok) {
-        throw new Error(response.statusText);
+        // throw new Error(ex);
+        parsedBody.error = ex;
     }
 
     return parsedBody;
@@ -85,7 +90,7 @@ export async function canvasToBlob(
 export async function sendBlobToServer<T>(
     canvas: HTMLCanvasElement,
     spec: ToBlobSpec,
-): Promise<T> {
+): Promise<ServerResponse<T>> {
     const imageBlob = await canvasToBlob(canvas, spec);
 
     if (!imageBlob) {
@@ -95,14 +100,8 @@ export async function sendBlobToServer<T>(
     const formData = new FormData();
     formData.append('canvasImage', imageBlob, 'blob-image-name.png');
 
-    // const response = await http<any>('http://localhost:8081/api/get-data', {
-    // const response = await http<any>('http://localhost:8081/api/post-data', {
     const response = await http<T>('http://localhost:8081/api/image-data', {
-        // headers: {
-        //     'Content-type': 'application/json',
-        // },
         method: 'POST',
-        // body: JSON.stringify({ doom: { go: false } }),
         body: formData,
     });
 

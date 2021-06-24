@@ -17,6 +17,8 @@
 
 html {
     overflow: initial;
+    // background-color: $body-background-color
+    background: $bg-1;
 }
 
 html,
@@ -32,12 +34,28 @@ body {
     max-width: 2200px;
 }
 
+##{$pt-prefix}logo-svg {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin-right: 30px;
+
+    svg {
+        position: absolute;
+        top: -5px;
+        left: -15px;
+        width: 100px;
+        fill: $color-5;
+        transform-origin: 50% 100%;
+    }
+}
+
 ##{$pt-prefix}logo {
     display: block;
     width: 60px;
     height: 60px;
-    background-color: $bg-color-1;
-    border: 2px solid #fff;
+    background-color: $color-1;
+    border: 2px solid $white;
 
     // transform-origin: 50% 100%;
     // transition: transform 3s;
@@ -89,7 +107,7 @@ body {
     }
 
     footer {
-        background-color: saddlebrown;
+        // background-color: saddlebrown;
         padding: 1.5rem 2.5em;
     }
 }
@@ -100,8 +118,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #4f38a1;
+    // background-color: $body-background-color;
+    background: $bg-1;
     z-index: 100;
+    overflow: auto;
 }
 
 .#{$pt-prefix}on-top-canvas {

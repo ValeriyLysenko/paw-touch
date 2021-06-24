@@ -41,9 +41,7 @@ const useCanvasDrawing = (
 
         console.log('%cBefore createDrawTool', 'color: tomato');
         canvasDrawingRef.current = createDrawTool(canvasEl) as DrawToolObject;
-    // ?Everything is ok here
-    // ?We don't need to add 'canvasRef' to array
-    }, []);
+    }, [canvasRef]);
 
     useEffect(() => {
         console.log('%cuseCanvasDrawing useEffect#2', 'color: tomato');
@@ -52,9 +50,7 @@ const useCanvasDrawing = (
 
         // Сhange the cursor depending on the tool
         cursorManager(type, canvasEl, ctrlKey);
-    // ?Everything is ok here
-    // ?We don't need to add 'canvasRef' to array
-    }, [type, ctrlKey]);
+    }, [type, ctrlKey, canvasRef]);
 
     // useResizeCanvas();
     useDrawingTools(canvasDrawingRef, activeTool, scale, history);
