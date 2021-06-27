@@ -6,21 +6,6 @@ import {
 
 describe("'libs/lib' test suite", () => {
 
-    // describe.each([
-    //     ['example', 'Example'],
-    //     ['Example', 'Example'],
-    //     ['eXAMPLE', 'EXAMPLE'],
-    //     ['', ''],
-    //     ['!', '!'],
-    //     ['9', '9'],
-    //     ['*', '*'],
-    // ])('makeFirstUppercase(str)', (given, expected) => {
-    //     test('Make fist letter uppercase', () => {
-    //         expect(makeFirstUppercase(given)).toBe(expected);
-    //     });
-
-    // });
-
     test.each([
         ['example', 'Example'],
         ['Example', 'Example'],

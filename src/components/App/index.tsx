@@ -1,14 +1,16 @@
 import {
-    FC, useRef,
+    FC, useRef, ReactNode,
 } from 'react';
 import { LayoutContextProvider } from 'aux/LayoutContext';
 import Navigation from 'components/Navigation';
 import Layout from 'components/Layout';
 import ToolsPanel from 'components/ToolsPanel';
 
-interface Props {}
+interface Props {
+    children?: ReactNode;
+}
 
-const App: FC<Props> = () => {
+const App: FC<Props> = ({ children }) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const modalsWrapperRef = useRef<HTMLDivElement | null>(null);
     const galleryFormRef = useRef<HTMLFormElement | null>(null);
@@ -27,7 +29,11 @@ const App: FC<Props> = () => {
                     <Navigation />
                 </header>
                 <main>
-                    <Layout />
+                    {
+                        children || ( // !For testing purpose only!!!
+                            <Layout />
+                        )
+                    }
                 </main>
                 <footer />
             </div>

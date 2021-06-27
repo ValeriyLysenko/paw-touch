@@ -1,6 +1,5 @@
-import { action } from 'mobx';
+import { runInAction } from 'mobx';
 import { render, screen, fireEvent } from 'test-simple-env';
-import userEvent from '@testing-library/user-event';
 import { mainCanvas } from 'aux/init';
 import SimpleColorPicker from 'atomicComponents/ColorPicker/SimpleColorPicker';
 
@@ -30,11 +29,12 @@ describe('\'atomicComponents/ColorPicker/SimpleColorPicker\' test suite', () => 
         const expected = '#ff0000';
 
         fireEvent.change(input, {
-            target: { value: '#ff0000' },
+            target: { value: expected },
         });
 
-        action('changeColorViaColorPickerAction', () => {
-            expect(mainCanvas.activeTool.spec.color).toBe(expected);
+        runInAction(() => {
+            const activeTool = mainCanvas.getActiveTool;
+            expect(activeTool.spec.color).toBe(expected);
         });
 
     });

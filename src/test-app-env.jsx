@@ -5,7 +5,7 @@ import {
     BrowserRouter as Router,
 } from 'react-router-dom';
 import { render } from '@testing-library/react';
-import 'aux/listeners';
+// import 'aux/listeners';
 import { mainCanvas, canvasStoreDefaults, auxCanvas } from 'aux/init';
 import { AppContextProvider } from 'aux/AppContext';
 import App from 'components/App';
