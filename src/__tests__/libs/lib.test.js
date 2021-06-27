@@ -1,10 +1,10 @@
-import { JSDOM } from "jsdom"; /* eslint-disable-line */
+import { JSDOM } from 'jsdom';
 import CanvasStore from 'stores/CanvasStore';
 import {
     makeFirstUppercase, resizeCanvasToDisplaySize, http, getFormData, uniOnOpenHandler,
 } from 'libs/lib';
 
-describe("'libs/lib' test suit", () => {
+describe("'libs/lib' test suite", () => {
 
     // describe.each([
     //     ['example', 'Example'],
