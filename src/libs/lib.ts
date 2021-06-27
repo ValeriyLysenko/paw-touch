@@ -209,26 +209,25 @@ export function getFormData(
 } {
     const { elements } = form;
     if (!elements) {}; /* eslint-disable-line */
-    const entries = Object.entries(elements) as [string, HTMLFormElement][];
+    const values = Object.values(elements) as HTMLFormElement[];
     const fields: {
         [name:string]: string | number | boolean;
     } = {};
-    for (const entry of entries) {
-        const name = entry[0];
-        const elem = entry[1];
+
+    for (const elem of values) {
+        const name = elem.name || elem.id;
         const { type } = elem;
-        if (Number.isNaN(parseInt(name, 10))) {
-            switch (type) {
-                case 'checkbox': {
-                    fields[name] = elem.checked;
-                    break;
-                }
-                default: {
-                    fields[name] = elem.value.trim();
-                    break;
-                }
+        switch (type) {
+            case 'checkbox': {
+                fields[name] = elem.checked;
+                break;
+            }
+            default: {
+                fields[name] = elem.value.trim();
+                break;
             }
         }
     }
+
     return fields;
 }

@@ -17,7 +17,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "react-scripts test --coverage",
         "eject": "react-scripts eject",
         "eslint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
         "eslint:fix": "npm run eslint -- --fix",
@@ -30,6 +30,9 @@
             "eslint-config-airbnb",
             "./shared/airbnb-rules-correction"
         ]
+    },
+    "jest": {
+        "resetMocks": false
     },
     "browserslist": {
         "production": [
