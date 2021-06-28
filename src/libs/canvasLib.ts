@@ -91,7 +91,6 @@ export function init(
     drawObj: RawDrawingSpec,
     historySpan: HistoryObj[],
 ) {
-    console.log('HERE');
     const { currentScale, scaledPosRatio } = scale;
     let newDrawObj = drawObj;
 
@@ -103,8 +102,6 @@ export function init(
             x: x * scaledPosRatio[0],
             y: y * scaledPosRatio[1],
         };
-
-        console.log('translation', scaledPosRatio);
     }
 
     // drawStrategy(type, drawObj, {
@@ -264,15 +261,7 @@ export function zoomer(
         scaleHistory: scaleHistoryCopy,
     });
 
-    // Scale current canvas
-    // scaleCanvas(
-    //     ctx,
-    //     canvasCache,
-    //     zoom,
-    // );
-
     // Scale / redraw canvas
-    // scaleCanvasWithRedraw(ctx, zoom, history);
     scaleCanvasWithRedrawChangeSize(ctx, zoom, history);
 
     const { canvas } = ctx;
@@ -290,8 +279,6 @@ export function zoomer(
         zoom,
         scaledPosRatio,
     );
-
-    console.log('After setScaleZoom');
 }
 
 /**
@@ -304,33 +291,7 @@ export function zoomOnReset(
     ctx.globalCompositeOperation = 'source-over'; // eslint-disable-line
     const zoom = 1;
     // Scale / redraw canvas
-    // scaleCanvasWithRedraw(ctx, zoom, history);
     scaleCanvasWithRedrawChangeSize(ctx, zoom, history);
-
-    console.log('After zoomOnReset');
-}
-
-/**
- * Basic redraw canvas functionality.
- */
-export function redrawCanvas(
-    ctx: CanvasRenderingContext2D,
-    data: HistoryObj[][],
-): void {
-    const typeToToolMap: {
-        [name:string]: TypeToToolMapMappedFunc;
-    } = {
-        pencil: pencilDraw,
-        brush: brushDraw,
-        eraser,
-    };
-    data.forEach((arr) => {
-        arr.forEach((item) => {
-            const args = item.spec as DrawingSpec;
-            typeToToolMap[item.type](ctx, args);
-        });
-    });
-
 }
 
 /**
@@ -367,27 +328,6 @@ export function redrawCanvasWithHistory(
 }
 
 /**
- * Scale canvas with redraw functionality (using 'scale' method).
- */
-export function scaleCanvasWithRedraw(
-    ctx: CanvasRenderingContext2D,
-    zoom: number,
-    history: HistoryData,
-): void {
-    const { width, height } = ctx.canvas;
-    const translation = getTranslation([width, height], zoom);
-
-    ctx.save();
-    ctx.translate(translation[0], translation[1]);
-    ctx.scale(zoom, zoom);
-    ctx.clearRect(0, 0, width, height);
-    // Set default background color
-    setCanvasBg(ctx);
-    redrawCanvas(ctx, history.data);
-    ctx.restore();
-}
-
-/**
  * Scale canvas with redraw functionality (changing phisical canvas size).
  */
 export function scaleCanvasWithRedrawChangeSize(
@@ -405,58 +345,6 @@ export function scaleCanvasWithRedrawChangeSize(
     canvas.style.height = `${newHeight}px`;
 
     redrawCanvasWithHistory(ctx, history);
-}
-
-/**
- * Scale canvas.
- */
-export function scaleCanvas(
-    ctx: CanvasRenderingContext2D,
-    canvasCache: ImageData,
-    zoom: number,
-): void {
-    const { width, height } = ctx.canvas;
-    const translation = getTranslation([width, height], zoom);
-
-    // Create temp canvas
-    const tempCanvas = createTempCanvas(
-        ctx,
-        canvasCache,
-    );
-
-    ctx.save();
-    ctx.translate(translation[0], translation[1]);
-    ctx.scale(zoom, zoom);
-    ctx.clearRect(0, 0, width, height);
-    // Set default background color
-    setCanvasBg(ctx);
-    ctx.drawImage(tempCanvas, 0, 0);
-    ctx.restore();
-}
-
-/**
- * Create temp canvas for zoom manipulations.
- */
-export function createTempCanvas(
-    ctx: CanvasRenderingContext2D,
-    imageData: ImageData,
-): HTMLCanvasElement {
-    const { width, height } = ctx.canvas;
-
-    // Backup canvas
-    // const imageData = ctx.getImageData(0, 0, width, height);
-
-    const tempCanvas = document.createElement('canvas');
-
-    // Set canvas size
-    tempCanvas.width = width;
-    tempCanvas.height = height;
-    tempCanvas.setAttribute('style', `width: ${width}px; height: ${height}px;`);
-
-    // Put imageData (current canvas) into temporary one
-    tempCanvas.getContext('2d')?.putImageData(imageData, 0, 0);
-
-    return tempCanvas;
 }
 
 /**
@@ -533,7 +421,6 @@ export function goThroughHistory(
     ctx.clearRect(0, 0, width, height);
     // Set default background color
     setCanvasBg(ctx);
-    // redrawCanvas(ctx, modHistory);
     redrawCanvasWithHistory(ctx, {
         data: history,
         spec: {
@@ -543,18 +430,6 @@ export function goThroughHistory(
     ctx.restore();
 
     mainCanvas.setHistorySpecPos(newHistoryPosition);
-}
-
-/**
- * Get transition according to zoom.
- */
-export function getTranslation(
-    size: number[],
-    zoom: number,
-): number[] {
-    const newWidth = size[0] * zoom;
-    const newHeight = size[1] * zoom;
-    return [-((newWidth - size[0]) / 2), -((newHeight - size[1]) / 2)];
 }
 
 /**

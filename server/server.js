@@ -23,18 +23,17 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 /**
- * GET endpoints
+ * Test endpoint
  */
 
 app.get('/api/get-data', (req, res) => {
-    // console.log('GET::/api/get-data');
-    console.log(req.query);
+    // console.log(req.query);
     // res.end(JSON.stringify(testData));
     res.send(testData);
 });
 
 /**
- * POST endpoints
+ * Delete data from gallery
  */
 app.delete('/api/gallery-data', (req, res) => {
     const { body } = req;
@@ -79,6 +78,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage }).single('canvasImage');
 
+/**
+ * Upload image
+ */
 app.post('/api/image-data', (req, res) => {
     upload(req, res, (err) => {
         let errorMessage = '';
