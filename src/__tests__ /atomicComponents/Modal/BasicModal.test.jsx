@@ -6,11 +6,11 @@ import BasicModal from 'atomicComponents/Modal/BasicModal';
 
 describe('\'atomicComponents/Modal/BasicModal\' test suite', () => {
 
-    test('Got basic props', () => {
-        const onClickMock = jest.fn(() => true);
-        const type = 'test-modal';
-        const name = 'testModal';
+    const type = 'test-modal';
+    const name = 'testModal';
+    const onClickMock = jest.fn(() => true);
 
+    test('Got basic props', () => {
         render(
             <BasicModal
                 title="Test title"
@@ -40,10 +40,6 @@ describe('\'atomicComponents/Modal/BasicModal\' test suite', () => {
     });
 
     test('Modal is inactive', () => {
-        const onClickMock = jest.fn(() => true);
-        const type = 'test-modal';
-        const name = 'testModal';
-
         render(
             <BasicModal
                 title="Test title"
@@ -60,10 +56,6 @@ describe('\'atomicComponents/Modal/BasicModal\' test suite', () => {
     });
 
     test('Modal is active', () => {
-        const onClickMock = jest.fn(() => true);
-        const type = 'test-modal';
-        const name = 'testModal';
-
         runInAction(() => {
             mainCanvas.setModals(name, {
                 type,

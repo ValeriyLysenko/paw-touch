@@ -4,9 +4,9 @@ import SimpleControl from 'atomicComponents/Control/SimpleControl';
 
 describe('\'atomicComponents/Control/SimpleControl\' test suite', () => {
 
-    test('Got all possible outer props', () => {
-        const onClickMock = jest.fn(() => true);
+    const onClickMock = jest.fn(() => true);
 
+    test('Got all possible outer props', () => {
         render(<SimpleControl
             callback={onClickMock}
             text="Test button"
@@ -33,8 +33,6 @@ describe('\'atomicComponents/Control/SimpleControl\' test suite', () => {
     });
 
     test('Got all possible outer props (except \'disabled\')', () => {
-        const onClickMock = jest.fn(() => true);
-
         render(<SimpleControl
             callback={onClickMock}
             text="Test button"
@@ -63,7 +61,7 @@ describe('\'atomicComponents/Control/SimpleControl\' test suite', () => {
     });
 
     test('Without outer props)', () => {
-        const onClickMock = jest.spyOn(console, 'log');
+        const onClickMockSpy = jest.spyOn(console, 'log');
 
         render(<SimpleControl />);
 
@@ -73,8 +71,8 @@ describe('\'atomicComponents/Control/SimpleControl\' test suite', () => {
 
         userEvent.click(button);
 
-        expect(onClickMock).toHaveBeenCalledTimes(1);
-        expect(onClickMock.mock.results[0].value).toBe(undefined);
+        expect(onClickMockSpy).toHaveBeenCalledTimes(1);
+        expect(onClickMockSpy.mock.results[0].value).toBe(undefined);
 
         expect(button).not.toHaveClass();
         expect(button).not.toHaveAttribute('role');

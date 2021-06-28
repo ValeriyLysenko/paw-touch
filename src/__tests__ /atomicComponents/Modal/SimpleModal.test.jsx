@@ -6,11 +6,11 @@ import SimpleModal from 'atomicComponents/Modal/SimpleModal';
 
 describe('\'atomicComponents/Modal/SimpleModal\' test suite', () => {
 
-    test('Got basic props', () => {
-        const onClickMock = jest.fn(() => true);
-        const type = 'test-modal';
-        const name = 'testModal';
+    const type = 'test-modal';
+    const name = 'testModal';
+    const onClickMock = jest.fn(() => true);
 
+    test('Got basic props', () => {
         render(
             <SimpleModal
                 closeHandler={onClickMock}
@@ -35,10 +35,6 @@ describe('\'atomicComponents/Modal/SimpleModal\' test suite', () => {
     });
 
     test('Modal is inactive', () => {
-        const onClickMock = jest.fn(() => true);
-        const type = 'test-modal';
-        const name = 'testModal';
-
         render(<SimpleModal
             closeHandler={onClickMock}
             spec={{ type, name }}
@@ -50,10 +46,6 @@ describe('\'atomicComponents/Modal/SimpleModal\' test suite', () => {
     });
 
     test('Modal is active', () => {
-        const onClickMock = jest.fn(() => true);
-        const type = 'test-modal';
-        const name = 'testModal';
-
         runInAction(() => {
             mainCanvas.setModals(name, {
                 type,
