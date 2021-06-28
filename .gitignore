@@ -13,6 +13,7 @@ generated/*
 logs/*
 uploads/*
 public/uploads/*
+coverage/*
 
 # VSCode
 .vscode

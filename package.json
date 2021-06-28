@@ -17,7 +17,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "react-scripts test --coverage",
         "eject": "react-scripts eject",
         "eslint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
         "eslint:fix": "npm run eslint -- --fix",
@@ -30,6 +30,9 @@
             "eslint-config-airbnb",
             "./shared/airbnb-rules-correction"
         ]
+    },
+    "jest": {
+        "resetMocks": false
     },
     "browserslist": {
         "production": [
@@ -56,6 +59,7 @@
         "cors": "^2.8.5",
         "eslint-config-airbnb": "^18.2.1",
         "express": "^4.17.1",
+        "jest-canvas-mock": "^2.3.1",
         "multer": "^1.4.2",
         "node-sass": "^4.14.1",
         "react-scripts": "4.0.3",

@@ -34,8 +34,8 @@ const SimpleControl: FC<Props> = ({
     disabled,
 }) => {
     const btnProps: BtnProps = {
-        onClick: callback || ((e) => console.log(e)),
-        'aria-label': ariaLabel || 'Default text',
+        onClick: callback || ((e) => console.log(e.timeStamp)),
+        'aria-label': ariaLabel || 'Button',
         className: cssClass,
         type: type || 'button',
     };

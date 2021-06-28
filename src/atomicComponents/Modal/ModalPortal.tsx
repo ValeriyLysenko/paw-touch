@@ -26,7 +26,7 @@ const ModalPortal: FC<Props> = ({
         return () => void modalsWrapper.removeChild(modal); /* eslint-disable-line */
     }, [modalsWrapperRef]);
 
-    return createPortal(<div>{children}</div>, modalRef.current);
+    return createPortal(children, modalRef.current);
 };
 
 export default ModalPortal;

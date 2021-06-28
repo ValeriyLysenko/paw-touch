@@ -249,6 +249,10 @@ module.exports = {
         // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-dynamic-require.md
         'import/no-dynamic-require': 'warn',
 
+        // Forbid the use of extraneous packages
+        // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md
+        'import/no-extraneous-dependencies': 'off',
+
         /**
          * React
          *
