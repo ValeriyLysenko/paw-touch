@@ -47,17 +47,9 @@
         }
     }
 
-    // & > .#{$pt-prefix}tools-panel-brush {
-    //     background: $white url("../images/paint-brush-solid.svg") no-repeat 50%
-    //         50%;
-    //     background-size: 75%;
-    //     filter: invert(27%) sepia(51%) saturate(2878%) brightness(104%)
-    //         contrast(97%);
-    // }
 }
 
 .#{$pt-prefix}tools-tab-hover {
-    // background-color: $blue !important;
     background-color: $color-2 !important;
 
     & a {
