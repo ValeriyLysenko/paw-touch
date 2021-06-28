@@ -8,9 +8,9 @@ In the project directory, you can run:
 
 First
 
-### `npm node server/server.js`
+### `node server/server.js`
 
-Runs server (http://localhost:8081).\
+Runs server http://localhost:8081.
 
 ### `npm start`
 
