@@ -26,7 +26,6 @@ const useCanvasDrawing = (
     const canvasDrawingRef = useRef<DrawToolObject | null>(null);
 
     useEffect(() => {
-        console.log('%cuseCanvasDrawing useEffect#1', 'color: tomato');
         const { current: canvasEl } = canvasRef;
         if (!canvasEl) return;
 

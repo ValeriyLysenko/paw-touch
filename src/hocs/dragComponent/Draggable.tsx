@@ -11,12 +11,10 @@ const Draggable: FC<Props> = ({
     children,
     dragHandle,
 }) => {
-    // console.log('%cDraggable', 'color: red', children);
     const draggableRef = useRef<HTMLDivElement>(null);
     const dragStart = () => false;
 
     useEffect(() => {
-        // console.log('%cuseEffect', 'color: pink');
         const getCoords = (el: HTMLDivElement) => {
             const box = el.getBoundingClientRect();
             const { pageXOffset, pageYOffset } = window;
@@ -84,8 +82,6 @@ const Draggable: FC<Props> = ({
 
         };
     }, [dragHandle]);
-
-    // console.log('%cRERENDER', 'color: green');
 
     return (
         <div
