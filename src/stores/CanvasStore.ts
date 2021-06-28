@@ -19,8 +19,6 @@ class CanvasStore {
 
     historySpec: HistorySpec = thisItems.historySpec || historySpecDefaults;
 
-    mainCnavasSize: number[] = [0, 0];
-
     scale: ScaleToolObject = thisItems.scale || scaleDefaults;
 
     activeTool: ActiveTool = thisItems.activeTool || activeToolDefaults;
@@ -34,7 +32,6 @@ class CanvasStore {
             gallery: observable,
             history: observable.shallow,
             historySpec: observable,
-            mainCnavasSize: observable,
             scale: observable,
             activeTool: observable,
             auxData: observable,
@@ -45,7 +42,6 @@ class CanvasStore {
             getScale: computed,
             getAuxData: computed,
             getActiveTool: computed,
-            getMainCanvasSize: computed,
             getHistory: computed,
             getHistorySpec: computed,
 
@@ -105,10 +101,6 @@ class CanvasStore {
 
     get getActiveTool(): ActiveTool {
         return this.activeTool;
-    }
-
-    get getMainCanvasSize(): number[] {
-        return this.mainCnavasSize;
     }
 
     get getHistory(): HistoryObj[][] {

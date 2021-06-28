@@ -10,7 +10,7 @@ import { mainCanvas, canvasStoreDefaults, auxCanvas } from 'aux/init';
 import { AppContextProvider } from 'aux/AppContext';
 import App from 'components/App';
 
-import reportWebVitals from './reportWebVitals';
+// import reportWebVitals from './reportWebVitals';
 
 import 'assets/bulma/index.scss';
 import 'assets/bulma/slider.scss';
@@ -33,4 +33,4 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals();
