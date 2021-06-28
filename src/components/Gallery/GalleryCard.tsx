@@ -14,12 +14,10 @@ const GalleryCard: FC<Props> = ({
     image,
     clickHandler,
 }) => {
-    console.log('%cGalleryCard ===>', 'color: red');
     const popupImageUrl = `./uploads/${image}`;
     const [resizedImage, setResizedImage] = useState('');
 
     useEffect(() => {
-        console.log('%cRESIZE - first effect', 'color: purple; font-weight: bold;');
         (async () => {
             const resizer = async (imgage: HTMLImageElement) => {
                 const preview = await resizeImageToString(imgage, {

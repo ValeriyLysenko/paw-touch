@@ -17,6 +17,7 @@ const StepControls: FC<Props> = observer(() => {
     const { position } = mainCanvas.getHistorySpec;
     const onClick = action('goThroughHistoryAction', (e: MouseEvent): void => {
         e.stopPropagation();
+
         const target = e.target as HTMLButtonElement;
         const { type } = target.dataset;
         const { current: canvas } = canvasRef;
@@ -28,8 +29,6 @@ const StepControls: FC<Props> = observer(() => {
             position,
             history,
         });
-
-        console.log('AFTER REDAW');
     });
 
     return (

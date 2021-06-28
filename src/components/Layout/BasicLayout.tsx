@@ -12,7 +12,6 @@ import ToolSettings from 'components/Tools/ToolSettings';
 interface Props {}
 
 const BasicLayout: FC<Props> = observer(() => {
-    console.log('%cBasicLayout', 'color: olive;');
     const { mainCanvas } = useContext(AppContext);
     const { canvasRef } = useContext(LayoutContext);
     const activeTool = mainCanvas.getActiveTool;
@@ -30,11 +29,6 @@ const BasicLayout: FC<Props> = observer(() => {
             spec: toJS(historySpec),
         },
     );
-
-    console.log('%cactiveTool ===>', 'color: red', activeTool);
-    // console.log('%cscale ===>', 'color: red', scale);
-    // console.log('%chistory ===>', 'color: red', history);
-    // console.log('%chistorySpec ===>', 'color: red', historySpec);
 
     return (
         <div>

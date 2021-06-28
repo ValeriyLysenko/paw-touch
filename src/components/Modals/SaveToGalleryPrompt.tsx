@@ -11,7 +11,6 @@ interface Props extends ModalsProps {}
 const SaveToGalleryPrompt: FC<Props> = observer(({
     callback,
 }) => {
-    console.log('Save to gallery prompt modal');
     const { mainCanvas } = useContext(AppContext);
     const currentModal = mainCanvas.getModals.newCanvas;
     const typesToOpen = ['new-canvas'];

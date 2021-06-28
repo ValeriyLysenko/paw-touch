@@ -13,7 +13,6 @@ import FullscreenLayout from './FullscreenLayout';
 interface Props {}
 
 const Layout: FC = (props: Props) => {
-    console.log('%cLayout', 'color: green;');
     const basicLayoutPath = ['/'];
     return (
         <Switch>

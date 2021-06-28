@@ -18,7 +18,7 @@ const SimpleZoomInfo: FC<Props> = observer(() => {
     const historySpec = mainCanvas.getHistorySpec;
     const clickHandler = action('resetCanvasAction', (e: MouseEvent) => {
         e.stopPropagation();
-        console.log('BEFORE RESET');
+
         const { current: canvasEl } = canvasRef;
         if (!canvasEl) return;
 
@@ -31,8 +31,6 @@ const SimpleZoomInfo: FC<Props> = observer(() => {
             data: history,
             spec: historySpec,
         });
-
-        console.log('AFTER RESET');
     });
 
     return (
