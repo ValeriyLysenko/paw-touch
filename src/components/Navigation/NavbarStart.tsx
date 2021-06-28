@@ -16,7 +16,6 @@ import NavMenuSection from './NavMenuSection';
 interface Props {}
 
 const NavbarStart: FC<Props> = observer(() => {
-    console.log('%cNavbarStart BEGIN', 'color: red;');
     const {
         canvas,
         layout,

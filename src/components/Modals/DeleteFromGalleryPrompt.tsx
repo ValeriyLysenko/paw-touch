@@ -13,7 +13,6 @@ interface Props extends ModalsProps {}
 const DeleteFromGalleryPrompt: FC<Props> = observer(({
     callback,
 }) => {
-    console.log('DeleteFromGalleryPrompt modal');
     const [pending, setPending] = useState(false);
     const [responseStatus, setResponseStatus] = useState('');
     const { mainCanvas } = useContext(AppContext);

@@ -22,8 +22,6 @@ const AuxLayout: FC<Props> = ({
     const { type } = spec;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const auxCanvasRef = useRef<HTMLCanvasElement | null>(null);
-    console.log('%cAuxLayout', 'color: green;', mainCanvas);
-    console.log('%cAuxLayout', 'color: blue;', auxCanvas);
 
     if (type === 'vertical') {
         return (

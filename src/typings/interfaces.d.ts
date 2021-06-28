@@ -67,7 +67,6 @@ interface ScaleToolHistory {
 
 interface ScaleToolObject {
     initScale: number;
-    // canvasCache: ImageData | null;
     currentScale: number;
     scaleStep: number;
     scaleHistory: ScaleToolHistory[];
@@ -89,11 +88,6 @@ interface NavRouterObj {
     };
     dataType?: string;
     handler?: string;
-}
-
-interface CanvasSpec {
-    width: number;
-    height: number;
 }
 
 interface ActiveTool {
@@ -122,21 +116,6 @@ interface ToBlobSpec {
     imageQuality: number;
 }
 
-interface SimpleModalSpec {
-    children?: ReactNode | string;
-}
-
-interface BasicModalSpec extends SimpleModalSpec {
-    title: string;
-    Controls: ComponentType<any>;
-}
-
-interface ModalOpts<T> {
-    type: string;
-    modalSpec: T;
-}
-
-type CanvasInstanceCreator = (type: string, canvasSpec: ActiveToolSpec) => Subscription;
 type TypeToToolMapMappedFunc = (
     ctx: CanvasRenderingContext2D,
     spec: DrawingSpec,

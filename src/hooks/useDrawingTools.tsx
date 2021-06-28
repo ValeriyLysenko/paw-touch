@@ -12,7 +12,6 @@ const useDrawingTools = (
     scale: ScaleToolObject,
     history: HistoryData,
 ): void => {
-    console.log('%cuseDrawingTools', 'color: teal');
     const {
         type, spec: {
             color,
@@ -26,12 +25,10 @@ const useDrawingTools = (
     const { pathname } = location;
 
     useEffect(() => {
-        console.log('%cuseDrawingTools useEffect', 'color: teal', type);
         const { current: canvasDrawing } = canvasDrawingRef;
 
         if (!canvasDrawing) return;
 
-        console.log('%cBefore drawingSub', 'color: teal');
         canvasSubRef.current = canvasDrawing.drawingSub(type, {
             color,
             size,
@@ -40,11 +37,12 @@ const useDrawingTools = (
         // Redraw canvas if we change url (for example, we go to the gallery
         // and come back)
         if (pathname !== locationRef.current.pathname) {
-            console.log('REDRAW!!!');
             const { current: canvasEl } = canvasRef;
             if (!canvasEl) return;
+
             const ctx = canvasEl.getContext('2d');
             if (!ctx) return;
+
             scaleCanvasWithRedrawChangeSize(ctx, scale.currentScale, history);
             locationRef.current.pathname = pathname;
         }

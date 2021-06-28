@@ -19,10 +19,6 @@ class CanvasStore {
 
     historySpec: HistorySpec = thisItems.historySpec || historySpecDefaults;
 
-    windowSize: number[] = [0, 0];
-
-    mainCnavasSize: number[] = [0, 0];
-
     scale: ScaleToolObject = thisItems.scale || scaleDefaults;
 
     activeTool: ActiveTool = thisItems.activeTool || activeToolDefaults;
@@ -36,8 +32,6 @@ class CanvasStore {
             gallery: observable,
             history: observable.shallow,
             historySpec: observable,
-            windowSize: observable,
-            mainCnavasSize: observable,
             scale: observable,
             activeTool: observable,
             auxData: observable,
@@ -48,8 +42,6 @@ class CanvasStore {
             getScale: computed,
             getAuxData: computed,
             getActiveTool: computed,
-            getMainCanvasSize: computed,
-            getWindowSize: computed,
             getHistory: computed,
             getHistorySpec: computed,
 
@@ -63,7 +55,6 @@ class CanvasStore {
             setActiveToolColor: action,
             setActiveToolType: action,
             setActiveToolSize: action,
-            setWindowSize: action,
             setHistory: action,
             setHistoryItem: action,
             setHistorySpecPos: action,
@@ -110,14 +101,6 @@ class CanvasStore {
 
     get getActiveTool(): ActiveTool {
         return this.activeTool;
-    }
-
-    get getMainCanvasSize(): number[] {
-        return this.mainCnavasSize;
-    }
-
-    get getWindowSize(): number[] {
-        return this.windowSize;
     }
 
     get getHistory(): HistoryObj[][] {
@@ -181,10 +164,6 @@ class CanvasStore {
 
     setActiveToolSize(size: number): void {
         this.activeTool.spec.size = size;
-    }
-
-    setWindowSize(size: number[]): void {
-        this.windowSize = size;
     }
 
     setHistorySpecPos(pos: number): void {

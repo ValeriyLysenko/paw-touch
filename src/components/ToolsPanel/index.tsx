@@ -12,7 +12,6 @@ import toolsPanelConfig from './toolsPanelConfig';
 interface Props {}
 
 const ToolsPanel: FC<Props> = observer(() => {
-    console.log('%cToolsPanel', 'color: olive;');
     const { mainCanvas } = useContext(AppContext);
     const { type: active } = mainCanvas.getActiveTool;
     const isGalleryRoute = useRouteMatch('/gallery');
@@ -29,7 +28,6 @@ const ToolsPanel: FC<Props> = observer(() => {
 
     return (
         <div className={`pt-tools-panel${isGalleryRoute ? ' is-hidden' : ''}`}>
-
             <div className="pt-drag-plate">
                 <div />
                 <div />
